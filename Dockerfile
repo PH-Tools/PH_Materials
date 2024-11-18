@@ -1,4 +1,0 @@
-FROM postgres:latest
-ENV POSTGRES_DB=materials_db
-ENV POSTGRES_USER=postgres
-ENV POSTGRES_PASSWORD=postgres
