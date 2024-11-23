@@ -1,0 +1,42 @@
+.material-edit-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.material-edit-form-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.material-edit-form-button {
+    flex: 1;
+}
+
+.material-details {
+    display: grid;
+    grid-template-columns: 0.15fr 1fr;
+    gap: 5px;
+    line-height: 1.1em !important;
+}
+
+.material-attribute-label {
+    font-size: 0.9em;
+    font-weight: bold;
+    grid-column: 1;
+    margin-bottom: 5px !important;
+    line-height: 1.1em !important;
+    height: 100% !important;
+}
+
+.material-attribute-input {
+    font-size: 0.9em;
+    grid-column: 2;
+    margin-bottom: 3px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    line-height: 1.1em !important;
+    height: 100% !important;
+}

@@ -1,0 +1,51 @@
+#table {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3em;
+    font-size: 0.8em;
+    width: 100%;
+}
+
+.row,
+.row-header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.row-control,
+.row-data {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.row-control {
+    flex: 0.25;
+    min-width: 100px;
+}
+
+.cell-control,
+.cell-data {
+    display: flex;
+    flex: 1;
+    border-bottom: 0.25px solid rgb(219, 219, 219);
+    padding: 5px;
+}
+
+.cell-control {
+    min-width: 10px;
+}
+
+.control-button {
+    display: flex;
+    flex: 1;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 6px;
+    padding-right: 6px;
+    font-size: 0.7em;
+    align-items: center;
+    justify-content: center;
+    max-height: 20px;
+}

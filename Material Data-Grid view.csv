@@ -1,0 +1,11 @@
+﻿name,category,conductivity_w_mk,conductivity_btu_hr_ft_F,resistivity_hr_ft2_F_Btu_in,emissivity,ARGB_COLOR,display_name,source,comments
+CLT,Woods,0.120,0.0693,1.202,0.90,"255,128,64,0",CLT [R-1.2/in.],,
+Hardwood,Woods,0.130,0.0751,1.109,0.90,"255,255,128,0",Hardwood [R-1.11/in.],WUFI-Passive Database,
+OSB,Woods,0.130,0.0750,1.111,0.90,"255,247,210,125",OSB [R-1.11/in.],,
+OSB 3 (oriented strand board),Woods,0.105,0.0606,1.375,0.90,"255,247,210,125",OSB 3 (oriented strand board) [R-1.37/in.],WUFI-Passive Database,
+Plywood (Typ),Woods,0.119,0.0690,1.208,0.90,"255,148,148,73",Plywood (Typ) [R-1.21/in.],,
+Plywood (USA),Woods,0.119,0.0690,1.208,0.90,"255,148,148,73",Plywood (USA) [R-1.21/in.],WUFI-Passive Database,
+Softwood,Woods,0.090,0.0520,1.603,0.90,"255,255,128,0",Softwood [R-1.6/in.],WUFI-Passive Database,
+Stora Enso CLT,Woods,0.098,0.0566,1.472,0.90,"255,128,64,0",Stora Enso CLT [R-1.47/in.],WUFI-Passive Database,
+"Wood, Coniferous (Softwood)",Woods,0.140,0.0810,1.029,0.90,"255,255,130,0","Wood, Coniferous (Softwood) [R-1.03/in.]",,
+"Wood, Deciduous (Hardwood)",Woods,0.159,0.0920,0.906,0.90,"255,255,130,0","Wood, Deciduous (Hardwood) [R-0.91/in.]",,
