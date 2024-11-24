@@ -1,40 +1,91 @@
-#table {
-    display: flex;
-    flex-direction: column;
+.table {
+    display: grid;
+    grid-template-columns: 30ch 1fr;
     line-height: 1.3em;
     font-size: 0.8em;
-    width: 100%;
 }
 
-.row,
-.row-header {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+/* ----------------- COLUMNS --------------------- */
+.left-column,
+.right-column {
+    display: grid;
+    grid-template-rows: 1.5em 2em 1fr 1.5em;
 }
 
-.row-control,
-.row-data {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+.left-column {
+    position: sticky;
+    left: 0;
+    border-right: solid 1px #2d2d2d;
+    background-color: white;
+
 }
 
-.row-control {
-    flex: 0.25;
-    min-width: 100px;
+.right-column {
+    width: 2000px;
 }
 
-.cell-control,
-.cell-data {
-    display: flex;
-    flex: 1;
-    border-bottom: 0.25px solid rgb(219, 219, 219);
+
+/* ----------------- GROUPS --------------------- */
+
+
+.left-data,
+.right-data {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-rows: repeat(auto-fit, minmax(1.5em, 1fr));
+    grid-auto-flow: row;
+    row-gap: 5px;
+}
+
+
+/* ----------------- FILTER --------------------- */
+.filter-left,
+.filter-right {}
+
+.filter-dropdown {
     padding: 5px;
+    font-size: 0.8em;
 }
 
-.cell-control {
-    min-width: 10px;
+/* ----------------- ROWS --------------------- */
+
+.left-row-header,
+.left-row {
+    display: grid;
+    grid-template-columns: 0.1fr 0.1fr 0.8fr;
+    overflow-x: auto;
+    grid-auto-flow: column;
+    column-gap: 5px;
+}
+
+.right-row-header,
+.right-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5ch, 1fr));
+    overflow-x: auto;
+    grid-auto-flow: column;
+    padding-left: 10px;
+}
+
+
+.left-row-header,
+.right-row-header {
+    border-bottom: 2px solid #2d2d2d;
+    padding-left: 10px;
+}
+
+/* ----------------- CELLS --------------------- */
+
+.cell-header,
+.cell-data {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cell-header {
+    font-weight: bold;
 }
 
 .control-button {

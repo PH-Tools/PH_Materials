@@ -1,0 +1,385 @@
+﻿name,category,conductivity_w_mk,conductivity_btu_hr_ft_F,resistivity_hr_ft2_F_Btu_in,emissivity,ARGB_COLOR,display_name,source,comments
+CLT,Woods,0.120,0.0693,1.202,0.90,"255,128,64,0",CLT [R-1.2/in.],,
+Hardwood,Woods,0.130,0.0751,1.109,0.90,"255,255,128,0",Hardwood [R-1.11/in.],WUFI-Passive Database,
+OSB,Woods,0.130,0.0750,1.111,0.90,"255,247,210,125",OSB [R-1.11/in.],,
+OSB 3 (oriented strand board),Woods,0.105,0.0606,1.375,0.90,"255,247,210,125",OSB 3 (oriented strand board) [R-1.37/in.],WUFI-Passive Database,
+Plywood (Typ),Woods,0.119,0.0690,1.208,0.90,"255,148,148,73",Plywood (Typ) [R-1.21/in.],,
+Plywood (USA),Woods,0.119,0.0690,1.208,0.90,"255,148,148,73",Plywood (USA) [R-1.21/in.],WUFI-Passive Database,
+Softwood,Woods,0.090,0.0520,1.603,0.90,"255,255,128,0",Softwood [R-1.6/in.],WUFI-Passive Database,
+Stora Enso CLT,Woods,0.098,0.0566,1.472,0.90,"255,128,64,0",Stora Enso CLT [R-1.47/in.],WUFI-Passive Database,
+"Wood, Coniferous (Softwood)",Woods,0.140,0.0810,1.029,0.90,"255,255,130,0","Wood, Coniferous (Softwood) [R-1.03/in.]",,
+"Wood, Deciduous (Hardwood)",Woods,0.159,0.0920,0.906,0.90,"255,255,130,0","Wood, Deciduous (Hardwood) [R-0.91/in.]",,
+Alum (Anodized),Metals,237.000,136.9360,0.001,0.80,"255,192,192,192",Alum (Anodized) [R-0/in.],,
+Alum (Painted),Metals,160.000,92.4463,0.001,0.80,"255,192,192,192",Alum (Painted) [R-0/in.],,
+Aluminium,Metals,200.000,115.5578,0.001,0.80,"255,192,192,192",Aluminium [R-0/in.],WUFI-Passive Database,
+Steel (Plain Carbon),Metals,60.000,34.6674,0.002,0.90,"255,255,0,0",Steel (Plain Carbon) [R-0/in.],,
+"Steel (Rolled, Ground)",Metals,50.000,28.8895,0.003,0.60,"255,255,0,0","Steel (Rolled, Ground) [R-0/in.]",,
+Steel (Stainless),Metals,14.400,8.3200,0.010,0.90,"255,255,0,0",Steel (Stainless) [R-0.01/in.],,
+Brick - Red Matte Clay,Masonry,0.495,0.2860,0.291,0.90,"255,185,160,115",Brick - Red Matte Clay [R-0.29/in.],WUFI-Passive Database,
+Brick - Solid Extruded,Masonry,0.600,0.3467,0.240,0.90,"255,255,0,0",Brick - Solid Extruded [R-0.24/in.],WUFI-Passive Database,
+Brick (Common),Masonry,0.720,0.4160,0.200,0.90,,Brick (Common) [R-0.2/in.],,
+Cement Mortar,Masonry,0.431,0.2490,0.335,0.90,,Cement Mortar [R-0.33/in.],,
+CMU (8in Empty Cores),Masonry,0.720,0.4160,0.200,0.90,,CMU (8in Empty Cores) [R-0.2/in.],,
+CMU (8in Perlite Cores),Masonry,1.038,0.6000,0.139,0.90,,CMU (8in Perlite Cores) [R-0.14/in.],,
+Concrete (Heavily Reinforced),Masonry,3.000,1.7334,0.048,0.90,"255,130,130,130",Concrete (Heavily Reinforced) [R-0.05/in.],,
+Concrete (Reinforced),Masonry,2.500,1.4445,0.058,0.90,"255,160,160,160",Concrete (Reinforced) [R-0.06/in.],,
+Concrete (Wufi),Masonry,0.793,0.4582,0.182,0.90,"255,130,130,130",Concrete (Wufi) [R-0.18/in.],WUFI-Passive Database,
+Concrete Brick,Masonry,0.733,0.4235,0.197,0.90,"255,190,190,190",Concrete Brick [R-0.2/in.],WUFI-Passive Database,
+Mortar - Portland Cement-Lime,Masonry,2.099,1.2130,0.069,0.90,,Mortar - Portland Cement-Lime [R-0.07/in.],,
+Stone,Masonry,1.437,0.8300,0.100,0.90,"255,130,0,255",Stone [R-0.1/in.],,
+DensElement Barrier System,Finishes,0.198,0.1143,0.729,0.90,,DensElement Barrier System [R-0.73/in.],,
+Durock Cement Board,Finishes,0.370,0.2137,0.390,0.90,"255,145,166,150",Durock Cement Board [R-0.39/in.],,
+Fiber Cement Board,Finishes,0.245,0.1416,0.589,0.90,,Fiber Cement Board [R-0.59/in.],,
+Fiberglass,Finishes,0.035,0.0202,4.121,0.90,,Fiberglass [R-4.12/in.],,
+GWB (Densglas Fireguard),Finishes,0.135,0.0780,1.068,0.90,"255,235,180,80",GWB (Densglas Fireguard) [R-1.07/in.],,
+GWB (Densglas Sheathing,Finishes,0.128,0.0740,1.126,0.90,"255,235,180,80",GWB (Densglas Sheathing [R-1.13/in.],,
+GWB (Typ),Finishes,0.170,0.0980,0.850,0.90,"255,185,200,195",GWB (Typ) [R-0.85/in.],,
+GWB (USG Securock),Finishes,1.000,0.5778,0.144,0.90,"255,185,200,195",GWB (USG Securock) [R-0.14/in.],,
+Gypsum Board (USA),Finishes,0.170,0.0980,0.850,0.90,"255,185,200,195",Gypsum Board (USA) [R-0.85/in.],WUFI-Passive Database,
+Magnesium Board,Finishes,1.170,0.6760,0.123,0.90,"255,170,135,175",Magnesium Board [R-0.12/in.],,
+Stucco,Finishes,0.722,0.4170,0.200,0.90,"255,245,145,140",Stucco [R-0.2/in.],,
+AAC Block,Insulations,0.109,0.0630,1.323,0.90,"255,230,230,230",AAC Block [R-1.32/in.],,
+Aerated Concrete,Insulations,0.119,0.0688,1.212,0.90,"255,230,230,230",Aerated Concrete [R-1.21/in.],WUFI-Passive Database,
+Amer. Rockwool Prem. Plus Spray,Insulations,0.035,0.0201,4.140,0.90,,Amer. Rockwool Prem. Plus Spray [R-4.14/in.],,
+AP Armaflex,Insulations,0.036,0.0208,4.006,0.90,,AP Armaflex [R-4.01/in.],,
+Armartherm 500-150,Insulations,0.044,0.0253,3.290,0.90,,Armartherm 500-150 [R-3.29/in.],,
+Armartherm 500-200,Insulations,0.058,0.0337,2.470,0.90,,Armartherm 500-200 [R-2.47/in.],,
+Armartherm 500-250,Insulations,0.065,0.0374,2.230,0.90,,Armartherm 500-250 [R-2.23/in.],,
+Armartherm FRR,Insulations,0.152,0.0877,0.950,0.90,,Armartherm FRR [R-0.95/in.],,
+Aspen Aerogels - Spaceloft Grey,Insulations,0.014,0.0080,10.417,0.90,"255,190,190,190",Aspen Aerogels - Spaceloft Grey [R-10.42/in.],WUFI-Passive Database,
+ccSPF,Insulations,0.022,0.0128,6.510,0.90,"255,200,200,120",ccSPF [R-6.51/in.],,
+ccSPF w Metal Hangers,Insulations,0.026,0.0150,5.556,0.90,"255,200,200,120",ccSPF w Metal Hangers [R-5.56/in.],,
+Cellulose (Denspack),Insulations,0.040,0.0230,3.623,0.90,"255,255,255,0",Cellulose (Denspack) [R-3.62/in.],,
+Cellulose (Loose Fill),Insulations,0.045,0.0260,3.200,0.90,"255,255,255,0",Cellulose (Loose Fill) [R-3.2/in.],,
+"Cellulose Fiber (heat cond.: 0,04 W/mK)",Insulations,0.040,0.0230,3.623,0.90,"255,255,255,0","Cellulose Fiber (heat cond.: 0,04 W/mK) [R-3.62/in.]",WUFI-Passive Database,
+CompaCFoam 100,Insulations,0.038,0.0219,3.800,0.90,,CompaCFoam 100 [R-3.8/in.],,
+CompaCFoam 200,Insulations,0.047,0.0269,3.100,0.90,,CompaCFoam 200 [R-3.1/in.],,
+"Cork (heat cond.: 0,04 W/mK)",Insulations,0.040,0.0231,3.606,0.90,"255,255,255,0","Cork (heat cond.: 0,04 W/mK) [R-3.61/in.]",WUFI-Passive Database,
+DOW Thermax,Insulations,0.022,0.0128,6.510,0.90,"255,255,153,255",DOW Thermax [R-6.51/in.],,
+DOW Thermax (Derated to R-5.5/in),Insulations,0.026,0.0151,5.505,0.90,"255,255,153,255",DOW Thermax (Derated to R-5.5/in) [R-5.5/in.],,
+DOW Thermax XARMOR,Insulations,0.021,0.0121,6.900,0.90,"255,255,153,255",DOW Thermax XARMOR [R-6.9/in.],Manufacturer,Polyisocyanurate Board Foam
+EPS (heat cond.: 0.04 W/mK - density: 15 kg/m3),Insulations,0.040,0.0231,3.606,0.90,"255,255,255,0",EPS (heat cond.: 0.04 W/mK - density: 15 kg/m3) [R-3.61/in.],WUFI-Passive Database,
+EPS (Neopor Graphit),Insulations,0.029,0.0167,4.999,0.90,"255,225,225,175",EPS (Neopor Graphit) [R-5/in.],,
+EPS (Type I),Insulations,0.039,0.0225,3.704,0.90,"255,255,255,0",EPS (Type I) [R-3.7/in.],,
+EPS (Type II),Insulations,0.036,0.0208,4.006,0.90,"255,255,255,0",EPS (Type II) [R-4.01/in.],,
+EPS (Type IX),Insulations,0.034,0.0198,4.209,0.90,"255,255,255,0",EPS (Type IX) [R-4.21/in.],,
+Fabreeka-TIM,Insulations,0.258,0.1490,0.559,0.90,,Fabreeka-TIM [R-0.56/in.],,
+Fiberglass (Blown Spyder 1.8lb/cuft),Insulations,0.035,0.0203,4.105,0.90,"255,255,255,140",Fiberglass (Blown Spyder 1.8lb/cuft) [R-4.11/in.],,
+Fiberglass (Blown Spyder 1lb/cuft),Insulations,0.039,0.0225,3.704,0.90,"255,255,255,140",Fiberglass (Blown Spyder 1lb/cuft) [R-3.7/in.],,
+Fiberglass Batt,Insulations,0.045,0.0260,3.205,0.90,"255,255,255,140",Fiberglass Batt [R-3.21/in.],,
+Fiberglass Duct Insulation (compressed),Insulations,0.034,0.0196,4.252,0.90,"255,255,255,140",Fiberglass Duct Insulation (compressed) [R-4.25/in.],,
+Fiberglass Solid Pultrusion,Insulations,0.577,0.3333,0.250,0.90,,Fiberglass Solid Pultrusion [R-0.25/in.],,
+Foamglas,Insulations,0.042,0.0240,3.472,0.90,,Foamglas [R-3.47/in.],,
+Gutex Multitherm,Insulations,0.039,0.0227,3.669,0.90,"255,130,130,0",Gutex Multitherm [R-3.67/in.],,
+Gutex Ultratherm,Insulations,0.042,0.0243,3.434,0.90,"255,130,130,0",Gutex Ultratherm [R-3.43/in.],,
+Huntsman HeatLok HFO Pro ccspf,Insulations,0.019,0.0113,7.400,0.90,"255,200,200,120",Huntsman HeatLok HFO Pro ccspf [R-7.4/in.],Manufacturer Data,
+Isolatek CAFCO Heat-Shield Spray Mineral Fiber,Insulations,0.037,0.0216,3.850,0.90,"255,255,0,255",Isolatek CAFCO Heat-Shield Spray Mineral Fiber [R-3.85/in.],,
+Kingspan OPTIM-R Vacum Panel,Insulations,0.005,0.0030,27.778,0.90,"255,255,0,255",Kingspan OPTIM-R Vacum Panel [R-27.78/in.],,
+Low Density Glass Fibre Batt Insulation,Insulations,0.043,0.0248,3.354,0.90,"255,255,255,140",Low Density Glass Fibre Batt Insulation [R-3.35/in.],WUFI-Passive Database,
+"Mineral Wool (heat cond.: 0,04 W/mK)",Insulations,0.040,0.0231,3.606,0.90,"255,255,255,0","Mineral Wool (heat cond.: 0,04 W/mK) [R-3.61/in.]",WUFI-Passive Database,
+Nexseal Closed Cell Spray PU,Insulations,0.020,0.0116,7.200,0.90,"255,200,200,120",Nexseal Closed Cell Spray PU [R-7.2/in.],,
+PolyIso w Metal Fasteners,Insulations,0.026,0.0150,5.556,0.90,"255,255,153,255",PolyIso w Metal Fasteners [R-5.56/in.],,
+Polyisocyanurate Board,Insulations,0.024,0.0140,5.952,0.90,"255,255,153,255",Polyisocyanurate Board [R-5.95/in.],WUFI-Passive Database,
+Purinet PU Block,Insulations,0.086,0.0497,1.677,0.90,,Purinet PU Block [R-1.68/in.],,
+Roxul Comforboard IS,Insulations,0.036,0.0208,4.006,0.90,"255,175,215,157",Roxul Comforboard IS [R-4.01/in.],,
+Roxul Comfortbatt 3.5in,Insulations,0.034,0.0194,4.296,0.90,"255,175,215,157",Roxul Comfortbatt 3.5in [R-4.3/in.],,
+Roxul Comfortbatt 5.5in,Insulations,0.034,0.0199,4.188,0.90,"255,175,215,157",Roxul Comfortbatt 5.5in [R-4.19/in.],,
+Roxul Comfortbatt 7.25in,Insulations,0.035,0.0201,4.146,0.90,"255,175,215,157",Roxul Comfortbatt 7.25in [R-4.15/in.],,
+Roxul CurtainRock,Insulations,0.032,0.0185,4.507,0.90,"255,175,215,157",Roxul CurtainRock [R-4.51/in.],,
+Shoeck Isokorb (Typ),Insulations,0.206,0.1190,0.700,0.90,,Shoeck Isokorb (Typ) [R-0.7/in.],,
+SoundSense Syncork,Insulations,0.096,0.0556,1.500,0.90,"255,255,255,0",SoundSense Syncork [R-1.5/in.],,
+Sprayed Polyurethane Foam; closed cell,Insulations,0.025,0.0144,5.769,0.90,"255,200,200,120",Sprayed Polyurethane Foam; closed cell [R-5.77/in.],WUFI-Passive Database,
+Wood-Fibre Insulation Board,Insulations,0.042,0.0243,3.434,0.90,"255,130,130,0",Wood-Fibre Insulation Board [R-3.43/in.],WUFI-Passive Database,
+XPS,Insulations,0.029,0.0167,4.999,0.90,"255,255,255,0",XPS [R-5/in.],,
+"XPS Core (heat cond.: 0,03 W/mK)",Insulations,0.030,0.0173,4.808,0.90,"255,255,255,0","XPS Core (heat cond.: 0,03 W/mK) [R-4.81/in.]",WUFI-Passive Database,
+stl std w No Insul [0.75in],Stud_Layers_Stl,0.108,0.0625,1.333,0.90,"255,185,235,255",stl std w No Insul [0.75in] [R-1.33/in.],ASHRAE 90.1 Table A3.1.4,No Insulation
+stl std w No Insul [1.0in],Stud_Layers_Stl,0.144,0.0833,1.000,0.90,"255,185,235,255",stl std w No Insul [1.0in] [R-1/in.],ASHRAE 90.1 Table A3.1.4,No Insulation
+stl std w No Insul [1.5in],Stud_Layers_Stl,0.197,0.1136,0.733,0.90,"255,185,235,255",stl std w No Insul [1.5in] [R-0.73/in.],ASHRAE 90.1 Table A3.1.4,No Insulation
+stl std w No Insul [2.0in],Stud_Layers_Stl,0.262,0.1515,0.550,0.90,"255,185,235,255",stl std w No Insul [2.0in] [R-0.55/in.],ASHRAE 90.1 Table A3.1.4,No Insulation
+stl std w No Insul [2.5in],Stud_Layers_Stl,0.300,0.1736,0.480,0.90,"255,185,235,255",stl std w No Insul [2.5in] [R-0.48/in.],ASHRAE 90.1 Table A3.1.4,No Insulation
+stl std w No Insul [3.0in],Stud_Layers_Stl,0.361,0.2083,0.400,0.90,"255,185,235,255",stl std w No Insul [3.0in] [R-0.4/in.],ASHRAE 90.1 Table A3.1.4,No Insulation
+stl std w No Insul [3.5in],Stud_Layers_Stl,0.421,0.2431,0.343,0.90,"255,185,235,255",stl std w No Insul [3.5in] [R-0.34/in.],ASHRAE 90.1 Table A3.1.4,No Insulation
+stl std w No Insul [4.0in],Stud_Layers_Stl,0.481,0.2778,0.300,0.90,"255,185,235,255",stl std w No Insul [4.0in] [R-0.3/in.],ASHRAE 90.1 Table A3.1.4,No Insulation
+"stl std w No Insul [4.5in]
+",Stud_Layers_Stl,0.541,0.3125,0.267,0.90,"255,185,235,255","stl std w No Insul [4.5in]
+ [R-0.27/in.]",ASHRAE 90.1 Table A3.1.4,No Insulation
+stl std w No Insul [5.0in],Stud_Layers_Stl,0.601,0.3472,0.240,0.90,"255,185,235,255",stl std w No Insul [5.0in] [R-0.24/in.],ASHRAE 90.1 Table A3.1.4,No Insulation
+stl std w No Insul [5.5in],Stud_Layers_Stl,0.610,0.3526,0.236,0.90,"255,185,235,255",stl std w No Insul [5.5in] [R-0.24/in.],ASHRAE 90.1 Table A3.1.4,No Insulation
+stl std w R-3/in [1.0in],Stud_Layers_Stl,0.090,0.0521,1.601,0.90,"255,255,255,150",stl std w R-3/in [1.0in] [R-1.6/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+stl std w R-3/in [1.5in],Stud_Layers_Stl,0.103,0.0595,1.400,0.90,"255,255,255,150",stl std w R-3/in [1.5in] [R-1.4/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+stl std w R-3/in [2.0in],Stud_Layers_Stl,0.107,0.0617,1.350,0.90,"255,255,255,150",stl std w R-3/in [2.0in] [R-1.35/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+stl std w R-3/in [2.5in],Stud_Layers_Stl,0.113,0.0651,1.280,0.90,"255,255,255,150",stl std w R-3/in [2.5in] [R-1.28/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+stl std w R-3/in [3.0in],Stud_Layers_Stl,0.114,0.0658,1.266,0.90,"255,255,255,150",stl std w R-3/in [3.0in] [R-1.27/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+stl std w R-3/in [3.5in],Stud_Layers_Stl,0.117,0.0678,1.229,0.90,"255,255,255,150",stl std w R-3/in [3.5in] [R-1.23/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+stl std w R-3/in [4.0in],Stud_Layers_Stl,0.115,0.0667,1.250,0.90,"255,255,255,150",stl std w R-3/in [4.0in] [R-1.25/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+stl std w R-3/in [4.5in],Stud_Layers_Stl,0.120,0.0695,1.200,0.90,"255,255,255,150",stl std w R-3/in [4.5in] [R-1.2/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+stl std w R-3/in [5.0in],Stud_Layers_Stl,0.118,0.0683,1.220,0.90,"255,255,255,150",stl std w R-3/in [5.0in] [R-1.22/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+stl std w R-3/in [5.5in],Stud_Layers_Stl,0.120,0.0695,1.200,0.90,"255,255,255,150",stl std w R-3/in [5.5in] [R-1.2/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+stl std w R-4/in [0.5in],Stud_Layers_Stl,0.066,0.0379,2.199,0.90,"255,255,255,150",stl std w R-4/in [0.5in] [R-2.2/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+stl std w R-4/in [1.0in],Stud_Layers_Stl,0.085,0.0490,1.701,0.90,"255,255,255,150",stl std w R-4/in [1.0in] [R-1.7/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+stl std w R-4/in [1.5in],Stud_Layers_Stl,0.094,0.0544,1.533,0.90,"255,255,255,150",stl std w R-4/in [1.5in] [R-1.53/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+stl std w R-4/in [2.0in],Stud_Layers_Stl,0.100,0.0575,1.450,0.90,"255,255,255,150",stl std w R-4/in [2.0in] [R-1.45/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+stl std w R-4/in [2.5in],Stud_Layers_Stl,0.100,0.0579,1.439,0.90,"255,255,255,150",stl std w R-4/in [2.5in] [R-1.44/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+stl std w R-4/in [3.0in],Stud_Layers_Stl,0.103,0.0595,1.400,0.90,"255,255,255,150",stl std w R-4/in [3.0in] [R-1.4/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+stl std w R-4/in [3.5in],Stud_Layers_Stl,0.105,0.0608,1.371,0.90,"255,255,255,150",stl std w R-4/in [3.5in] [R-1.37/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+stl std w R-4/in [4.0in],Stud_Layers_Stl,0.107,0.0617,1.350,0.90,"255,255,255,150",stl std w R-4/in [4.0in] [R-1.35/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+stl std w R-4/in [4.5in],Stud_Layers_Stl,0.108,0.0625,1.333,0.90,"255,255,255,150",stl std w R-4/in [4.5in] [R-1.33/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+stl std w R-4/in [5.0in],Stud_Layers_Stl,0.108,0.0622,1.340,0.90,"255,255,255,150",stl std w R-4/in [5.0in] [R-1.34/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+stl std w R-4/in [5.5in],Stud_Layers_Stl,0.109,0.0628,1.327,0.90,"255,255,255,150",stl std w R-4/in [5.5in] [R-1.33/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+stl std w R-5/in [0.5in],Stud_Layers_Stl,0.066,0.0379,2.200,0.90,"255,255,255,150",stl std w R-5/in [0.5in] [R-2.2/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+stl std w R-5/in [1.0in],Stud_Layers_Stl,0.080,0.0463,1.800,0.90,"255,255,255,150",stl std w R-5/in [1.0in] [R-1.8/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+stl std w R-5/in [1.5in],Stud_Layers_Stl,0.090,0.0521,1.600,0.90,"255,255,255,150",stl std w R-5/in [1.5in] [R-1.6/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+stl std w R-5/in [2.0in],Stud_Layers_Stl,0.093,0.0538,1.550,0.90,"255,255,255,150",stl std w R-5/in [2.0in] [R-1.55/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+stl std w R-5/in [2.5in],Stud_Layers_Stl,0.097,0.0563,1.480,0.90,"255,255,255,150",stl std w R-5/in [2.5in] [R-1.48/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+stl std w R-5/in [3.0in],Stud_Layers_Stl,0.098,0.0568,1.467,0.90,"255,255,255,150",stl std w R-5/in [3.0in] [R-1.47/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+stl std w R-5/in [3.5in],Stud_Layers_Stl,0.099,0.0572,1.457,0.90,"255,255,255,150",stl std w R-5/in [3.5in] [R-1.46/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+stl std w R-5/in [4.0in],Stud_Layers_Stl,0.099,0.0575,1.450,0.90,"255,255,255,150",stl std w R-5/in [4.0in] [R-1.45/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+stl std w R-5/in [5.0in],Stud_Layers_Stl,0.102,0.0587,1.420,0.90,"255,255,255,150",stl std w R-5/in [5.0in] [R-1.42/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+stl std w R-5/in [5.5in],Stud_Layers_Stl,0.102,0.0587,1.420,0.90,"255,255,255,150",stl std w R-5/in [5.5in] [R-1.42/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+stl std w R-5/in[4.5in],Stud_Layers_Stl,0.101,0.0586,1.422,0.90,"255,255,255,150",stl std w R-5/in[4.5in] [R-1.42/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+stl std w R-6/in [0.5in],Stud_Layers_Stl,0.066,0.0379,2.200,0.90,"255,255,255,150",stl std w R-6/in [0.5in] [R-2.2/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+stl std w R-6/in [1.0in],Stud_Layers_Stl,0.080,0.0463,1.800,0.90,"255,255,255,150",stl std w R-6/in [1.0in] [R-1.8/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+stl std w R-6/in [1.5in],Stud_Layers_Stl,0.087,0.0500,1.667,0.90,"255,255,255,150",stl std w R-6/in [1.5in] [R-1.67/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+stl std w R-6/in [2.0in],Stud_Layers_Stl,0.090,0.0521,1.600,0.90,"255,255,255,150",stl std w R-6/in [2.0in] [R-1.6/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+stl std w R-6/in [2.5in],Stud_Layers_Stl,0.092,0.0534,1.560,0.90,"255,255,255,150",stl std w R-6/in [2.5in] [R-1.56/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+stl std w R-6/in [3.0in],Stud_Layers_Stl,0.094,0.0544,1.533,0.90,"255,255,255,150",stl std w R-6/in [3.0in] [R-1.53/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+stl std w R-6/in [3.5in],Stud_Layers_Stl,0.095,0.0550,1.514,0.90,"255,255,255,150",stl std w R-6/in [3.5in] [R-1.51/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+stl std w R-6/in [4.0in],Stud_Layers_Stl,0.096,0.0556,1.500,0.90,"255,255,255,150",stl std w R-6/in [4.0in] [R-1.5/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+stl std w R-6/in [4.5in],Stud_Layers_Stl,0.096,0.0556,1.500,0.90,"255,255,255,150",stl std w R-6/in [4.5in] [R-1.5/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+stl std w R-6/in [5.0in],Stud_Layers_Stl,0.096,0.0556,1.500,0.90,"255,255,255,150",stl std w R-6/in [5.0in] [R-1.5/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+stl std w R-6/in [5.5in],Stud_Layers_Stl,0.096,0.0556,1.500,0.90,"255,255,255,150",stl std w R-6/in [5.5in] [R-1.5/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+stl std w R-3/in [0.5in],Stud_Layers_Wd,0.080,0.0463,1.801,0.90,"255,255,255,150",stl std w R-3/in [0.5in] [R-1.8/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+wd std w R-3/in [0.5in],Stud_Layers_Wd,0.056,0.0321,2.599,0.90,"255,255,255,150",wd std w R-3/in [0.5in] [R-2.6/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+wd std w R-3/in [1.0in],Stud_Layers_Wd,0.050,0.0287,2.902,0.90,"255,255,255,150",wd std w R-3/in [1.0in] [R-2.9/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+wd std w R-3/in [1.5in],Stud_Layers_Wd,0.057,0.0329,2.535,0.90,"255,255,255,150",wd std w R-3/in [1.5in] [R-2.53/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+wd std w R-3/in [2.0in],Stud_Layers_Wd,0.054,0.0314,2.651,0.90,"255,255,255,150",wd std w R-3/in [2.0in] [R-2.65/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+wd std w R-3/in [2.5in],Stud_Layers_Wd,0.057,0.0330,2.521,0.90,"255,255,255,150",wd std w R-3/in [2.5in] [R-2.52/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+wd std w R-3/in [3.0in],Stud_Layers_Wd,0.056,0.0321,2.599,0.90,"255,255,255,150",wd std w R-3/in [3.0in] [R-2.6/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+wd std w R-3/in [3.5in],Stud_Layers_Wd,0.058,0.0335,2.487,0.90,"255,255,255,150",wd std w R-3/in [3.5in] [R-2.49/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+wd std w R-3/in [4.0in],Stud_Layers_Wd,0.057,0.0327,2.548,0.90,"255,255,255,150",wd std w R-3/in [4.0in] [R-2.55/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+wd std w R-3/in [4.5in],Stud_Layers_Wd,0.058,0.0335,2.491,0.90,"255,255,255,150",wd std w R-3/in [4.5in] [R-2.49/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+wd std w R-3/in [5.0in],Stud_Layers_Wd,0.057,0.0328,2.539,0.90,"255,255,255,150",wd std w R-3/in [5.0in] [R-2.54/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+wd std w R-3/in [5.5in],Stud_Layers_Wd,0.058,0.0337,2.474,0.90,"255,255,255,150",wd std w R-3/in [5.5in] [R-2.47/in.],ASHRAE 90.1 Table A3.1.4,R-3/inch Insulation (Fiberglass)
+wd std w R-4/in [0.5in],Stud_Layers_Wd,0.038,0.0220,3.795,0.90,"255,255,255,150",wd std w R-4/in [0.5in] [R-3.8/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+wd std w R-4/in [1.0in],Stud_Layers_Wd,0.042,0.0245,3.402,0.90,"255,255,255,150",wd std w R-4/in [1.0in] [R-3.4/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+wd std w R-4/in [1.5in],Stud_Layers_Wd,0.044,0.0255,3.263,0.90,"255,255,255,150",wd std w R-4/in [1.5in] [R-3.26/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+wd std w R-4/in [2.0in],Stud_Layers_Wd,0.045,0.0261,3.198,0.90,"255,255,255,150",wd std w R-4/in [2.0in] [R-3.2/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+wd std w R-4/in [2.5in],Stud_Layers_Wd,0.046,0.0263,3.163,0.90,"255,255,255,150",wd std w R-4/in [2.5in] [R-3.16/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+wd std w R-4/in [3.0in],Stud_Layers_Wd,0.046,0.0266,3.135,0.90,"255,255,255,150",wd std w R-4/in [3.0in] [R-3.14/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+wd std w R-4/in [3.5in],Stud_Layers_Wd,0.046,0.0268,3.115,0.90,"255,255,255,150",wd std w R-4/in [3.5in] [R-3.12/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+wd std w R-4/in [4.5in],Stud_Layers_Wd,0.047,0.0272,3.069,0.90,"255,255,255,150",wd std w R-4/in [4.5in] [R-3.07/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+wd std w R-4/in [5.0in],Stud_Layers_Wd,0.047,0.0272,3.062,0.90,"255,255,255,150",wd std w R-4/in [5.0in] [R-3.06/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+wd std w R-4/in [5.5in],Stud_Layers_Wd,0.047,0.0273,3.056,0.90,"255,255,255,150",wd std w R-4/in [5.5in] [R-3.06/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+wd std w R-4/in[4.0in],Stud_Layers_Wd,0.047,0.0269,3.102,0.90,"255,255,255,150",wd std w R-4/in[4.0in] [R-3.1/in.],ASHRAE 90.1 Table A3.1.4,R-4/inch Insulation (Min. Wool)
+wd std w R-5/in [0.5in],Stud_Layers_Wd,0.030,0.0174,4.800,0.90,"255,255,255,150",wd std w R-5/in [0.5in] [R-4.8/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+wd std w R-5/in [1.0in],Stud_Layers_Wd,0.037,0.0214,3.900,0.90,"255,255,255,150",wd std w R-5/in [1.0in] [R-3.9/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+wd std w R-5/in [1.5in],Stud_Layers_Wd,0.040,0.0231,3.600,0.90,"255,255,255,150",wd std w R-5/in [1.5in] [R-3.6/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+wd std w R-5/in [2.0in],Stud_Layers_Wd,0.040,0.0228,3.650,0.90,"255,255,255,150",wd std w R-5/in [2.0in] [R-3.65/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+wd std w R-5/in [2.5in],Stud_Layers_Wd,0.041,0.0237,3.520,0.90,"255,255,255,150",wd std w R-5/in [2.5in] [R-3.52/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+wd std w R-5/in [3.0in],Stud_Layers_Wd,0.040,0.0234,3.567,0.90,"255,255,255,150",wd std w R-5/in [3.0in] [R-3.57/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+wd std w R-5/in [3.5in],Stud_Layers_Wd,0.041,0.0239,3.486,0.90,"255,255,255,150",wd std w R-5/in [3.5in] [R-3.49/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+wd std w R-5/in [4.0in],Stud_Layers_Wd,0.041,0.0235,3.550,0.90,"255,255,255,150",wd std w R-5/in [4.0in] [R-3.55/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+wd std w R-5/in [4.5in],Stud_Layers_Wd,0.041,0.0239,3.489,0.90,"255,255,255,150",wd std w R-5/in [4.5in] [R-3.49/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+wd std w R-5/in [5.0in],Stud_Layers_Wd,0.041,0.0237,3.520,0.90,"255,255,255,150",wd std w R-5/in [5.0in] [R-3.52/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+wd std w R-5/in [5.5in],Stud_Layers_Wd,0.041,0.0237,3.520,0.90,"255,255,255,150",wd std w R-5/in [5.5in] [R-3.52/in.],ASHRAE 90.1 Table A3.1.4,R-5/inch Insulation (XPS)
+wd std w R-6/in [0.5in],Stud_Layers_Wd,0.030,0.0174,4.800,0.90,"255,255,255,150",wd std w R-6/in [0.5in] [R-4.8/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+wd std w R-6/in [1.0in],Stud_Layers_Wd,0.034,0.0194,4.300,0.90,"255,255,255,150",wd std w R-6/in [1.0in] [R-4.3/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+wd std w R-6/in [1.5in],Stud_Layers_Wd,0.035,0.0202,4.133,0.90,"255,255,255,150",wd std w R-6/in [1.5in] [R-4.13/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+wd std w R-6/in [2.0in],Stud_Layers_Wd,0.036,0.0206,4.050,0.90,"255,255,255,150",wd std w R-6/in [2.0in] [R-4.05/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+wd std w R-6/in [2.5in],Stud_Layers_Wd,0.036,0.0208,4.000,0.90,"255,255,255,150",wd std w R-6/in [2.5in] [R-4/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+wd std w R-6/in [3.0in],Stud_Layers_Wd,0.036,0.0210,3.967,0.90,"255,255,255,150",wd std w R-6/in [3.0in] [R-3.97/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+wd std w R-6/in [3.5in],Stud_Layers_Wd,0.037,0.0211,3.943,0.90,"255,255,255,150",wd std w R-6/in [3.5in] [R-3.94/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+wd std w R-6/in [4.0in],Stud_Layers_Wd,0.037,0.0212,3.925,0.90,"255,255,255,150",wd std w R-6/in [4.0in] [R-3.92/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+wd std w R-6/in [4.5in],Stud_Layers_Wd,0.037,0.0212,3.925,0.90,"255,255,255,150",wd std w R-6/in [4.5in] [R-3.92/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+wd std w R-6/in [5.0in],Stud_Layers_Wd,0.037,0.0212,3.925,0.90,"255,255,255,150",wd std w R-6/in [5.0in] [R-3.92/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+wd std w R-6/in [5.5in],Stud_Layers_Wd,0.037,0.0212,3.925,0.90,"255,255,255,150",wd std w R-6/in [5.5in] [R-3.92/in.],ASHRAE 90.1 Table A3.1.4,R-6/inch Insulation (Spray)
+"Air layer, unventilated, horizontal, thickness: 1 mm",Air: Horiz. Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 1 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 2 mm",Air: Horiz. Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 2 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 3 mm",Air: Horiz. Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 3 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 4 mm",Air: Horiz. Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 4 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 5 mm",Air: Horiz. Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 5 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 6 mm",Air: Horiz. Heatflow,0.050,0.0289,2.885,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 6 mm [R-2.88/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 7 mm",Air: Horiz. Heatflow,0.054,0.0311,2.681,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 7 mm [R-2.68/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 8 mm",Air: Horiz. Heatflow,0.059,0.0338,2.465,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 8 mm [R-2.47/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 9 mm",Air: Horiz. Heatflow,0.063,0.0363,2.297,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 9 mm [R-2.3/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 10 mm",Air: Horiz. Heatflow,0.067,0.0385,2.162,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 10 mm [R-2.16/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 11 mm",Air: Horiz. Heatflow,0.071,0.0413,2.020,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 11 mm [R-2.02/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 12 mm",Air: Horiz. Heatflow,0.076,0.0439,1.900,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 12 mm [R-1.9/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 13 mm",Air: Horiz. Heatflow,0.080,0.0463,1.798,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 13 mm [R-1.8/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 14 mm",Air: Horiz. Heatflow,0.084,0.0487,1.711,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 14 mm [R-1.71/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 15 mm",Air: Horiz. Heatflow,0.088,0.0510,1.635,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 15 mm [R-1.64/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 16 mm",Air: Horiz. Heatflow,0.089,0.0514,1.622,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 16 mm [R-1.62/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 17 mm",Air: Horiz. Heatflow,0.094,0.0545,1.528,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 17 mm [R-1.53/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 18 mm",Air: Horiz. Heatflow,0.100,0.0578,1.442,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 18 mm [R-1.44/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 19 mm",Air: Horiz. Heatflow,0.106,0.0610,1.366,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 19 mm [R-1.37/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 20 mm",Air: Horiz. Heatflow,0.111,0.0642,1.298,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 20 mm [R-1.3/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 21 mm",Air: Horiz. Heatflow,0.117,0.0674,1.236,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 21 mm [R-1.24/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 22 mm",Air: Horiz. Heatflow,0.122,0.0706,1.180,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 22 mm [R-1.18/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 23 mm",Air: Horiz. Heatflow,0.128,0.0738,1.129,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 23 mm [R-1.13/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 24 mm",Air: Horiz. Heatflow,0.133,0.0770,1.082,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 24 mm [R-1.08/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 25 mm",Air: Horiz. Heatflow,0.139,0.0803,1.038,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 25 mm [R-1.04/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 30 mm",Air: Horiz. Heatflow,0.167,0.0963,0.865,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 30 mm [R-0.87/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 35 mm",Air: Horiz. Heatflow,0.194,0.1123,0.742,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 35 mm [R-0.74/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 40 mm",Air: Horiz. Heatflow,0.222,0.1284,0.649,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 40 mm [R-0.65/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 45 mm",Air: Horiz. Heatflow,0.250,0.1444,0.577,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 45 mm [R-0.58/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 50 mm",Air: Horiz. Heatflow,0.278,0.1605,0.519,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 50 mm [R-0.52/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 55 mm",Air: Horiz. Heatflow,0.306,0.1766,0.472,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 55 mm [R-0.47/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 60 mm",Air: Horiz. Heatflow,0.333,0.1926,0.433,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 60 mm [R-0.43/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 65 mm",Air: Horiz. Heatflow,0.361,0.2086,0.399,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 65 mm [R-0.4/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 70 mm",Air: Horiz. Heatflow,0.389,0.2247,0.371,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 70 mm [R-0.37/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 75 mm",Air: Horiz. Heatflow,0.417,0.2408,0.346,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 75 mm [R-0.35/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 80 mm",Air: Horiz. Heatflow,0.444,0.2568,0.325,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 80 mm [R-0.32/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 85 mm",Air: Horiz. Heatflow,0.472,0.2728,0.305,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 85 mm [R-0.31/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 90 mm",Air: Horiz. Heatflow,0.500,0.2889,0.288,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 90 mm [R-0.29/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 95 mm",Air: Horiz. Heatflow,0.528,0.3050,0.273,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 95 mm [R-0.27/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 100 mm",Air: Horiz. Heatflow,0.556,0.3210,0.260,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 100 mm [R-0.26/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 110 mm",Air: Horiz. Heatflow,0.611,0.3531,0.236,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 110 mm [R-0.24/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 120 mm",Air: Horiz. Heatflow,0.667,0.3852,0.216,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 120 mm [R-0.22/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 130 mm",Air: Horiz. Heatflow,0.722,0.4173,0.200,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 130 mm [R-0.2/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 140 mm",Air: Horiz. Heatflow,0.778,0.4494,0.185,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 140 mm [R-0.19/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 150 mm",Air: Horiz. Heatflow,0.833,0.4815,0.173,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 150 mm [R-0.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 160 mm",Air: Horiz. Heatflow,0.889,0.5136,0.162,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 160 mm [R-0.16/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 170 mm",Air: Horiz. Heatflow,0.944,0.5457,0.153,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 170 mm [R-0.15/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 180 mm",Air: Horiz. Heatflow,1.000,0.5778,0.144,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 180 mm [R-0.14/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 190 mm",Air: Horiz. Heatflow,1.056,0.6099,0.137,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 190 mm [R-0.14/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 200 mm",Air: Horiz. Heatflow,1.111,0.6420,0.130,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 200 mm [R-0.13/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 210 mm",Air: Horiz. Heatflow,1.167,0.6741,0.124,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 210 mm [R-0.12/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 220 mm",Air: Horiz. Heatflow,1.222,0.7062,0.118,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 220 mm [R-0.12/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 230 mm",Air: Horiz. Heatflow,1.278,0.7383,0.113,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 230 mm [R-0.11/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 240 mm",Air: Horiz. Heatflow,1.333,0.7704,0.108,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 240 mm [R-0.11/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 250 mm",Air: Horiz. Heatflow,1.389,0.8025,0.104,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 250 mm [R-0.1/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 260 mm",Air: Horiz. Heatflow,1.444,0.8346,0.100,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 260 mm [R-0.1/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 270 mm",Air: Horiz. Heatflow,1.500,0.8667,0.096,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 270 mm [R-0.1/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 280 mm",Air: Horiz. Heatflow,1.556,0.8988,0.093,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 280 mm [R-0.09/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 290 mm",Air: Horiz. Heatflow,1.611,0.9309,0.090,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 290 mm [R-0.09/in.]",ISO 6946 Method,
+"Air layer, unventilated, horizontal, thickness: 300 mm",Air: Horiz. Heatflow,1.667,0.9630,0.087,0.90,"255,175,240,255","Air layer, unventilated, horizontal, thickness: 300 mm [R-0.09/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 1 mm",Air: Upward Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 1 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 2 mm",Air: Upward Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 2 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 3 mm",Air: Upward Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 3 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 4 mm",Air: Upward Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 4 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 5 mm",Air: Upward Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 5 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 6 mm",Air: Upward Heatflow,0.050,0.0289,2.885,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 6 mm [R-2.88/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 7 mm",Air: Upward Heatflow,0.054,0.0311,2.681,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 7 mm [R-2.68/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 8 mm",Air: Upward Heatflow,0.059,0.0338,2.465,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 8 mm [R-2.47/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 9 mm",Air: Upward Heatflow,0.063,0.0363,2.297,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 9 mm [R-2.3/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 10 mm",Air: Upward Heatflow,0.067,0.0385,2.162,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 10 mm [R-2.16/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 11 mm",Air: Upward Heatflow,0.072,0.0418,1.992,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 11 mm [R-1.99/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 12 mm",Air: Upward Heatflow,0.078,0.0450,1.851,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 12 mm [R-1.85/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 13 mm",Air: Upward Heatflow,0.083,0.0481,1.731,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 13 mm [R-1.73/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 14 mm",Air: Upward Heatflow,0.089,0.0512,1.628,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 14 mm [R-1.63/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 15 mm",Air: Upward Heatflow,0.094,0.0542,1.538,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 15 mm [R-1.54/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 16 mm",Air: Upward Heatflow,0.100,0.0578,1.442,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 16 mm [R-1.44/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 17 mm",Air: Upward Heatflow,0.106,0.0614,1.357,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 17 mm [R-1.36/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 18 mm",Air: Upward Heatflow,0.113,0.0650,1.282,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 18 mm [R-1.28/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 19 mm",Air: Upward Heatflow,0.119,0.0686,1.214,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 19 mm [R-1.21/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 20 mm",Air: Upward Heatflow,0.125,0.0722,1.154,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 20 mm [R-1.15/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 21 mm",Air: Upward Heatflow,0.131,0.0759,1.098,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 21 mm [R-1.1/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 22 mm",Air: Upward Heatflow,0.138,0.0794,1.049,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 22 mm [R-1.05/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 23 mm",Air: Upward Heatflow,0.144,0.0831,1.003,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 23 mm [R-1/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 24 mm",Air: Upward Heatflow,0.150,0.0867,0.962,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 24 mm [R-0.96/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 25 mm",Air: Upward Heatflow,0.156,0.0903,0.923,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 25 mm [R-0.92/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 30 mm",Air: Upward Heatflow,0.188,0.1083,0.769,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 30 mm [R-0.77/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 35 mm",Air: Upward Heatflow,0.219,0.1264,0.659,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 35 mm [R-0.66/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 40 mm",Air: Upward Heatflow,0.250,0.1444,0.577,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 40 mm [R-0.58/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 45 mm",Air: Upward Heatflow,0.281,0.1625,0.513,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 45 mm [R-0.51/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 50 mm",Air: Upward Heatflow,0.313,0.1806,0.462,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 50 mm [R-0.46/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 55 mm",Air: Upward Heatflow,0.344,0.1986,0.420,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 55 mm [R-0.42/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 60 mm",Air: Upward Heatflow,0.375,0.2167,0.385,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 60 mm [R-0.38/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 65 mm",Air: Upward Heatflow,0.406,0.2348,0.355,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 65 mm [R-0.35/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 70 mm",Air: Upward Heatflow,0.438,0.2528,0.330,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 70 mm [R-0.33/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 75 mm",Air: Upward Heatflow,0.469,0.2709,0.308,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 75 mm [R-0.31/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 80 mm",Air: Upward Heatflow,0.500,0.2889,0.288,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 80 mm [R-0.29/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 85 mm",Air: Upward Heatflow,0.531,0.3070,0.271,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 85 mm [R-0.27/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 90 mm",Air: Upward Heatflow,0.563,0.3250,0.256,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 90 mm [R-0.26/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 95 mm",Air: Upward Heatflow,0.594,0.3431,0.243,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 95 mm [R-0.24/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 100 mm",Air: Upward Heatflow,0.625,0.3611,0.231,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 100 mm [R-0.23/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 110 mm",Air: Upward Heatflow,0.688,0.3972,0.210,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 110 mm [R-0.21/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 120 mm",Air: Upward Heatflow,0.750,0.4333,0.192,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 120 mm [R-0.19/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 130 mm",Air: Upward Heatflow,0.813,0.4695,0.178,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 130 mm [R-0.18/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 140 mm",Air: Upward Heatflow,0.875,0.5056,0.165,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 140 mm [R-0.16/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 150 mm",Air: Upward Heatflow,0.938,0.5417,0.154,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 150 mm [R-0.15/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 160 mm",Air: Upward Heatflow,1.000,0.5778,0.144,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 160 mm [R-0.14/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 170 mm",Air: Upward Heatflow,1.063,0.6139,0.136,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 170 mm [R-0.14/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 180 mm",Air: Upward Heatflow,1.125,0.6500,0.128,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 180 mm [R-0.13/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 190 mm",Air: Upward Heatflow,1.188,0.6861,0.121,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 190 mm [R-0.12/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 200 mm",Air: Upward Heatflow,1.250,0.7222,0.115,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 200 mm [R-0.12/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 210 mm",Air: Upward Heatflow,1.313,0.7583,0.110,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 210 mm [R-0.11/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 220 mm",Air: Upward Heatflow,1.375,0.7945,0.105,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 220 mm [R-0.1/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 230 mm",Air: Upward Heatflow,1.438,0.8306,0.100,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 230 mm [R-0.1/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 240 mm",Air: Upward Heatflow,1.500,0.8667,0.096,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 240 mm [R-0.1/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 250 mm",Air: Upward Heatflow,1.563,0.9028,0.092,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 250 mm [R-0.09/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 260 mm",Air: Upward Heatflow,1.625,0.9389,0.089,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 260 mm [R-0.09/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 270 mm",Air: Upward Heatflow,1.688,0.9750,0.085,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 270 mm [R-0.09/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 280 mm",Air: Upward Heatflow,1.750,1.0111,0.082,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 280 mm [R-0.08/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 290 mm",Air: Upward Heatflow,1.813,1.0472,0.080,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 290 mm [R-0.08/in.]",ISO 6946 Method,
+"Air layer, unventilated, upwards, thickness: 300 mm",Air: Upward Heatflow,1.875,1.0834,0.077,0.90,"255,175,240,255","Air layer, unventilated, upwards, thickness: 300 mm [R-0.08/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 1 mm",Air: Downward Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 1 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 2 mm",Air: Downward Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 2 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 3 mm",Air: Downward Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 3 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 4 mm",Air: Downward Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 4 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 5 mm",Air: Downward Heatflow,0.046,0.0263,3.170,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 5 mm [R-3.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 6 mm",Air: Downward Heatflow,0.050,0.0289,2.885,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 6 mm [R-2.88/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 7 mm",Air: Downward Heatflow,0.054,0.0311,2.681,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 7 mm [R-2.68/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 8 mm",Air: Downward Heatflow,0.059,0.0338,2.465,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 8 mm [R-2.47/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 9 mm",Air: Downward Heatflow,0.063,0.0363,2.297,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 9 mm [R-2.3/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 10 mm",Air: Downward Heatflow,0.067,0.0385,2.162,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 10 mm [R-2.16/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 11 mm",Air: Downward Heatflow,0.071,0.0413,2.020,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 11 mm [R-2.02/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 12 mm",Air: Downward Heatflow,0.076,0.0439,1.900,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 12 mm [R-1.9/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 13 mm",Air: Downward Heatflow,0.080,0.0463,1.798,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 13 mm [R-1.8/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 14 mm",Air: Downward Heatflow,0.084,0.0487,1.711,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 14 mm [R-1.71/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 15 mm",Air: Downward Heatflow,0.088,0.0510,1.635,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 15 mm [R-1.64/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 16 mm",Air: Downward Heatflow,0.093,0.0537,1.551,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 16 mm [R-1.55/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 17 mm",Air: Downward Heatflow,0.098,0.0565,1.476,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 17 mm [R-1.48/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 18 mm",Air: Downward Heatflow,0.102,0.0591,1.410,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 18 mm [R-1.41/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 19 mm",Air: Downward Heatflow,0.107,0.0617,1.352,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 19 mm [R-1.35/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 20 mm",Air: Downward Heatflow,0.111,0.0642,1.298,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 20 mm [R-1.3/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 21 mm",Air: Downward Heatflow,0.115,0.0667,1.250,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 21 mm [R-1.25/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 22 mm",Air: Downward Heatflow,0.120,0.0691,1.206,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 22 mm [R-1.21/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 23 mm",Air: Downward Heatflow,0.124,0.0715,1.166,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 23 mm [R-1.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 24 mm",Air: Downward Heatflow,0.128,0.0738,1.129,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 24 mm [R-1.13/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 25 mm",Air: Downward Heatflow,0.132,0.0760,1.096,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 25 mm [R-1.1/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 30 mm",Air: Downward Heatflow,0.155,0.0893,0.933,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 30 mm [R-0.93/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 35 mm",Air: Downward Heatflow,0.177,0.1022,0.816,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 35 mm [R-0.82/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 40 mm",Air: Downward Heatflow,0.198,0.1144,0.728,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 40 mm [R-0.73/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 45 mm",Air: Downward Heatflow,0.218,0.1262,0.660,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 45 mm [R-0.66/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 50 mm",Air: Downward Heatflow,0.238,0.1376,0.606,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 50 mm [R-0.61/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 55 mm",Air: Downward Heatflow,0.261,0.1506,0.553,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 55 mm [R-0.55/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 60 mm",Air: Downward Heatflow,0.283,0.1635,0.510,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 60 mm [R-0.51/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 65 mm",Air: Downward Heatflow,0.305,0.1763,0.473,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 65 mm [R-0.47/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 70 mm",Air: Downward Heatflow,0.327,0.1890,0.441,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 70 mm [R-0.44/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 75 mm",Air: Downward Heatflow,0.349,0.2015,0.413,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 75 mm [R-0.41/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 80 mm",Air: Downward Heatflow,0.370,0.2140,0.389,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 80 mm [R-0.39/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 85 mm",Air: Downward Heatflow,0.392,0.2263,0.368,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 85 mm [R-0.37/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 90 mm",Air: Downward Heatflow,0.413,0.2385,0.349,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 90 mm [R-0.35/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 95 mm",Air: Downward Heatflow,0.434,0.2506,0.332,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 95 mm [R-0.33/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 100 mm",Air: Downward Heatflow,0.455,0.2626,0.317,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 100 mm [R-0.32/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 110 mm",Air: Downward Heatflow,0.499,0.2883,0.289,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 110 mm [R-0.29/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 120 mm",Air: Downward Heatflow,0.543,0.3137,0.266,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 120 mm [R-0.27/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 130 mm",Air: Downward Heatflow,0.587,0.3391,0.246,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 130 mm [R-0.25/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 140 mm",Air: Downward Heatflow,0.631,0.3644,0.229,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 140 mm [R-0.23/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 150 mm",Air: Downward Heatflow,0.674,0.3895,0.214,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 150 mm [R-0.21/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 160 mm",Air: Downward Heatflow,0.718,0.4146,0.201,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 160 mm [R-0.2/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 170 mm",Air: Downward Heatflow,0.761,0.4395,0.190,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 170 mm [R-0.19/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 180 mm",Air: Downward Heatflow,0.804,0.4643,0.179,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 180 mm [R-0.18/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 190 mm",Air: Downward Heatflow,0.846,0.4890,0.170,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 190 mm [R-0.17/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 200 mm",Air: Downward Heatflow,0.889,0.5136,0.162,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 200 mm [R-0.16/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 210 mm",Air: Downward Heatflow,0.931,0.5381,0.155,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 210 mm [R-0.15/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 220 mm",Air: Downward Heatflow,0.974,0.5625,0.148,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 220 mm [R-0.15/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 230 mm",Air: Downward Heatflow,1.016,0.5867,0.142,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 230 mm [R-0.14/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 240 mm",Air: Downward Heatflow,1.057,0.6109,0.136,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 240 mm [R-0.14/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 250 mm",Air: Downward Heatflow,1.099,0.6349,0.131,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 250 mm [R-0.13/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 260 mm",Air: Downward Heatflow,1.140,0.6589,0.126,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 260 mm [R-0.13/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 270 mm",Air: Downward Heatflow,1.182,0.6827,0.122,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 270 mm [R-0.12/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 280 mm",Air: Downward Heatflow,1.223,0.7065,0.118,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 280 mm [R-0.12/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 290 mm",Air: Downward Heatflow,1.264,0.7301,0.114,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 290 mm [R-0.11/in.]",ISO 6946 Method,
+"Air layer, unventilated, downwards, thickness: 300 mm",Air: Downward Heatflow,1.304,0.7536,0.111,0.90,"255,175,240,255","Air layer, unventilated, downwards, thickness: 300 mm [R-0.11/in.]",ISO 6946 Method,
+Roxul Comfortboard IS with Mild-Steel Stone Anchor 16in OC,Rainscreen Insulation,0.044,0.0255,3.270,0.90,"255,225,255,175",Roxul Comfortboard IS with Mild-Steel Stone Anchor 16in OC [R-3.27/in.],PHIUS Fastener Correction Tool,HB Concrete 2-Seal Stone Anchor
+Roxul Comfortboard IS with SS Brick-Ties 16in OC,Rainscreen Insulation,0.050,0.0287,2.900,0.90,"255,255,235,175",Roxul Comfortboard IS with SS Brick-Ties 16in OC [R-2.9/in.],PHIUS Fastener Correction Tool,HB 213-2X Adjustable Veneer Anchor
+XPS with SS Screw 16in OC,Rainscreen Insulation,0.031,0.0177,4.710,0.90,"255,255,235,175",XPS with SS Screw 16in OC [R-4.71/in.],PHIUS Fastener Correction Tool,"GRK R4 SS Screw #10 (0.124"" diam.)"
+1in. Imperial Polyurethane,Doors,0.055,0.0317,2.630,0.90,"255,255,255,0",1in. Imperial Polyurethane [R-2.63/in.],Manufacturer Datasheet,Ceco Door - Assa Abloy
+1in. Imperial Polyurethane and Embossed,Doors,0.056,0.0326,2.560,0.90,"255,255,255,0",1in. Imperial Polyurethane and Embossed [R-2.56/in.],Manufacturer Datasheet,Ceco Door - Assa Abloy
+1in. Imperial Polyurethane and Half-Glass,Doors,0.059,0.0342,2.440,0.90,"255,255,255,0",1in. Imperial Polyurethane and Half-Glass [R-2.44/in.],Manufacturer Datasheet,Ceco Door - Assa Abloy
+1in. Legion Polystyrene,Doors,0.062,0.0358,2.330,0.90,"255,255,255,0",1in. Legion Polystyrene [R-2.33/in.],Manufacturer Datasheet,Ceco Door - Assa Abloy
+1in. Legion Polystyrene and Half-Glass,Doors,0.066,0.0384,2.170,0.90,"255,255,255,0",1in. Legion Polystyrene and Half-Glass [R-2.17/in.],Manufacturer Datasheet,Ceco Door - Assa Abloy
+1in. Medallion Steel Stiffened,Doors,0.092,0.0534,1.560,0.90,"255,255,255,0",1in. Medallion Steel Stiffened [R-1.56/in.],Manufacturer Datasheet,Ceco Door - Assa Abloy
+1in. Trio-E Polyurethane and Steel Stiffened,Doors,0.052,0.0300,2.780,0.90,"255,255,255,0",1in. Trio-E Polyurethane and Steel Stiffened [R-2.78/in.],Manufacturer Datasheet,Ceco Door - Assa Abloy

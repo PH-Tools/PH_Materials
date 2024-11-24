@@ -1,7 +1,9 @@
-from sqlalchemy.orm import Mapped, mapped_column
+"""The MaterialDB class, which is used to interact with the database."""
+
+from sqlalchemy.orm import mapped_column
 from sqlalchemy import Column, Integer, String, Float
 
-from src.schemas.base import Base
+from src.schemas.base import Base, get_session
 
 
 class MaterialDB(Base):
@@ -20,3 +22,11 @@ class MaterialDB(Base):
     color = mapped_column(String, nullable=True)
     source = mapped_column(String, nullable=True)
     notes = mapped_column(String, nullable=True)
+
+
+def remove_all_materials():
+    with get_session() as session:
+        session.query(MaterialDB).delete()
+        session.commit()
+        session.close()
+        print("All Materials Deleted")
