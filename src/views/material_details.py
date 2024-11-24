@@ -16,7 +16,7 @@ class MaterialDetails:
         default_value: str | int | float,
         display_name: str,
     ):
-        if not self.material:
+        if self.material is None:
             value = default_value
         else:
             value = getattr(self.material, attribute_name, default_value)
@@ -25,8 +25,8 @@ class MaterialDetails:
             fhc.Label(f"{display_name}:", klass="material-attribute-label"),
             fhc.Input(
                 name=attribute_name,
-                value=value,
-                placeholder=attribute_name,
+                value=str(value),
+                placeholder=str(value),
                 klass="material-attribute-input",
             ),
         )
@@ -60,7 +60,8 @@ class MaterialDetails:
                     "Cancel",
                     type="button",
                     hx_get="/",
-                    hx_target="main",
+                    hx_target="#main",
+                    hx_swap="outerHTML",
                     cls="material-edit-form-button",
                 ),
                 fhc.Button("Save", type="submit", cls="material-edit-form-button"),

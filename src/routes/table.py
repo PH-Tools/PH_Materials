@@ -11,7 +11,7 @@ from src.model.material import (
     load_material_records_from_csv,
     dump_material_records_to_csv,
 )
-from src.views.table import Table
+from src.views.table import Table, Rows
 from src.views.material_details import MaterialDetails
 from src.views.menu import Menu
 
@@ -29,10 +29,12 @@ def register_routes(rt):
                 .all()
             )
 
+        materials = materials[0:10]
+
         return fhc.Titled(
             "Materials List",
             Menu(),
-            Table(
+            Table.render(
                 sorted(
                     [Material.model_validate(m) for m in materials],
                     key=lambda x: (x.category, x.name),
@@ -139,34 +141,45 @@ def register_routes(rt):
     @rt("/edit/{material_id}", methods=["GET", "POST"])
     async def edit(req: fhc.Request, material_id: int):
         """Edit a Material in the Database."""
+
         with get_session() as session:
-            material = (
+            materialDB = (
                 session.query(MaterialDB).filter(MaterialDB.id == material_id).first()
             )
-            if not material:
+
+            if not materialDB:
                 return RedirectResponse("/", status_code=303)
+            else:
+                material = Material.model_validate(materialDB)
+
             if req.method == "POST":
                 form_data = await req.form()
                 form_data_dict: dict[str, Any] = dict(form_data)
                 form_data_dict["id"] = material_id
+
                 try:
                     material_data = Material.model_validate(form_data_dict)
                 except ValidationError as e:
+
                     return fhc.Titled(
                         "Edit Material",
-                        MaterialDetails(material),
+                        MaterialDetails(materialDB),
                         fhc.Div(str(e), cls="error-message"),
                     )
+
                 for key, value in material_data.model_dump().items():
-                    setattr(material, key, value)
+                    setattr(materialDB, key, value)
+
                 session.commit()
+
                 return RedirectResponse("/", status_code=303)
 
         return fhc.Titled("Edit Material", MaterialDetails(material))
 
-    @rt("/filter/{d}", methods=["POST"])
-    async def filter(d: dict):
-        print(f"{d=}")
+    @rt("/filter_by_category/{d}", methods=["POST"])
+    async def filter_by_category(d: dict):
+        """Filter the Materials by Category."""
+
         if not (filter := d.get("category-filter", None)):
             return RedirectResponse("/", status_code=303)
 
@@ -174,21 +187,12 @@ def register_routes(rt):
             return RedirectResponse("/", status_code=303)
 
         with get_session() as session:
-            materials = (
+            materialsDB = (
                 session.query(MaterialDB)
                 .filter(MaterialDB.category == filter)
                 .order_by(MaterialDB.category, MaterialDB.name)
                 .all()
             )
 
-        return fhc.Titled(
-            "Materials List",
-            Menu(),
-            Table(
-                sorted(
-                    [Material.model_validate(m) for m in materials],
-                    key=lambda x: (x.category, x.name),
-                )
-            ),
-            id="main",
-        )
+        materials = [Material.model_validate(m) for m in materialsDB]
+        return fhc.Html(Rows.left(materials), Rows.right(materials))
