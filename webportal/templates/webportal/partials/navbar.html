@@ -1,6 +1,6 @@
 {% load static %}
 <nav>
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ml-10">
       <a href="{% url 'index' %}" class="flex items-center">
         <span class="self-center text-2xl font-semibold whitespace-nowrap">PH-Materials</span>
       </a>
@@ -13,7 +13,7 @@
         
         {% if user.is_authenticated %}
             <li>
-                <a href="{% url 'transactions-list' %}" 
+                <a href="{% url 'materials-list' %}" 
                     class="block py-2 pl-3 pr-4 text-white rounded md:p-0" 
                     aria-current="page">
                         Materials

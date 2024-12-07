@@ -1,0 +1,116 @@
+{% load widget_tweaks %}
+{% load partials %}
+
+<div class="relative text-white" id="material-list-container" >
+    <div class="flex flex-col md:grid md:grid-cols-5 md:gap-4">
+        
+        <div class="col-span-1">
+            <form hx-get="{% url 'materials-list' %}" hx-target="#material-list-container" hx-swap="outerHTML">
+                
+                <div class="mb-4 form-control">
+                    {{ filter.form.category|add_label_class:"label text-white" }}
+                    {% render_field filter.form.category class="text-xs text-white-300 border-gray-300 rounded focus:ring-green-500" %}
+                </div>
+                
+                <button class="btn btn-success">
+                    Filter
+                </button>
+            </form>
+        </div>
+ 
+        <div class="col-span-4 overflow-x-auto">
+            
+            <div>
+                <a hx-get="{% url 'create-material' %}" hx-push-url="true" hx-target="#materials-list-block" class="cursor-pointer">
+                    <svg 
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-8"
+                    >
+                    <path 
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </a>
+            </div>
+
+            {% if filter.qs %}
+            <table class="table-xs">
+                <thead class="text-xs text-white uppercase" style="border-bottom-width:2px;">
+                    <tr>
+                        <th></th>
+                        <th class="px-6 py-3">Category</th>
+                        <th class="px-6 py-3">Material</th>
+                        <th class="px-6 py-3">Conductivity</th>
+                        <th class="px-6 py-3">Emissivity</th>
+                        <th class="px-6 py-3">Source</th>
+                        <th class="px-6 py-3">Comments</th>
+                        <th class="px-6 py-3">Color</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for material in filter.qs %}
+                    <tr class="hover:bg-gray-700">
+                        <td class="flex items-center">
+                            <a 
+                                hx-get="{% url 'update-material' material.pk %}"
+                                hx-push-url="true"
+                                hx-target="#materials-list-block"
+                                class="cursor-pointer">
+                                <svg                             
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="0.8"
+                                    stroke="currentColor"
+                                    class="size-4 me-2">
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                </svg>
+                            </a>
+                            <a                                
+                                hx-delete="{% url 'delete-material' material.pk %}"
+                                hx-push-url="true"
+                                hx-target="#materials-list-block"
+                                hx-confirm="Delete?"
+                                class="cursor-pointer">
+                                <svg 
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24"
+                                    stroke-width="0.8"
+                                    stroke="currentColor"
+                                    class="size-4 me-2">
+                                    <path 
+                                        stroke-linecap="round" 
+                                        stroke-linejoin="round"
+                                        d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                            </a>
+                        </td>
+                        <td style="min-width:25ch;">{{ material.category }}</td>
+                        <td>{{ material.name }}</td>
+                        <td>{{ material.conductivity|floatformat:3 }}</td>
+                        <td>{{ material.emissivity|floatformat:2 }}</td>
+                        <td style="white-space:nowrap; overflow:hidden; text-overflow: ellipsis; max-width:15ch">{{ material.source }}</td>
+                        <td style="white-space:nowrap; overflow:hidden; text-overflow: ellipsis; max-width:15ch">{{ material.comments }}</td>
+                        <td>{{ material.color_argb }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                
+            </table>
+            
+            {% else %}
+            <p class="text-2xl text-white">No materials found.</p>
+            
+            {% endif %}
+        </div>
+
+    </div>
+</div>

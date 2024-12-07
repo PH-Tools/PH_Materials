@@ -1,0 +1,19 @@
+{% load widget_tweaks %}
+
+<h1 class="mt-8 mb-4 prose prose-2xl text-white">
+    Create New Material:
+</h1>
+
+<form hx-post="{% url 'create-material' %}">
+
+    {% include 'webportal/partials/material-form.html' %}
+
+    <button class="btn btn-success">Add Material</button>
+    <button 
+        class="btn btn-error"
+        hx-get="{% url 'materials-list' %}"
+        hx-target="#materials-list-block"
+        hx-push-url="/materials">
+            Cancel
+        </button>
+</form>

@@ -11,6 +11,8 @@ django-htmx==1.21.0
 django-import-export==4.3.1
 django-template-partials==24.4
 django-widget-tweaks==1.5.0
+factory-boy==3.3.1
+faker==33.1.0
 iniconfig==2.0.0
 isort==5.13.2
 mypy-extensions==1.0.0
