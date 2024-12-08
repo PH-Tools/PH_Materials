@@ -24,6 +24,19 @@ class MaterialCategory(models.Model):
         choices=MATERIAL_CATEGORIES, max_length=2, null=False, blank=False
     )
 
+    @property
+    def display_name(self):
+        return dict(self.MATERIAL_CATEGORIES).get(self.category, self.category)
+
+    @classmethod
+    def get_category_display_name(cls, code: str) -> str | None:
+        return dict(cls.MATERIAL_CATEGORIES).get(code.upper().strip())
+
+    @classmethod
+    def get_category_code(cls, display_name: str) -> str | None:
+        label_to_code = {v: k for k, v in cls.MATERIAL_CATEGORIES}
+        return label_to_code.get(display_name.strip(), None)
+
     class Meta:
         verbose_name_plural = "Material Categories"
         ordering = ["category"]

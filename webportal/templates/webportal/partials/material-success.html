@@ -13,7 +13,8 @@
     <button 
         class="btn btn-success"
         hx-get="{% url 'materials-list' %}"
-        hx-target="#materials-list-block">
+        hx-target="#materials-list-block"
+        hx-push-url="true">
             Back to Materials
         </button>
 </div>

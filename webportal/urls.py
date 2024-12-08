@@ -16,4 +16,7 @@ urlpatterns = [
         views.delete_material,
         name="delete-material",
     ),
+    path("get-materials", views.get_materials, name="get-materials"),
+    path("materials/export-csv", views.export_csv, name="export-csv"),
+    path("materials/import-materials", views.import_materials, name="import-materials"),
 ]

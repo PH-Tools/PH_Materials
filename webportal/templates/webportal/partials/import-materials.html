@@ -1,0 +1,26 @@
+{% load widget_tweaks %}
+
+<h1 class="mt-8 mb-4 prose prose-2xl text-white">
+    Import Materials:
+</h1>
+
+<form hx-encoding="multipart/form-data" hx-post="{% url 'import-materials' %}">
+
+    <div class="mb-4">
+        <input 
+            type="file" 
+            name="file" 
+            class="file-input file-input-success max-w-xs text-black"
+            accept=".csv"/>
+    </div>
+
+    <button class="btn btn-success">Upload Transactions</button>
+    <button 
+        class="btn btn-error"
+        hx-get="{% url 'materials-list' %}"
+        hx-target="#materials-list-block"
+        hx-push-url="/materials"
+    >
+        Cancel
+    </button>
+</form>
