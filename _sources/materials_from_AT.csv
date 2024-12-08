@@ -1,4 +1,4 @@
-category,name,conductivity,emissivity,source,comments,color_argb
+﻿category,name,conductivity,emissivity,source,comments,color_argb
 Air [Downward Heat Flow],"Air layer, unventilated, downwards, thickness: 1 mm",0.046,0.9,ISO 6946 Method,,"255,175,240,255"
 Air [Downward Heat Flow],"Air layer, unventilated, downwards, thickness: 2 mm",0.046,0.9,ISO 6946 Method,,"255,175,240,255"
 Air [Downward Heat Flow],"Air layer, unventilated, downwards, thickness: 3 mm",0.046,0.9,ISO 6946 Method,,"255,175,240,255"

@@ -141,11 +141,13 @@ def import_materials(request):
             for error in row.errors:
                 print(error)
 
-        if not result.has_errors():
+        if result.has_errors():
+            print(result.base_errors)
+            context = {"message": "Sorry, an error occurred during upload"}
+        else:
             resource.import_data(dataset, user=request.user, dry_run=False)
             context = {"message": f"{len(dataset)} materials imported successfully!"}
-            return render(request, "webportal/partials/material-success.html", context)
-        else:
-            context = {"message": "Sorry, an error occurred during upload"}
+
         return render(request, "webportal/partials/material-success.html", context)
+
     return render(request, "webportal/partials/import-materials.html", context={})

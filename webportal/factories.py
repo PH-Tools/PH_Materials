@@ -20,6 +20,12 @@ class MaterialCategoryFactory(factory.django.DjangoModelFactory):
         "random_element", elements=[x[0] for x in MaterialCategory.MATERIAL_CATEGORIES]
     )
 
+    @classmethod
+    def _create(cls, model_class, *args, **kwargs):
+        # Use get_or_create to avoid creating duplicate categories
+        category, created = model_class.objects.get_or_create(**kwargs)
+        return category
+
 
 class MaterialFactory(factory.django.DjangoModelFactory):
     class Meta:

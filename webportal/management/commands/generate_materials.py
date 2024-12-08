@@ -27,7 +27,5 @@ class Command(BaseCommand):
                 source=fake.text(max_nb_chars=100),
                 comments=fake.text(max_nb_chars=100),
                 color_argb=f"{random.randint(0, 255)},{random.randint(0, 255)},{random.randint(0, 255)},{random.randint(0, 255)}",
-                category=MaterialCategory.objects.get(
-                    category=random.choice(categories)
-                ),
+                category=random.choice(categories),
             )

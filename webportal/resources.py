@@ -10,14 +10,18 @@ class MaterialResource(resources.ModelResource):
         widget=ForeignKeyWidget(MaterialCategory, field="category"),
     )
 
-    def dehydrate_category(self, obj):
-        # Get the display-name for the 'category' from it's code
+    def dehydrate_category(self, obj: Material) -> str | None:
+        # Get the display-name for the 'category' from its code
         return MaterialCategory.get_category_display_name(obj.category.category)
 
-    def before_import_row(self, row, **kwargs):
-        # convert the category-display-name back to the category-code
+    def before_import_row(self, row, **kwargs) -> None:
+        # Convert the category display-name back to the category-code
         if "category" in row:
-            row["category"] = MaterialCategory.get_category_code(row["category"])
+            code = MaterialCategory.get_category_code(row["category"])
+
+            # Ensure that the category exists in the database
+            MaterialCategory.objects.get_or_create(category=code)
+            row["category"] = code
 
     class Meta:
         model = Material
