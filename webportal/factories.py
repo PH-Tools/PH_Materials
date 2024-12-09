@@ -1,5 +1,6 @@
 import factory
-from webportal.models import User, Material, MaterialCategory
+
+from webportal.models import Material, MaterialCategory, User
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -38,3 +39,4 @@ class MaterialFactory(factory.django.DjangoModelFactory):
     comments = factory.Faker("word")
     color_argb = factory.Faker("word")
     category = factory.SubFactory(MaterialCategoryFactory)
+    unique_id = factory.Faker("uuid4")

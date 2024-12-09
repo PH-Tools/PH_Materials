@@ -1,0 +1,88 @@
+{% load widget_tweaks %}
+{% load partials %}
+
+<div class="col-span-1" id="sidebar">
+
+    <form id="filter-form"
+        hx-get="{% url 'get-materials' %}"
+        hx-target="#material-table" 
+        hx-swap="outerHTML"
+    >
+        
+        <div class="mb-4 form-control">
+            {{ filter.form.category|add_label_class:"label text-white" }}
+            {% render_field filter.form.category class="text-s text-white-300 border-gray-300 rounded focus:ring-green-500" %}
+        </div>
+        
+        <button class="btn btn-white">
+            Filter
+        </button>
+    </form>
+
+    <div class="divider divider-accent"></div>
+
+    <form id="unit-system-form">
+        <label class="flex cursor-pointer gap-2">
+            <span class="label-text text-white">SI</span>
+            <input 
+                type="checkbox"
+                name="unit-system"
+                class="toggle" 
+                hx-post="{% url 'set-unit-system' %}"
+                hx-trigger="change"
+                hx-include="#unit-system-form, #filter-form"
+                hx-target="#material-table"
+                hx-swap="outerHTML"
+            />
+            <span class="label-text text-white">IP</span>
+        </label>
+    </form>
+
+    <div class="divider divider-accent"></div>
+    
+    <div class="flex items-center" id="import-export-tools">
+        <a 
+            id="export-csv-button"
+            hx-get="{% url 'export-csv' %}"
+            hx-include="#filter-form"
+            class='cursor-pointer me-2'
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+        </a>
+        <a 
+            id="import-csv-button"
+            hx-get="{% url 'import-materials' %}"
+            hx-push-url="true"
+            hx-target="#material-list-page"
+            class='cursor-pointer me-2'
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+            </svg>
+        </a>
+        <a 
+            id="create-material-button"
+            x-get="{% url 'create-material' %}"
+            hx-push-url="true"
+            hx-target="#material-list-page"
+            class="cursor-pointer"
+        >
+            <svg 
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-8"
+        >
+            <path 
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+        </a>
+    </div>
+
+</div>

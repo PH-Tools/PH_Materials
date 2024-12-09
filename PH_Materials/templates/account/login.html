@@ -1,4 +1,4 @@
-{% extends "tracker/base.html" %}
+{% extends "webportal/base.html" %}
 {% load widget_tweaks %}
 {% load i18n %}
 {% load account socialaccount %}
@@ -29,8 +29,10 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 {% include "socialaccount/snippets/login_extra.html" %}
 
 {% else %}
-<p class="mb-4 text-white">{% blocktrans %}If you have not created an account yet, then please
-  <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}
+<p class="mb-4 text-white">
+  {% blocktrans %}If you do not have an account yet, please create one:
+    <a class="alert alert-info hover:underline" href="{{ signup_url }}">Create an Account</a>
+  {% endblocktrans %}
 </p>
 {% endif %}
 

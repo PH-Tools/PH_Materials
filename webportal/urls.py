@@ -4,7 +4,8 @@ from webportal import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("materials/", views.materials_list, name="materials-list"),
+    path("materials/", views.materials_page, name="materials-page"),
+    path("materials-list/", views.materials_list, name="materials-list"),
     path("create-material/", views.create_material, name="create-material"),
     path(
         "materials/<int:pk>/update",
@@ -19,4 +20,5 @@ urlpatterns = [
     path("get-materials", views.get_materials, name="get-materials"),
     path("materials/export-csv", views.export_csv, name="export-csv"),
     path("materials/import-materials", views.import_materials, name="import-materials"),
+    path("materials/set-unit-system", views.set_unit_system, name="set-unit-system"),
 ]

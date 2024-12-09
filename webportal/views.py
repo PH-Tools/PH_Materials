@@ -1,23 +1,52 @@
-from django.shortcuts import render, get_object_or_404
-from django.core.paginator import Paginator
+from enum import Enum
+
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_http_methods
+from django.core.handlers.wsgi import WSGIRequest
+from django.core.paginator import Paginator
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.views.decorators.http import require_http_methods, require_POST
 from django_htmx.http import retarget
-from webportal.models import MaterialCategory, Material
-from webportal.filters import MaterialCategoryFilter
-from webportal.forms import MaterialForm
-from webportal.resources import MaterialResource
-from django.http import HttpResponse
 from tablib import Dataset
 
+from webportal.filters import MaterialCategoryFilter
+from webportal.forms import MaterialForm
+from webportal.models import Material
+from webportal.resources import MaterialResource
 
-def index(request):
+
+class UnitSystem(Enum):
+    SI = "SI"
+    IP = "IP"
+
+
+@require_POST
+def set_unit_system(request: WSGIRequest) -> HttpResponse:
+    if request.POST.get("unit-system", None):
+        request.session["unit_system"] = UnitSystem.IP.value
+    else:
+        request.session["unit_system"] = UnitSystem.SI.value
+
+    # -- Since material-list reads the GET, redirect to a GET
+    # Extract other parameters from the POST request
+    other_params = request.POST.dict()
+    other_params.pop("unit-system", None)  # Remove the unit-system parameter
+
+    # Build the query string for the redirect URL
+    query_string = "&".join([f"{key}={value}" for key, value in other_params.items()])
+
+    # Redirect to the materials_list view with the query parameters
+    return redirect(f"{reverse('get-materials')}?{query_string}")
+
+
+def index(request: WSGIRequest) -> HttpResponse:
     return render(request, "webportal/index.html")
 
 
 @login_required
-def materials_list(request):
+def materials_page(request: WSGIRequest) -> HttpResponse:
     materials = Material.objects.all().select_related("category")
     materials_filter = MaterialCategoryFilter(request.GET, queryset=materials)
     paginator = Paginator(materials_filter.qs, settings.PAGE_SIZE)
@@ -27,16 +56,26 @@ def materials_list(request):
         "materials": material_page,
         "filter": materials_filter,
     }
-    if request.htmx:
-        return render(
-            request, "webportal/partials/materials-list-container.html", context
-        )
-    else:
-        return render(request, "webportal/materials-list.html", context)
+    return render(request, "webportal/materials.html", context)
 
 
 @login_required
-def create_material(request):
+def materials_list(request: WSGIRequest) -> HttpResponse:
+    """The main Material-List view page."""
+    materials = Material.objects.all().select_related("category")
+    materials_filter = MaterialCategoryFilter(request.GET, queryset=materials)
+    paginator = Paginator(materials_filter.qs, settings.PAGE_SIZE)
+    material_page = paginator.page(1)
+
+    context = {
+        "materials": material_page,
+        "filter": materials_filter,
+    }
+    return render(request, "webportal/partials/materials/container.html", context)
+
+
+@login_required
+def create_material(request: WSGIRequest) -> HttpResponse:
     if request.method == "POST":
         form = MaterialForm(request.POST)
         if form.is_valid():
@@ -44,20 +83,20 @@ def create_material(request):
             material.user = request.user
             material.save()
             context = {"message": "Material created successfully!"}
-            return render(request, "webportal/partials/material-success.html", context)
+            return render(request, "webportal/partials/materials/success.html", context)
         else:
             context = {"form": form}
             response = render(
-                request, "webportal/partials/create-material.html", context
+                request, "webportal/partials/materials/create.html", context
             )
-            return retarget(response, "#materials-list-block")
+            return retarget(response, "#material-list-page")
 
     context = {"form": MaterialForm()}
-    return render(request, "webportal/partials/create-material.html", context)
+    return render(request, "webportal/partials/materials/create.html", context)
 
 
 @login_required
-def update_material(request, pk: int):
+def update_material(request: WSGIRequest, pk: int) -> HttpResponse:
     material = get_object_or_404(Material, pk=pk)
 
     if request.method == "POST":
@@ -65,35 +104,35 @@ def update_material(request, pk: int):
         if form.is_valid():
             material = form.save()
             context = {"message": "Material updated successfully!"}
-            return render(request, "webportal/partials/material-success.html", context)
+            return render(request, "webportal/partials/materials/success.html", context)
         else:
             context = {"form": form, "material": material}
             response = render(
-                request, "webportal/partials/update-material.html", context
+                request, "webportal/partials/materials/update.html", context
             )
-            return retarget(response, "#materials-list-block")
+            return retarget(response, "#material-list-page")
 
     context = {
         "form": MaterialForm(instance=material),
         "material": material,
     }
 
-    return render(request, "webportal/partials/update-material.html", context)
+    return render(request, "webportal/partials/materials/update.html", context)
 
 
 @login_required
 @require_http_methods(["DELETE"])
-def delete_material(request, pk: int):
+def delete_material(request: WSGIRequest, pk: int) -> HttpResponse:
     material = get_object_or_404(Material, pk=pk)
     material.delete()
     context = {
         "message": f"Material deleted successfully!",
     }
-    return render(request, "webportal/partials/material-success.html", context)
+    return render(request, "webportal/partials/materials/success.html", context)
 
 
 @login_required
-def get_materials(request):
+def get_materials(request: WSGIRequest) -> HttpResponse:
     page = request.GET.get("page", 1)
     material_filter = MaterialCategoryFilter(
         request.GET,
@@ -105,16 +144,16 @@ def get_materials(request):
     }
     return render(
         request,
-        "webportal/partials/materials-list-container.html#material_list",
+        "webportal/partials/materials/table.html",
         context,
     )
 
 
 @login_required
-def export_csv(request):
-    # -- If the request comes from HTMX, do a client-side redirect but
-    # -- as a normal (non-HTMX / Ajax) request to allow file downloading.
-    if request.htmx:
+def export_csv(request: WSGIRequest) -> HttpResponse | JsonResponse:
+    # -- If the request comes from HTMX, do a client-side redirect but now
+    # -- as a normal (ie: non-HTMX / Ajax) request to allow file downloading.
+    if getattr(request, "htmx", None):
         return HttpResponse(headers={"HX-Redirect": request.get_full_path()})
 
     material_filter = MaterialCategoryFilter(
@@ -123,15 +162,22 @@ def export_csv(request):
     )
 
     data = MaterialResource().export(material_filter.qs)
-    response = HttpResponse(data.csv)
-    response["Content-Disposition"] = "attachment; filename=ph_materials.csv"
-    return response
+    if csv_data := getattr(data, "csv", None):
+        response = HttpResponse(csv_data)
+        response["Content-Disposition"] = "attachment; filename=ph_materials.csv"
+        return response
+    else:
+        return JsonResponse({"message": "No data to export"})
 
 
 @login_required
-def import_materials(request):
+def import_materials(request: WSGIRequest) -> HttpResponse:
     if request.method == "POST":
         file = request.FILES.get("file")
+        if not file:
+            context = {"message": "Please select a file to import"}
+            return render(request, "webportal/partials/materials/import.html", context)
+
         resource = MaterialResource()
         dataset = Dataset()
         dataset.load(file.read().decode("utf-8"), format="csv")
@@ -148,6 +194,6 @@ def import_materials(request):
             resource.import_data(dataset, user=request.user, dry_run=False)
             context = {"message": f"{len(dataset)} materials imported successfully!"}
 
-        return render(request, "webportal/partials/material-success.html", context)
+        return render(request, "webportal/partials/materials/success.html", context)
 
-    return render(request, "webportal/partials/import-materials.html", context={})
+    return render(request, "webportal/partials/materials/import.html", context={})

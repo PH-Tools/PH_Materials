@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -47,6 +49,9 @@ class MaterialCategory(models.Model):
 
 
 class Material(models.Model):
+    unique_id = models.CharField(
+        max_length=6, unique=True, null=False, blank=False, default=uuid.uuid4().hex[:6]
+    )
     name = models.CharField(max_length=255, null=False, blank=False)
     conductivity = models.FloatField(null=False, blank=False, default=1.0)
     emissivity = models.FloatField(null=False, blank=False, default=0.9)
@@ -60,6 +65,12 @@ class Material(models.Model):
     )
 
     def save(self, *args, **kwargs):
+        if not self.unique_id:
+            self.unique_id = uuid.uuid4().hex[:6]
+
+        while Material.objects.filter(unique_id=self.unique_id).exists():
+            self.unique_id = uuid.uuid4().hex[:6]
+
         # -- Ensure the Category is one of the allowed ones
         allowed_categories = dict(MaterialCategory.MATERIAL_CATEGORIES)
         if not self.category:

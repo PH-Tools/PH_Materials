@@ -1,5 +1,6 @@
 import pytest
-from webportal.factories import UserFactory, MaterialFactory
+
+from webportal.factories import MaterialFactory, UserFactory
 
 
 @pytest.fixture

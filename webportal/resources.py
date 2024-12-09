@@ -1,5 +1,6 @@
-from import_export import resources, fields
+from import_export import fields, resources
 from import_export.widgets import ForeignKeyWidget
+
 from webportal.models import Material, MaterialCategory
 
 
@@ -26,6 +27,7 @@ class MaterialResource(resources.ModelResource):
     class Meta:
         model = Material
         fields = (
+            "unique_id",
             "category",
             "name",
             "conductivity",
@@ -35,6 +37,7 @@ class MaterialResource(resources.ModelResource):
             "color_argb",
         )
         import_id_fields = (
+            "unique_id",
             "category",
             "name",
             "conductivity",

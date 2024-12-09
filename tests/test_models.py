@@ -1,5 +1,6 @@
 import pytest
-from webportal.models import User, Material, MaterialCategory
+
+from webportal.models import Material, MaterialCategory, User
 
 
 @pytest.mark.django_db

@@ -1,7 +1,8 @@
 import pytest
-from pytest_django.asserts import assertTemplateUsed
 from django.urls import reverse
-from webportal.models import MaterialCategory, Material, User
+from pytest_django.asserts import assertTemplateUsed
+
+from webportal.models import Material, MaterialCategory, User
 
 
 @pytest.mark.django_db
@@ -37,7 +38,7 @@ def test_add_material_request(user, material_dict_params, client):
     response = client.post(reverse("create-material"), material_dict_params, **header)
 
     assert Material.objects.all().count() == material_count + 1
-    assertTemplateUsed(response, "webportal/partials/material-success.html")
+    assertTemplateUsed(response, "webportal/partials/materials/success.html")
 
 
 @pytest.mark.django_db
@@ -53,7 +54,7 @@ def test_cannot_add_material_with_bad_name(user, material_dict_params, client):
     response = client.post(reverse("create-material"), material_dict_params, **header)
 
     assert Material.objects.all().count() == user_material_count
-    assertTemplateUsed(response, "webportal/partials/create-material.html")
+    assertTemplateUsed(response, "webportal/partials/materials/create.html")
     assert "HX-Retarget" in response.headers
 
 
@@ -70,7 +71,7 @@ def test_cannot_add_material_with_bad_conductivity(user, material_dict_params, c
     response = client.post(reverse("create-material"), material_dict_params, **header)
 
     assert Material.objects.all().count() == user_material_count
-    assertTemplateUsed(response, "webportal/partials/create-material.html")
+    assertTemplateUsed(response, "webportal/partials/materials/create.html")
     assert "HX-Retarget" in response.headers
 
 
@@ -87,7 +88,7 @@ def test_cannot_add_material_with_bad_emissivity(user, material_dict_params, cli
 
     # -- Less than 0.0
     assert Material.objects.all().count() == user_material_count
-    assertTemplateUsed(response, "webportal/partials/create-material.html")
+    assertTemplateUsed(response, "webportal/partials/materials/create.html")
     assert "HX-Retarget" in response.headers
 
     # -- Over 1.0
@@ -96,7 +97,7 @@ def test_cannot_add_material_with_bad_emissivity(user, material_dict_params, cli
     response = client.post(reverse("create-material"), material_dict_params, **header)
 
     assert Material.objects.all().count() == user_material_count
-    assertTemplateUsed(response, "webportal/partials/create-material.html")
+    assertTemplateUsed(response, "webportal/partials/materials/create.html")
     assert "HX-Retarget" in response.headers
 
 

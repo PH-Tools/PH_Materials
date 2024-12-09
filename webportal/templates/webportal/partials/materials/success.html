@@ -7,13 +7,14 @@
     <button 
         class="btn btn-success"
         hx-get="{% url 'create-material' %}"
-        hx-target="#materials-list-block">
+        hx-target="#material-list-page">
             Add New Material
     </button>
     <button 
         class="btn btn-success"
         hx-get="{% url 'materials-list' %}"
-        hx-target="#materials-list-block"
+        hx-target="#material-list-page"
+        hx-swap="outerHTML"
         hx-push-url="true">
             Back to Materials
         </button>

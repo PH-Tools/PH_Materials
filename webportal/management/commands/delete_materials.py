@@ -1,7 +1,6 @@
-import random
-from faker import Faker
 from django.core.management.base import BaseCommand
-from webportal.models import Material, MaterialCategory
+
+from webportal.models import Material
 
 
 class Command(BaseCommand):

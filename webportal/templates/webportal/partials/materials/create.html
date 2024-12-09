@@ -6,13 +6,14 @@
 
 <form hx-post="{% url 'create-material' %}">
 
-    {% include 'webportal/partials/material-form.html' %}
+    {% include 'webportal/partials/materials/details.html' %}
 
     <button class="btn btn-success">Add Material</button>
     <button 
         class="btn btn-error"
         hx-get="{% url 'materials-list' %}"
-        hx-target="#materials-list-block"
+        hx-swap="outerHTML"
+        hx-target="#material-list-page"
         hx-push-url="/materials">
             Cancel
         </button>
