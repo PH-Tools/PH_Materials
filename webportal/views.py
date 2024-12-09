@@ -1,4 +1,5 @@
 from enum import Enum
+import uuid
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -191,7 +192,23 @@ def import_materials(request: WSGIRequest) -> HttpResponse:
             print(result.base_errors)
             context = {"message": "Sorry, an error occurred during upload"}
         else:
-            resource.import_data(dataset, user=request.user, dry_run=False)
+            # Auto-generate unique_id for new Material objects if it does not exist
+            for row in dataset.dict:
+                if not row.get("unique_id"):
+                    row["unique_id"] = uuid.uuid4().hex[:6]
+                else:
+                    # Check for existing Material with the same unique_id
+                    existing_material = Material.objects.filter(
+                        unique_id=row["unique_id"]
+                    ).first()
+                    if existing_material:
+                        # Update existing Material
+                        for key, value in row.items():
+                            setattr(existing_material, key, value)
+                        existing_material.save()
+                    else:
+                        # Create new Material
+                        Material.objects.create(**row)
             context = {"message": f"{len(dataset)} materials imported successfully!"}
 
         return render(request, "webportal/partials/materials/success.html", context)

@@ -37,7 +37,6 @@ class MaterialResource(resources.ModelResource):
             "color_argb",
         )
         import_id_fields = (
-            "unique_id",
             "category",
             "name",
             "conductivity",

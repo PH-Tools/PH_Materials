@@ -1,6 +1,7 @@
 {% load widget_tweaks %}
 {% load partials %}
 {% load custom_filters %}
+{% load pagination_filters %}
 
 <div class="col-span-4 overflow-x-auto overflow-y-auto" id="material-table">
     <div class="flex flex-col">
@@ -87,7 +88,8 @@
 
         {% if materials.paginator.num_pages > 1 %}
             <div id="page-number" class="join m-auto mt-8">
-                {% for num in materials.paginator.page_range %}
+                {% comment %} {% for num in materials.paginator.page_range %} {% endcomment %}
+                {% for num in materials.paginator|pages_to_display:materials.number %}
                     {% if materials.number == num %}
                         <button class="join-item btn btn-sm btn-active">{{ num }}</button>
                     {% else %}
