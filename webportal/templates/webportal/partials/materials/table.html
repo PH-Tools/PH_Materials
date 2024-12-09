@@ -3,10 +3,10 @@
 {% load custom_filters %}
 {% load pagination_filters %}
 
-<div class="col-span-4 overflow-x-auto overflow-y-auto" id="material-table">
+<div class="col-span-4" id="material-table">
     <div class="flex flex-col">
         {% if materials %}
-            <table class="table-xs" style="display:inline-block">
+            <table class="table-xs overflow-x-auto overflow-y-auto" style="display:inline-block">
                 <thead class="text-xs text-white uppercase" style="border-bottom-width:2px;">
                     <tr>
                         <th></th>
@@ -86,27 +86,27 @@
                     </tbody>
             </table>
 
-        {% if materials.paginator.num_pages > 1 %}
-            <div id="page-number" class="join m-auto mt-8">
-                {% comment %} {% for num in materials.paginator.page_range %} {% endcomment %}
-                {% for num in materials.paginator|pages_to_display:materials.number %}
-                    {% if materials.number == num %}
-                        <button class="join-item btn btn-sm btn-active">{{ num }}</button>
-                    {% else %}
-                        <a
-                            hx-get="{% url 'get-materials' %}?page={{ num }}"
-                            hx-swap="outerHTML"
-                            hx-include="#filter-form"
-                            hx-indicator="#spinner"
-                            hx-target="#material-table"
-                        >
-                            <button class="join-item btn btn-sm">{{ num }}</button>
-                        </a>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        {% endif %}
-                
+            {% if materials.paginator.num_pages > 1 %}
+                <div id="page-number" class="join m-auto mt-8">
+                    {% comment %} {% for num in materials.paginator.page_range %} {% endcomment %}
+                    {% for num in materials.paginator|pages_to_display:materials.number %}
+                        {% if materials.number == num %}
+                            <button class="join-item btn btn-sm btn-active">{{ num }}</button>
+                        {% else %}
+                            <a
+                                hx-get="{% url 'get-materials' %}?page={{ num }}"
+                                hx-swap="outerHTML"
+                                hx-include="#filter-form"
+                                hx-indicator="#spinner"
+                                hx-target="#material-table"
+                            >
+                                <button class="join-item btn btn-sm">{{ num }}</button>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+                    
         {% else %}
             <p class="text-2xl text-white">No materials found.</p>
         {% endif %}
