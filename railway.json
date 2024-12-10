@@ -1,0 +1,32 @@
+{
+    "$schema": "https://schema.up.railway.app/railway.schema.json",
+    "build": {
+        "builder": "NIXPACKS",
+        "nixpacksPlan": {
+            "providers": [
+                "python"
+            ],
+            "phases": {
+                "setup": {
+                    "nixPkgs": [
+                        "...",
+                        "nodejs"
+                    ]
+                },
+                "npm:install": {
+                    "dependsOn": [
+                        "setup"
+                    ],
+                    "cmds": [
+                        "npm ci"
+                    ]
+                }
+            }
+        }
+    },
+    "deploy": {
+        "startCommand": "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn PH_Materials.wsgi",
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 2
+    }
+}
