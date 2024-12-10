@@ -24,6 +24,14 @@ class MaterialResource(resources.ModelResource):
             MaterialCategory.objects.get_or_create(category=code)
             row["category"] = code
 
+        # Set the user field for each Material instance
+        user = kwargs.get("user")
+        if user:
+            row["user"] = user.id
+
+    def after_init_instance(self, instance, new, row, **kwargs):
+        instance.user = kwargs.get("user")
+
     class Meta:
         model = Material
         fields = (

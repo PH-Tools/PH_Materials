@@ -202,6 +202,8 @@ def export_csv(request: WSGIRequest) -> HttpResponse | JsonResponse:
 @login_required
 def import_materials(request: WSGIRequest) -> HttpResponse:
     if request.method == "POST":
+        # -------------------------------------------------------------------------------
+        # -- Read in the CSV file
         file = request.FILES.get("file")
         if not file:
             context = {"message": "Please select a file to import"}
@@ -210,35 +212,25 @@ def import_materials(request: WSGIRequest) -> HttpResponse:
         resource = MaterialResource()
         dataset = Dataset()
         dataset.load(file.read().decode("utf-8"), format="csv")
+
+        # -------------------------------------------------------------------------------
+        # -- Check the import data for errors
         result = resource.import_data(dataset, user=request.user, dry_run=True)
 
         for row in result:
             for error in row.errors:
-                print(error)
+                print(f"IMPORT ERROR: {error}")
 
         if result.has_errors():
             print(result.base_errors)
             context = {"message": "Sorry, an error occurred during upload"}
-        else:
-            # Auto-generate unique_id for new Material objects if it does not exist
-            for row in dataset.dict:
-                if not row.get("unique_id"):
-                    row["unique_id"] = uuid.uuid4().hex[:6]
-                else:
-                    # Check for existing Material with the same unique_id
-                    existing_material = Material.objects.filter(
-                        unique_id=row["unique_id"]
-                    ).first()
-                    if existing_material:
-                        # Update existing Material
-                        for key, value in row.items():
-                            setattr(existing_material, key, value)
-                        existing_material.save()
-                    else:
-                        # Create new Material
-                        Material.objects.create(**row)
-            context = {"message": f"{len(dataset)} materials imported successfully!"}
+            return render(request, "webportal/partials/materials/success.html", context)
 
+        # -------------------------------------------------------------------------------
+        # Create the new Material objects in the Database
+        resource.import_data(dataset, user=request.user, dry_run=False)
+        context = {"message": f"{len(dataset)} materials imported successfully!"}
         return render(request, "webportal/partials/materials/success.html", context)
 
+    # -- GET request
     return render(request, "webportal/partials/materials/import.html", context={})
