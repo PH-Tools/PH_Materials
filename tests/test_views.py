@@ -6,7 +6,8 @@ from webportal.models import Material, MaterialCategory, User
 
 
 @pytest.mark.django_db
-def test_material_category_filter(user, materials, client):
+def test_material_category_filter(user, user_materials, client):
+    user = user_materials[0].user
     client.force_login(user)
 
     # -- Get the first two Primary Keys of MaterialCategory
@@ -32,12 +33,12 @@ def test_add_material_request(user, material_dict_params, client):
     response = client.post(reverse("create-material"), material_dict_params)
     assert response.status_code == 200
 
-    material_count = Material.objects.all().count()
+    material_count = Material.objects.filter(user=user).count()
 
     header = {"http_hx-request": "true"}
     response = client.post(reverse("create-material"), material_dict_params, **header)
 
-    assert Material.objects.all().count() == material_count + 1
+    assert Material.objects.filter(user=user).count() == material_count + 1
     assertTemplateUsed(response, "webportal/partials/materials/success.html")
 
 
@@ -46,14 +47,14 @@ def test_cannot_add_material_with_bad_name(user, material_dict_params, client):
     client.force_login(user)
     response = client.post(reverse("create-material"), material_dict_params)
     assert response.status_code == 200
-    user_material_count = Material.objects.all().count()
+    user_material_count = Material.objects.filter(user=user).count()
 
     # -- No Name
     material_dict_params["name"] = ""
     header = {"http_hx-request": "true"}
     response = client.post(reverse("create-material"), material_dict_params, **header)
 
-    assert Material.objects.all().count() == user_material_count
+    assert Material.objects.filter(user=user).count() == user_material_count
     assertTemplateUsed(response, "webportal/partials/materials/create.html")
     assert "HX-Retarget" in response.headers
 
@@ -63,14 +64,14 @@ def test_cannot_add_material_with_bad_conductivity(user, material_dict_params, c
     client.force_login(user)
     response = client.post(reverse("create-material"), material_dict_params)
     assert response.status_code == 200
-    user_material_count = Material.objects.all().count()
+    user_material_count = Material.objects.filter(user=user).count()
 
     # -- Less than 0.0
     material_dict_params["conductivity"] = -44.0
     header = {"http_hx-request": "true"}
     response = client.post(reverse("create-material"), material_dict_params, **header)
 
-    assert Material.objects.all().count() == user_material_count
+    assert Material.objects.filter(user=user).count() == user_material_count
     assertTemplateUsed(response, "webportal/partials/materials/create.html")
     assert "HX-Retarget" in response.headers
 
@@ -80,14 +81,14 @@ def test_cannot_add_material_with_bad_emissivity(user, material_dict_params, cli
     client.force_login(user)
     response = client.post(reverse("create-material"), material_dict_params)
     assert response.status_code == 200
-    user_material_count = Material.objects.all().count()
+    user_material_count = Material.objects.filter(user=user).count()
 
     material_dict_params["emissivity"] = -44.0
     header = {"http_hx-request": "true"}
     response = client.post(reverse("create-material"), material_dict_params, **header)
 
     # -- Less than 0.0
-    assert Material.objects.all().count() == user_material_count
+    assert Material.objects.filter(user=user).count() == user_material_count
     assertTemplateUsed(response, "webportal/partials/materials/create.html")
     assert "HX-Retarget" in response.headers
 
@@ -96,7 +97,7 @@ def test_cannot_add_material_with_bad_emissivity(user, material_dict_params, cli
     header = {"http_hx-request": "true"}
     response = client.post(reverse("create-material"), material_dict_params, **header)
 
-    assert Material.objects.all().count() == user_material_count
+    assert Material.objects.filter(user=user).count() == user_material_count
     assertTemplateUsed(response, "webportal/partials/materials/create.html")
     assert "HX-Retarget" in response.headers
 
@@ -104,7 +105,7 @@ def test_cannot_add_material_with_bad_emissivity(user, material_dict_params, cli
 @pytest.mark.django_db
 def test_update_material_request(user, material_dict_params, client):
     client.force_login(user)
-    assert Material.objects.all().count() == 1
+    assert Material.objects.filter(user=user).count() == 1
 
     material = Material.objects.first()
     assert material is not None
@@ -117,7 +118,7 @@ def test_update_material_request(user, material_dict_params, client):
     response = client.post(post_request_url, material_dict_params, **header)
 
     assert response.status_code == 200
-    assert Material.objects.all().count() == 1
+    assert Material.objects.filter(user=user).count() == 1
     material = Material.objects.first()
     assert material is not None
     assert material.conductivity == 1.23
@@ -127,10 +128,10 @@ def test_update_material_request(user, material_dict_params, client):
 @pytest.mark.django_db
 def test_delete_material_request(user, material_dict_params, client):
     client.force_login(user)
-    assert Material.objects.all().count() == 1
+    assert Material.objects.filter(user=user).count() == 1
 
     material = Material.objects.first()
     assert material is not None
     client.delete(reverse("delete-material", kwargs={"pk": material.pk}))
 
-    assert Material.objects.all().count() == 0
+    assert Material.objects.filter(user=user).count() == 0

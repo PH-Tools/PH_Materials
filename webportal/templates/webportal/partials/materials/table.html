@@ -13,6 +13,7 @@
                         <th class="px-6 pt-3 pb-0">Category</th>
                         <th class="px-6 pt-3 pb-0">Material</th>
                         <th class="px-6 pt-3 pb-0">Conductivity</th>
+                        <th class="px-6 pt-3 pb-0">Resistivity</th>
                         <th class="px-6 pt-3 pb-0">Emissivity</th>
                         <th class="px-6 pt-3 pb-0">Source</th>
                         <th class="px-6 pt-3 pb-0">Comments</th>
@@ -22,11 +23,12 @@
                         <th></th>
                         <th class="px-6 pt-0 pb-3"></th>
                         <th class="px-6 pt-0 pb-3"></th>
-                        <th class="px-6 pt-0 pb-3">{{ materials|display_conductivity_unit:request }}</th>
-                        <th class="px-6 pt-0 pb-3">[-]</th>
+                        <th class="px-6 pt-0 pb-3" style="font-size:0.6rem; font-weight:400; font-stretch: condensed">{{ materials|display_conductivity_unit:request }}</th>
+                        <th class="px-6 pt-0 pb-3" style="font-size:0.6rem; font-weight:400; font-stretch: condensed">{{ materials|display_resistivity_unit:request }}</th>
+                        <th class="px-6 pt-0 pb-3" style="font-size:0.6rem; font-weight:400; font-stretch: condensed">%</th>
                         <th class="px-6 pt-0 pb-3"></th>
                         <th class="px-6 pt-0 pb-3"></th>
-                        <th class="px-6 pt-0 pb-3">[ARGB]</th>
+                        <th class="px-6 pt-0 pb-3" style="font-size:0.6rem; font-weight:400; font-stretch: condensed">ARGB</th>
                     </tr>
                 </thead>
 
@@ -34,47 +36,54 @@
                     {% partialdef material_list inline=True %}
                         {% for material in materials %}
                                 <tr class="hover:bg-gray-700">
-                                    <td class="flex items-center">
-                                        <a 
-                                            hx-get="{% url 'update-material' material.pk %}"
-                                            hx-push-url="true"
-                                            hx-target="#material-list-page"
-                                            class="cursor-pointer">
-                                            <svg                             
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke-width="0.8"
-                                                stroke="currentColor"
-                                                class="size-4 me-2">
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-                                            </svg>
-                                        </a>
-                                        <a                                
-                                            hx-delete="{% url 'delete-material' material.pk %}"
-                                            hx-push-url="true"
-                                            hx-target="#material-list-page"
-                                            hx-confirm="Delete?"
-                                            class="cursor-pointer">
-                                            <svg 
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none" viewBox="0 0 24 24"
-                                                stroke-width="0.8"
-                                                stroke="currentColor"
-                                                class="size-4 me-2">
-                                                <path 
-                                                    stroke-linecap="round" 
-                                                    stroke-linejoin="round"
-                                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                            </svg>
-                                        </a>
-                                    </td>
+                                    {% comment %} TODO: This causes an N+1 lookup issue that I can't fix.... {% endcomment %}
+                                    {% if material.user == current_user %}
+                                        <td class="flex items-center">
+                                            <a 
+                                                hx-get="{% url 'update-material' material.pk %}"
+                                                hx-push-url="true"
+                                                hx-target="#material-list-page"
+                                                class="cursor-pointer">
+                                                <svg                             
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke-width="0.8"
+                                                    stroke="currentColor"
+                                                    class="size-4 me-2">
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                                </svg>
+                                            </a>
+                                            <a                                
+                                                hx-delete="{% url 'delete-material' material.pk %}"
+                                                hx-push-url="true"
+                                                hx-target="#material-list-page"
+                                                hx-confirm="Delete?"
+                                                class="cursor-pointer">
+                                                <svg 
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="0.8"
+                                                    stroke="currentColor"
+                                                    class="size-4 me-2">
+                                                    <path 
+                                                        stroke-linecap="round" 
+                                                        stroke-linejoin="round"
+                                                        d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
+
                                     <td style="min-width:25ch;">{{ material.category }}</td>
                                     <td style="white-space:nowrap; overflow:hidden; text-overflow: ellipsis; max-width:45ch">{{ material.name }}</td>
                                     <td>{{ material.conductivity|display_conductivity:request|floatformat:3 }}</td>
+                                    <td>{{ material.conductivity|display_resistivity:request|floatformat:2 }}</td>
                                     <td>{{ material.emissivity|floatformat:2 }}</td>
                                     <td style="white-space:nowrap; overflow:hidden; text-overflow: ellipsis; max-width:15ch">{{ material.source }}</td>
                                     <td style="white-space:nowrap; overflow:hidden; text-overflow: ellipsis; max-width:15ch">{{ material.comments }}</td>

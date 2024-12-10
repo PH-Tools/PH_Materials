@@ -14,8 +14,14 @@ def materials():
 
 
 @pytest.fixture
-def material_dict_params():
-    material = MaterialFactory.create()
+def user_materials():
+    user = UserFactory()
+    return MaterialFactory.create_batch(20, user=user)
+
+
+@pytest.fixture
+def material_dict_params(user):
+    material = MaterialFactory.create(user=user)
     return {
         "name": material.name,
         "conductivity": material.conductivity,

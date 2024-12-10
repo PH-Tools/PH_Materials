@@ -15,3 +15,9 @@ def test_material_categories_queryset_get_all(materials):
 def test_queryset_get_all(materials):
     qs = Material.objects.all()
     assert len(qs) == 20
+
+
+@pytest.mark.django_db
+def test_user_materials_queryset_get_all(user_materials):
+    qs = Material.objects.all()
+    assert len(qs) == 20

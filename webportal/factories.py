@@ -32,6 +32,7 @@ class MaterialFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Material
 
+    user = factory.SubFactory(UserFactory)
     name = factory.Faker("word")
     conductivity = factory.Faker("pyfloat", positive=True)
     emissivity = factory.Faker("pyfloat", positive=True, max_value=1.0)

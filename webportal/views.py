@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods, require_POST
@@ -48,7 +49,9 @@ def index(request: WSGIRequest) -> HttpResponse:
 
 @login_required
 def materials_page(request: WSGIRequest) -> HttpResponse:
-    materials = Material.objects.all().select_related("category")
+    materials = Material.objects.filter(
+        Q(user=request.user) | Q(user__id=1)
+    ).select_related("category")
     materials_filter = MaterialCategoryFilter(request.GET, queryset=materials)
     paginator = Paginator(materials_filter.qs, settings.PAGE_SIZE)
     material_page = paginator.page(1)
@@ -60,10 +63,22 @@ def materials_page(request: WSGIRequest) -> HttpResponse:
     return render(request, "webportal/materials.html", context)
 
 
+from django.db.models.functions import Lower
+
+
 @login_required
 def materials_list(request: WSGIRequest) -> HttpResponse:
     """The main Material-List view page."""
-    materials = Material.objects.all().select_related("category")
+
+    # TODO: This causes an N+1 lookup issue in 'materials/table.html' that I can't fix....
+    materials = Material.objects.select_related("category", "user").filter(
+        Q(user=request.user) | Q(user__id=1)
+    )
+
+    # -- order by name, case-insensitive
+    materials = materials.annotate(lower_name=Lower("name")).order_by(
+        "category", "lower_name"
+    )
     materials_filter = MaterialCategoryFilter(request.GET, queryset=materials)
     paginator = Paginator(materials_filter.qs, settings.PAGE_SIZE)
     material_page = paginator.page(1)
@@ -71,6 +86,7 @@ def materials_list(request: WSGIRequest) -> HttpResponse:
     context = {
         "materials": material_page,
         "filter": materials_filter,
+        "current_user": request.user,
     }
     return render(request, "webportal/partials/materials/container.html", context)
 
@@ -135,13 +151,23 @@ def delete_material(request: WSGIRequest, pk: int) -> HttpResponse:
 @login_required
 def get_materials(request: WSGIRequest) -> HttpResponse:
     page = request.GET.get("page", 1)
+
+    # TODO: This causes an N+1 lookup issue in 'materials/table.html' that I can't fix....
+    materials = Material.objects.select_related("category", "user").filter(
+        Q(user=request.user) | Q(user__id=1)
+    )
+    # -- order by name, case-insensitive
+    materials = materials.annotate(lower_name=Lower("name")).order_by(
+        "category", "lower_name"
+    )
     material_filter = MaterialCategoryFilter(
         request.GET,
-        queryset=Material.objects.all().select_related("category"),
+        queryset=materials,
     )
     paginator = Paginator(material_filter.qs, settings.PAGE_SIZE)
     context = {
         "materials": paginator.page(page),
+        "current_user": request.user,
     }
     return render(
         request,
@@ -159,7 +185,9 @@ def export_csv(request: WSGIRequest) -> HttpResponse | JsonResponse:
 
     material_filter = MaterialCategoryFilter(
         request.GET,
-        queryset=Material.objects.all().select_related("category"),
+        queryset=Material.objects.filter(
+            Q(user=request.user) | Q(user__id=1)
+        ).select_related("category"),
     )
 
     data = MaterialResource().export(material_filter.qs)

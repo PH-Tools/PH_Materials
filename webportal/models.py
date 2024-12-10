@@ -49,6 +49,7 @@ class MaterialCategory(models.Model):
 
 
 class Material(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
     unique_id = models.CharField(
         max_length=6, unique=True, null=False, blank=False, default=uuid.uuid4().hex[:6]
     )
@@ -60,11 +61,10 @@ class Material(models.Model):
     color_argb = models.CharField(
         max_length=16, null=False, blank=False, default="255,255,255,255"
     )
-    category = models.ForeignKey(
-        MaterialCategory, on_delete=models.CASCADE, null=False, blank=False
-    )
+    category = models.ForeignKey(MaterialCategory, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
+        # -- Make sure that the Material has a hex-id and that it is unique
         if not self.unique_id:
             self.unique_id = uuid.uuid4().hex[:6]
 
