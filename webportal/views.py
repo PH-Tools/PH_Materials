@@ -7,6 +7,7 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
+from django.db.models.functions import Lower
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods, require_POST
@@ -47,33 +48,15 @@ def index(request: WSGIRequest) -> HttpResponse:
     return render(request, "webportal/index.html")
 
 
-@login_required
-def materials_page(request: WSGIRequest) -> HttpResponse:
+# ---------------------------------------------------------------------------------------
+# -- Materials List
+
+
+def _get_materials(request: WSGIRequest) -> dict:
+    """Helper function to get the materials for the materials page."""
     materials = Material.objects.filter(
         Q(user=request.user) | Q(user__id=1)
-    ).select_related("category")
-    materials_filter = MaterialCategoryFilter(request.GET, queryset=materials)
-    paginator = Paginator(materials_filter.qs, settings.PAGE_SIZE)
-    material_page = paginator.page(1)
-
-    context = {
-        "materials": material_page,
-        "filter": materials_filter,
-    }
-    return render(request, "webportal/materials.html", context)
-
-
-from django.db.models.functions import Lower
-
-
-@login_required
-def materials_list(request: WSGIRequest) -> HttpResponse:
-    """The main Material-List view page."""
-
-    # TODO: This causes an N+1 lookup issue in 'materials/table.html' that I can't fix....
-    materials = Material.objects.select_related("category", "user").filter(
-        Q(user=request.user) | Q(user__id=1)
-    )
+    ).select_related("category", "user")
 
     # -- order by name, case-insensitive
     materials = materials.annotate(lower_name=Lower("name")).order_by(
@@ -81,14 +64,39 @@ def materials_list(request: WSGIRequest) -> HttpResponse:
     )
     materials_filter = MaterialCategoryFilter(request.GET, queryset=materials)
     paginator = Paginator(materials_filter.qs, settings.PAGE_SIZE)
-    material_page = paginator.page(1)
+    page = request.GET.get("page", 1)
+    material_page = paginator.page(page)
 
-    context = {
+    return {
         "materials": material_page,
         "filter": materials_filter,
         "current_user": request.user,
     }
+
+
+@login_required
+def materials_page(request: WSGIRequest) -> HttpResponse:
+    """The main Material-List view page. Called on first load."""
+    context = _get_materials(request)
+    return render(request, "webportal/materials.html", context)
+
+
+@login_required
+def materials_list(request: WSGIRequest) -> HttpResponse:
+    """The material-list when page is loaded via HTMX."""
+    context = _get_materials(request)
     return render(request, "webportal/partials/materials/container.html", context)
+
+
+@login_required
+def get_materials(request: WSGIRequest) -> HttpResponse:
+    """Get the materials list when the user interacts with the filters."""
+    context = _get_materials(request)
+    return render(request, "webportal/partials/materials/table.html", context)
+
+
+# ---------------------------------------------------------------------------------------
+# -- Materials Operations
 
 
 @login_required
@@ -146,34 +154,6 @@ def delete_material(request: WSGIRequest, pk: int) -> HttpResponse:
         "message": f"Material deleted successfully!",
     }
     return render(request, "webportal/partials/materials/success.html", context)
-
-
-@login_required
-def get_materials(request: WSGIRequest) -> HttpResponse:
-    page = request.GET.get("page", 1)
-
-    # TODO: This causes an N+1 lookup issue in 'materials/table.html' that I can't fix....
-    materials = Material.objects.select_related("category", "user").filter(
-        Q(user=request.user) | Q(user__id=1)
-    )
-    # -- order by name, case-insensitive
-    materials = materials.annotate(lower_name=Lower("name")).order_by(
-        "category", "lower_name"
-    )
-    material_filter = MaterialCategoryFilter(
-        request.GET,
-        queryset=materials,
-    )
-    paginator = Paginator(material_filter.qs, settings.PAGE_SIZE)
-    context = {
-        "materials": paginator.page(page),
-        "current_user": request.user,
-    }
-    return render(
-        request,
-        "webportal/partials/materials/table.html",
-        context,
-    )
 
 
 @login_required
