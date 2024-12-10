@@ -1,5 +1,9 @@
 # PH-Materials
-Online Passive House Material Database
+The Online Passive House Material Database
+
+- [Django](https://www.djangoproject.com)
+- [HTMX](https://htmx.org)
+- [Railway](https://railway.app)
 
 ## [https://phmaterials-production.up.railway.app](https://phmaterials-production.up.railway.app)
 
