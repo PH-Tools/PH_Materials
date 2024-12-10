@@ -27,3 +27,4 @@ pytest-django==4.9.0
 python-dotenv==1.0.1
 sqlparse==0.5.2
 tablib==3.7.0
+whitenoise==6.8.2
