@@ -49,7 +49,7 @@ def index(request: WSGIRequest) -> HttpResponse:
 
 
 # ---------------------------------------------------------------------------------------
-# -- Materials List
+# -- Materials List View
 
 
 def _get_materials(request: WSGIRequest) -> dict:
@@ -96,7 +96,7 @@ def get_materials(request: WSGIRequest) -> HttpResponse:
 
 
 # ---------------------------------------------------------------------------------------
-# -- Materials Operations
+# -- Materials-List Operations
 
 
 @login_required
@@ -154,6 +154,10 @@ def delete_material(request: WSGIRequest, pk: int) -> HttpResponse:
         "message": f"Material deleted successfully!",
     }
     return render(request, "webportal/partials/materials/success.html", context)
+
+
+# ---------------------------------------------------------------------------------------
+# -- Materials-List I/O
 
 
 @login_required
