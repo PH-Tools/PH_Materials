@@ -1,1 +1,1 @@
-web: gunicorn PH_Materials.wsgi --log-file - 
+web: gunicorn PH_Materials.wsgi --bind 0.0.0.0:$PORT
