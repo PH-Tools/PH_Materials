@@ -1,1 +1,1 @@
-web: gunicorn PH_Materials.wsgi
+web: gunicorn PH_Materials.wsgi --log-file - 
