@@ -16,7 +16,7 @@ from tablib import Dataset
 
 from webportal.filters import MaterialCategoryFilter
 from webportal.forms import MaterialForm
-from webportal.models import Material
+from webportal.models import Material, Cell, Assembly
 from webportal.resources import MaterialResource
 
 
@@ -218,3 +218,88 @@ def import_materials(request: WSGIRequest) -> HttpResponse:
 
     # -- GET request
     return render(request, "webportal/partials/materials/import.html", context={})
+
+
+# ---------------------------------------------------------------------------------------
+# -- Assemblies Page
+
+
+def assemblies_page(request: WSGIRequest) -> HttpResponse:
+    context = {
+        "current_user": request.user,
+        "assemblies": Assembly.objects.filter(user=request.user),
+    }
+    return render(request, "webportal/assemblies.html", context)
+
+
+def add_new_assembly(request: WSGIRequest) -> HttpResponse:
+    if request.method == "POST":
+        assembly = Assembly(user=request.user, name="unnamed")
+        assembly.save()
+
+        assemblies = Assembly.objects.filter(user=request.user)
+        context = {
+            "current_user": request.user,
+            "assemblies": assemblies,
+        }
+
+    return render(request, "webportal/partials/assemblies/sidebar.html", context)
+
+
+def assembly(request: WSGIRequest, pk: int) -> HttpResponse:
+    context = {"assembly": get_object_or_404(Assembly, pk=pk)}
+    return render(request, "webportal/partials/assemblies/assembly.html", context)
+
+
+def grid_view(request, container_id):
+    container = get_object_or_404(Assembly, id=container_id)
+    cells = container.cells.all()
+    max_x = cells.aggregate(max_x=models.Max("x"))["max_x"] or 0
+    max_y = cells.aggregate(max_y=models.Max("y"))["max_y"] or 0
+    row_range = range(max_y + 1)
+    col_range = range(max_x + 1)
+    context = {
+        "container": container,
+        "cells": cells,
+        "row_range": row_range,
+        "col_range": col_range,
+    }
+    return render(
+        request,
+        "grid.html",
+        context,
+    )
+
+
+def add_row(request, container_id):
+    container = get_object_or_404(Assembly, id=container_id)
+    max_y = container.cells.aggregate(max_y=models.Max("y"))["max_y"] or 0
+    new_y = max_y + 1
+    max_x = container.cells.aggregate(max_x=models.Max("x"))["max_x"] or 0
+
+    # Add new row
+    new_cells = []
+    for x in range(max_x + 1):
+        cell = Cell(container=container, x=x, y=new_y, value="")
+        new_cells.append(cell)
+    Cell.objects.bulk_create(new_cells)
+
+    # Render just the new row
+    return JsonResponse({"html": render_to_string("row.html", {"cells": new_cells})})
+
+
+def add_column(request, container_id):
+    container = get_object_or_404(Assembly, id=container_id)
+    max_x = container.cells.aggregate(max_x=models.Max("x"))["max_x"] or 0
+    new_x = max_x + 1
+    max_y = container.cells.aggregate(max_y=models.Max("y"))["max_y"] or 0
+
+    # Add new column
+    new_cells = []
+    for y in range(max_y + 1):
+        cell = Cell(container=container, x=new_x, y=y, value="")
+        new_cells.append(cell)
+    Cell.objects.bulk_create(new_cells)
+
+    # Render just the new column
+    return JsonResponse({"html": render_to_string("column.html", {"cells": new_cells})})

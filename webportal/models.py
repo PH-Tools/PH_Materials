@@ -4,6 +4,10 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
+# ---------------------------------------------------------------------------------------
+# -- Users
+
+
 class User(AbstractUser):
     pass
 
@@ -46,6 +50,10 @@ class MaterialCategory(models.Model):
 
     def __str__(self) -> str:
         return dict(self.MATERIAL_CATEGORIES).get(self.category, self.category)
+
+
+# ---------------------------------------------------------------------------------------
+# -- Materials
 
 
 class Material(models.Model):
@@ -96,3 +104,22 @@ class Material(models.Model):
     class Meta:
         # Order by Category Name (lookup), then by Material Name
         ordering = ["category", "name"]
+
+
+# ---------------------------------------------------------------------------------------
+# -- Assemblies
+
+
+class Assembly(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    name = models.CharField(max_length=100, default="assembly")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Cell(models.Model):
+    container = models.ForeignKey(
+        Assembly, on_delete=models.CASCADE, related_name="cells"
+    )
+    column_number = models.IntegerField()
+    row_number = models.IntegerField()
+    value = models.TextField(blank=True, null=True)
