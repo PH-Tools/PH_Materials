@@ -29,7 +29,17 @@ urlpatterns = [
     path(
         "assemblies/add-new-assembly", views.add_new_assembly, name="add-new-assembly"
     ),
-    path("assembly/<int:pk>", views.assembly, name="assembly"),
+    path("assemblies/<int:pk>", views.assembly, name="assembly"),
+    path(
+        "assemblies/<int:pk>/update-assembly-name",
+        views.update_assembly_name,
+        name="update-assembly-name",
+    ),
+    path(
+        "assemblies/<int:pk>/delete-assembly",
+        views.delete_assembly,
+        name="delete-assembly",
+    ),
     path("<int:container_id>/add-row/", views.add_row, name="add_row"),
     path("<int:container_id>/add-column/", views.add_column, name="add_column"),
 ]

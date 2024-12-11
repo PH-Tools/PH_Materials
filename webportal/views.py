@@ -1,5 +1,4 @@
 from enum import Enum
-import uuid
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -8,6 +7,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.db.models.functions import Lower
+from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods, require_POST
@@ -224,6 +224,7 @@ def import_materials(request: WSGIRequest) -> HttpResponse:
 # -- Assemblies Page
 
 
+@login_required
 def assemblies_page(request: WSGIRequest) -> HttpResponse:
     context = {
         "current_user": request.user,
@@ -232,23 +233,63 @@ def assemblies_page(request: WSGIRequest) -> HttpResponse:
     return render(request, "webportal/assemblies.html", context)
 
 
+@login_required
+def assembly(request: WSGIRequest, pk: int) -> HttpResponse:
+    """The Assembly view with the sidebar.
+
+    Sidebar includes the 'active' assembly.
+    """
+    this_assembly = get_object_or_404(Assembly, pk=pk)
+
+    # Render the new assembly item
+    assembly_html = render_to_string(
+        "webportal/partials/assemblies/assembly.html", {"assembly": this_assembly}
+    )
+    sidebar_html = render_to_string(
+        "webportal/partials/assemblies/sidebar_list.html",
+        {
+            "assemblies": Assembly.objects.filter(user=request.user),
+            "active_assembly_id": pk,
+        },
+    )
+    return HttpResponse(assembly_html + sidebar_html, content_type="text/html")
+
+
+@login_required
+@require_POST
+def update_assembly_name(request: WSGIRequest, pk: int) -> HttpResponse:
+    """Update the name of the Assembly.
+
+    Returns:
+        The updated 'Assembly' view.
+    """
+
+    this_assembly = get_object_or_404(Assembly, pk=pk)
+
+    if request.method == "POST":
+        if name := request.POST.get("name"):
+            this_assembly.name = name
+            this_assembly.save()
+
+    return assembly(request, pk)
+
+
+@login_required
 def add_new_assembly(request: WSGIRequest) -> HttpResponse:
     if request.method == "POST":
-        assembly = Assembly(user=request.user, name="unnamed")
-        assembly.save()
+        new_assembly = Assembly(user=request.user, name="unnamed")
+        new_assembly.save()
 
-        assemblies = Assembly.objects.filter(user=request.user)
-        context = {
-            "current_user": request.user,
-            "assemblies": assemblies,
-        }
-
-    return render(request, "webportal/partials/assemblies/sidebar.html", context)
+    return assembly(request, new_assembly.pk)
 
 
-def assembly(request: WSGIRequest, pk: int) -> HttpResponse:
-    context = {"assembly": get_object_or_404(Assembly, pk=pk)}
-    return render(request, "webportal/partials/assemblies/assembly.html", context)
+def delete_assembly(request: WSGIRequest, pk: int) -> HttpResponse:
+    this_assembly = get_object_or_404(Assembly, pk=pk)
+    this_assembly.delete()
+    return assembly(request, Assembly.objects.filter(user=request.user).first().pk)
+
+
+# ---------------------------------------------------------------------------------------
 
 
 def grid_view(request, container_id):

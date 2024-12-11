@@ -1,25 +1,15 @@
 {% load widget_tweaks %}
 {% load partials %}
 
-<div class="col-span-1" id="assembly-sidebar">
-    <ul>
-    {% for assembly in assemblies %}
-        <li>
-                <a 
-                hx-get="{% url 'assembly' assembly.pk %}"
-                hx-target="#assembly-cell-grid"
-                hx-swap="innerHTML"
-                >
-                {{ assembly.name }}
-            </a>
-        </li>
-    {% endfor %}
-    </ul>
+<div class="col-span-1" >
+
+    {% include 'webportal/partials/assemblies/sidebar_list.html' with assemblies=assemblies active_assembly_id=active_assembly_id %}
 
     <form 
         hx-post="{% url 'add-new-assembly' %}"
-        hx-target="#assembly-sidebar"
-        hx-swap="outerHTML">
+        hx-target="#assembly-detail-view"
+        hx-swap="innerHTML">
         <button class="btn btn-success">Add New Assembly +</button>
     </form>
+
 </div>
