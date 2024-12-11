@@ -1,19 +1,6 @@
-
-<div id="assembly-name">
-    
-    {{ assembly.id }}
-
-    <form 
-        hx-post="{% url 'update-assembly-name' assembly.id %}"
-        hx-target="#assembly-name"
-        hx-swap="outerHTML"
-        >
-        <input 
-            type="text"
-            name="name"
-            class="text-black"
-            value="{{ assembly.name }}" 
-            hx-trigger="changed delay:500ms"
-        />
-    </form>
+<div id="assembly" class="col-span-4">
+    {% if assembly %}
+        {% include "webportal/partials/assemblies/assembly-name.html" %}
+        {% include "webportal/partials/assemblies/assembly-detail.html" %}
+    {% endif %}
 </div>

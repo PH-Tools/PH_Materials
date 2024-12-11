@@ -49,7 +49,7 @@ def index(request: WSGIRequest) -> HttpResponse:
 
 
 # ---------------------------------------------------------------------------------------
-# -- Materials List View
+# -- Materials-List Views
 
 
 def _get_materials(request: WSGIRequest) -> dict:
@@ -221,7 +221,7 @@ def import_materials(request: WSGIRequest) -> HttpResponse:
 
 
 # ---------------------------------------------------------------------------------------
-# -- Assemblies Page
+# -- Assembly-Views
 
 
 @login_required
@@ -255,6 +255,10 @@ def assembly(request: WSGIRequest, pk: int) -> HttpResponse:
     return HttpResponse(assembly_html + sidebar_html, content_type="text/html")
 
 
+# ---------------------------------------------------------------------------------------
+# -- Assembly-Operations
+
+
 @login_required
 @require_POST
 def update_assembly_name(request: WSGIRequest, pk: int) -> HttpResponse:
@@ -283,6 +287,7 @@ def add_new_assembly(request: WSGIRequest) -> HttpResponse:
     return assembly(request, new_assembly.pk)
 
 
+@login_required
 def delete_assembly(request: WSGIRequest, pk: int) -> HttpResponse:
     this_assembly = get_object_or_404(Assembly, pk=pk)
     this_assembly.delete()
@@ -290,10 +295,11 @@ def delete_assembly(request: WSGIRequest, pk: int) -> HttpResponse:
 
 
 # ---------------------------------------------------------------------------------------
+# -- Assembly-Detail-Views
 
 
-def grid_view(request, container_id):
-    container = get_object_or_404(Assembly, id=container_id)
+def assembly_detail(request, pk):
+    container = get_object_or_404(Assembly, id=pk)
     cells = container.cells.all()
     max_x = cells.aggregate(max_x=models.Max("x"))["max_x"] or 0
     max_y = cells.aggregate(max_y=models.Max("y"))["max_y"] or 0
@@ -312,8 +318,8 @@ def grid_view(request, container_id):
     )
 
 
-def add_row(request, container_id):
-    container = get_object_or_404(Assembly, id=container_id)
+def add_row(request, pk):
+    container = get_object_or_404(Assembly, id=pk)
     max_y = container.cells.aggregate(max_y=models.Max("y"))["max_y"] or 0
     new_y = max_y + 1
     max_x = container.cells.aggregate(max_x=models.Max("x"))["max_x"] or 0
@@ -329,7 +335,7 @@ def add_row(request, container_id):
     return JsonResponse({"html": render_to_string("row.html", {"cells": new_cells})})
 
 
-def add_column(request, container_id):
+def add_column(request, pk):
     container = get_object_or_404(Assembly, id=container_id)
     max_x = container.cells.aggregate(max_x=models.Max("x"))["max_x"] or 0
     new_x = max_x + 1

@@ -1,4 +1,4 @@
-<ul id="assembly-sidebar" hx-swap-oob="true">
+<ul id="assembly-sidebar-list" hx-swap-oob="true">
     {% for assembly in assemblies %}
         <li class="cursor-pointer hover:underline">
             <div 
@@ -10,7 +10,8 @@
                 >
                 <a                                
                     hx-delete="{% url 'delete-assembly' assembly.pk %}"
-                    hx-target="#assembly-detail-view"
+                    hx-target="#assembly"
+                    hx-swap="outerHTML"
                     hx-confirm="Delete?" 
                     class="cursor-pointer">
                     <svg 
@@ -27,8 +28,8 @@
                 </a>
                 <a 
                     hx-get="{% url 'assembly' assembly.pk %}"
-                    hx-target="#assembly-detail-view"
-                    hx-swap="innerHTML"
+                    hx-target="#assembly"
+                    hx-swap="outerHTML"
                 >
                     {{ assembly.name }}
                 </a>

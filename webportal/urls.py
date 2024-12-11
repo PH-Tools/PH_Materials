@@ -26,10 +26,10 @@ urlpatterns = [
     # -----------------------------------------------------------------------------------
     # -- Assemblies
     path("assemblies/", views.assemblies_page, name="assemblies-page"),
+    path("assemblies/<int:pk>", views.assembly, name="assembly"),
     path(
         "assemblies/add-new-assembly", views.add_new_assembly, name="add-new-assembly"
     ),
-    path("assemblies/<int:pk>", views.assembly, name="assembly"),
     path(
         "assemblies/<int:pk>/update-assembly-name",
         views.update_assembly_name,
@@ -40,6 +40,13 @@ urlpatterns = [
         views.delete_assembly,
         name="delete-assembly",
     ),
-    path("<int:container_id>/add-row/", views.add_row, name="add_row"),
-    path("<int:container_id>/add-column/", views.add_column, name="add_column"),
+    # -----------------------------------------------------------------------------------
+    # -- Assembly Details
+    path(
+        "assemblies/<int:pk>/assembly-detail/",
+        views.assembly_detail,
+        name="assembly-detail",
+    ),
+    path("assemblies/<int:pk>/add-row/", views.add_row, name="add-row"),
+    path("assemblies/<int:pk>/add-column/", views.add_column, name="add-column"),
 ]
