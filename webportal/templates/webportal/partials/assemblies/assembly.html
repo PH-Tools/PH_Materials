@@ -21,7 +21,66 @@
                 </form>
             </div>
         {% endblock %}
+        
+        {% block assembly-detail-view %}
+            <div id="assembly-detail-view">
 
-        {% include "webportal/partials/assemblies/assembly-detail.html" %}
+                <div id="assembly-cells">
+                    {% for layer in layers %}
+                        
+                        {% block layer %}
+                            <div class="layer" id="layer-{{ layer.pk }}">
+                                <div class="flex flex-row items-center cell" id="cell-{{ cell.pk }}">
+                                    <a                                
+                                        id="delete-layer-{{ assembly.pk }}"
+                                        hx-delete="{% url 'delete-layer' assembly_pk=assembly.pk layer_pk=layer.pk %}"
+                                        hx-target="#assembly"
+                                        hx-swap="outerHTML"
+                                        hx-confirm="Delete?" 
+                                        class="cursor-pointer">
+                                        <svg 
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5"
+                                            stroke="currentColor"
+                                            class="size-4 me-2">
+                                            <path 
+                                                stroke-linecap="round" 
+                                                stroke-linejoin="round"
+                                                d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
+                                    </a>
+                                    <form
+                                        hx-post="{% url 'update-layer-thickness' assembly.id layer.pk %}"
+                                        hx-target="#layer-thickness-{{ layer.pk }}"
+                                        hx-swap="innerHTML"
+                                        >
+                                        <input 
+                                            id="layer-thickness-{{ layer.pk }}"
+                                            type="text"
+                                            name="thickness"
+                                            class="text-black"
+                                            value={{ layer.thickness }}
+                                            hx-trigger="changed delay:500ms"
+                                            style="border: 1px solid #939799; padding: 8px; border-radius: 4px; background: transparent; color: white;"
+                                            onfocus="this.style.borderColor='#007bff'; this.style.boxShadow='0 0 5px rgba(0, 123, 255, 0.5)'; this.style.outline='none'; this.style.background='white'; this.style.color='black';"
+                                            onblur="this.style.borderColor='#ccc'; this.style.boxShadow='none'; this.style.background='transparent'; this.style.color='white';"
+                                        />
+                                    </form>
+                                    <input id="layer-name-{{ layer.pk }}" class="text-black" value="Test" />
+                                </div>
+                            </div>
+                        {% endblock %}
+
+                    {% endfor %}
+                </div>
+            
+                <div id="grid-control-buttons">
+                    <button class="btn" hx-post="{% url 'add-layer' assembly.pk %}" hx-target="#assembly-cells" hx-swap="beforeend">Add Layer</button>
+                </div>
+            
+            </div>
+        {% endblock %}
+        
     {% endif %}
 </div>

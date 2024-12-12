@@ -3,7 +3,51 @@
 
 <div id="assembly-sidebar" class="col-span-1">
 
-    {% include 'webportal/partials/assemblies/sidebar_list.html' with assemblies=assemblies active_assembly_id=active_assembly_id %}
+    {% block assembly-sidebar-list %}
+
+        <ul id="assembly-sidebar-list" hx-swap-oob="true">
+            {% for assembly in assemblies %}
+                <li class="cursor-pointer hover:underline">
+                    <div 
+                        class="flex flex-row items-center"
+                        id=assembly-{{ assembly.pk }}
+                        {% if active_assembly_id == assembly.pk %}
+                            style="color:red"
+                        {% endif %}
+                        >
+                        <a                                
+                            id="delete-assembly-{{ assembly.pk }}"
+                            hx-delete="{% url 'delete-assembly' assembly.pk %}"
+                            hx-target="#assembly"
+                            hx-swap="outerHTML"
+                            hx-confirm="Delete?" 
+                            class="cursor-pointer">
+                            <svg 
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24"
+                                stroke-width="1"
+                                stroke="currentColor"
+                                class="size-4 me-2">
+                                <path 
+                                    stroke-linecap="round" 
+                                    stroke-linejoin="round"
+                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        </a>
+                        <a 
+                            id="assembly-name-{{ assembly.pk }}"
+                            hx-get="{% url 'assembly' assembly.pk %}"
+                            hx-target="#assembly"
+                            hx-swap="outerHTML"
+                        >
+                            {{ assembly.name }}
+                        </a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    
+    {% endblock %}
 
     <form
         id="assembly-sidebar-add-new-button"

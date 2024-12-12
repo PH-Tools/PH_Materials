@@ -3,6 +3,8 @@ import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from typing import Any
+
 
 # ---------------------------------------------------------------------------------------
 # -- Users
@@ -114,21 +116,62 @@ class Assembly(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
     name = models.CharField(max_length=100, default="assembly")
     created_at = models.DateTimeField(auto_now_add=True)
+    layer_id_order = models.JSONField(default=list)
 
-    def save(self, *args, **kwargs):
+    def get_ordered_layers(self) -> list["Layer"]:
+        """Return layers ordered according to the layer_id_order field."""
+        # Sort layers by the order in layer_order
+        layers = {layer.id: layer for layer in self.layers.all()}
+        return [
+            layers[layer_id] for layer_id in self.layer_id_order if layer_id in layers
+        ]
+
+    def delete_layer(self, layer_pk: int) -> None:
+        """Delete a layer from the assembly."""
+        if layer_pk in self.layer_id_order:
+            self.layer_id_order.remove(layer_pk)
+            self.save()
+
+    def save(self, *args, **kwargs) -> None:
         super().save(*args, **kwargs)
-        cells = Cell.objects.filter(container=self)
+        layers = Layer.objects.filter(assembly=self)
+        if not layers.exists():
+            new_layer = Layer.objects.create(assembly=self, thickness=1.0)
+            self.layer_id_order.append(new_layer.id)
+
+    @property
+    def layers(self) -> models.QuerySet["Layer"]:
+        return self.layer_set.all()  # type: ignore
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Layer(models.Model):
+    assembly = models.ForeignKey(
+        Assembly, on_delete=models.CASCADE, related_name="layers"
+    )
+    thickness = models.FloatField()
+
+    def save(self, *args, **kwargs) -> None:
+        super().save(*args, **kwargs)
+        cells = Cell.objects.filter(layer=self)
         if not cells.exists():
-            Cell.objects.create(container=self, column_number=1, row_number=1)
+            Cell.objects.create(layer=self)
+
+    @property
+    def id(self) -> int:
+        return self.id
+
+    def __str__(self) -> str:
+        return f"{self.thickness} mm"
 
 
 class Cell(models.Model):
-    container = models.ForeignKey(
-        Assembly, on_delete=models.CASCADE, related_name="cells"
+    layer = models.ForeignKey(
+        Layer, on_delete=models.CASCADE, null=True, related_name="cells"
     )
-    column_number = models.IntegerField()
-    row_number = models.IntegerField()
     value = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.container.name} Cell: [{self.row_number}:{self.column_number}]"
+        return f"[layer-{self.layer}]: {self.value}"

@@ -18,7 +18,7 @@ from render_block import render_block_to_string
 
 from webportal.filters import MaterialCategoryFilter
 from webportal.forms import MaterialForm
-from webportal.models import Material, Cell, Assembly
+from webportal.models import Material, Assembly, Layer, Cell
 from webportal.resources import MaterialResource
 
 
@@ -236,43 +236,40 @@ def assemblies_page(request: WSGIRequest) -> HttpResponse:
 
 
 @login_required
-def assembly(request: WSGIRequest, pk: int) -> HttpResponse:
+def assembly(request: WSGIRequest, pk: int | None) -> HttpResponse:
     """The Assembly view with the sidebar.
 
-    Sidebar includes the 'active' assembly.
+    Sidebar includes the 'active' assembly highlighted.
     """
+    # -------------------------------------------------------------------------
+    # -- Detail-View
     this_assembly = get_object_or_404(Assembly, pk=pk)
-
-    num_rows = this_assembly.cells.aggregate(mx=Max("row_number"))["mx"]
-    num_cols = this_assembly.cells.aggregate(mx=Max("column_number"))["mx"]
-
+    layers: list[Layer] = this_assembly.get_ordered_layers()
+    if not layers:
+        new_layer = Layer.objects.create(assembly=this_assembly, thickness=1.0)
+        this_assembly.layer_id_order.append(new_layer.id)
+        this_assembly.save()
+        layers = this_assembly.get_ordered_layers()
     assembly_html = render_to_string(
         "webportal/partials/assemblies/assembly.html",
-        {
+        context={
             "assembly": this_assembly,
-            "cells": this_assembly.cells.all(),
-            "row_range": range(num_rows),
-            "col_range": range(num_cols),
+            "layers": layers,
         },
     )
 
-    # sidebar_html = render_block_to_string(
-    #     "webportal/partials/assemblies/sidebar_list.html",
-    #     block_name="",
-    #     context=Context(
-    #         {
-    #             "assemblies": Assembly.objects.filter(user=request.user),
-    #             "active_assembly_id": pk,
-    #         }
-    #     ),
-    #     request=request,
-    # )
-    sidebar_html = render_to_string(
-        "webportal/partials/assemblies/sidebar_list.html",
-        {
-            "assemblies": Assembly.objects.filter(user=request.user),
-            "active_assembly_id": pk,
-        },
+    # -------------------------------------------------------------------------
+    # -- Sidebar
+    sidebar_html = render_block_to_string(
+        "webportal/partials/assemblies/sidebar.html",
+        block_name="assembly-sidebar-list",
+        context=Context(
+            {
+                "assemblies": Assembly.objects.filter(user=request.user),
+                "active_assembly_id": pk,
+            }
+        ),
+        request=request,
     )
     return HttpResponse(assembly_html + sidebar_html, content_type="text/html")
 
@@ -291,7 +288,7 @@ def update_assembly_name(request: WSGIRequest, pk: int) -> HttpResponse:
             this_assembly.save()
 
     template_name = "webportal/partials/assemblies/assembly.html"
-    context = {"assembly": this_assembly}
+    context = Context({"assembly": this_assembly})
     detail_view_name = render_block_to_string(
         template_name, block_name="assembly-name", context=context, request=request
     )
@@ -312,71 +309,51 @@ def add_new_assembly(request: WSGIRequest) -> HttpResponse:
 def delete_assembly(request: WSGIRequest, pk: int) -> HttpResponse:
     this_assembly = get_object_or_404(Assembly, pk=pk)
     this_assembly.delete()
-    return assembly(request, Assembly.objects.filter(user=request.user).first().pk)
-
-
-# ---------------------------------------------------------------------------------------
-# -- Assembly-Detail-Views
-
-
-def assembly_detail(request, pk):
-    container = get_object_or_404(Assembly, id=pk)
-    cells = container.cells.all()
-    max_x = cells.aggregate(max_x=models.Max("x"))["max_x"] or 0
-    max_y = cells.aggregate(max_y=models.Max("y"))["max_y"] or 0
-    row_range = range(max_y + 1)
-    col_range = range(max_x + 1)
-    context = {
-        "container": container,
-        "cells": cells,
-        "row_range": row_range,
-        "col_range": col_range,
-    }
-    return render(
-        request,
-        "grid.html",
-        context,
+    return assembly(
+        request, getattr(Assembly.objects.filter(user=request.user).first(), "pk", None)
     )
 
 
-def add_row(request, pk):
-    container = get_object_or_404(Assembly, id=pk)
-    max_row_num = container.cells.aggregate(mx=Max("row_number")).get("mx", 0)
-    new_row_num = max_row_num + 1
-    max_col_num = container.cells.aggregate(mx=Max("column_number")).get("mx", 0)
+@login_required
+def add_layer(request: WSGIRequest, pk: int) -> HttpResponse:
+    this_assembly = get_object_or_404(Assembly, id=pk)
+    new_layer = Layer(assembly=this_assembly, thickness=1.0)
+    new_layer.save()
+    this_assembly.layer_id_order.append(new_layer.id)
+    this_assembly.save()
 
-    # Add new row
-    new_cells = []
-    for col_num in range(max_col_num):
-        cell = Cell(
-            container=container,
-            column_number=col_num + 1,
-            row_number=new_row_num,
-            value="",
-        )
-        new_cells.append(cell)
-    Cell.objects.bulk_create(new_cells)
-
-    # Render just the new row
-    return HttpResponse(
-        render_to_string("webportal/partials/assemblies/row.html", {"cells": new_cells})
+    layer_html = render_block_to_string(
+        "webportal/partials/assemblies/assembly.html",
+        block_name="layer",
+        context=Context(
+            {
+                "layer": new_layer,
+                "assembly": this_assembly,
+            }
+        ),
+        request=request,
     )
+    return HttpResponse(layer_html, content_type="text/html")
 
 
-def add_column(request, pk):
-    container = get_object_or_404(Assembly, id=container_id)
-    max_row_num = container.cells.aggregate(mx=Max("row_number")).get("mx", 0)
-    max_col_num = container.cells.aggregate(mx=Max("column_number")).get("mx", 0)
-    new_col_num = max_col_num + 1
+@login_required
+def delete_layer(request: WSGIRequest, assembly_pk: int, layer_pk: int) -> HttpResponse:
+    this_assembly = get_object_or_404(Assembly, id=assembly_pk)
+    this_assembly.delete_layer(layer_pk)
+    this_layer = get_object_or_404(Layer, id=layer_pk)
+    this_layer.delete()
 
-    # Add new column
-    new_cells = []
-    for row_num in range(max_row_num + 1):
-        cell = Cell(
-            container=container, column_number=new_col_num, row_number=row_num, value=""
-        )
-        new_cells.append(cell)
-    Cell.objects.bulk_create(new_cells)
+    return assembly(request, assembly_pk)
 
-    # Render just the new column
-    return JsonResponse({"html": render_to_string("column.html", {"cells": new_cells})})
+
+@login_required
+@require_POST
+def update_layer_thickness(
+    request: WSGIRequest, assembly_pk: int, layer_pk: int
+) -> HttpResponse:
+    layer = get_object_or_404(Layer, id=layer_pk)
+    if request.method == "POST":
+        if thickness := request.POST.get("thickness"):
+            layer.thickness = float(thickness)
+            layer.save()
+    return HttpResponse(layer.thickness)

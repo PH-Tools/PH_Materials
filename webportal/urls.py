@@ -42,11 +42,15 @@ urlpatterns = [
     ),
     # -----------------------------------------------------------------------------------
     # -- Assembly Details
+    path("assemblies/<int:pk>/add-layer/", views.add_layer, name="add-layer"),
     path(
-        "assemblies/<int:pk>/assembly-detail/",
-        views.assembly_detail,
-        name="assembly-detail",
+        "assemblies/<int:assembly_pk>/delete-layer/<int:layer_pk>/",
+        views.delete_layer,
+        name="delete-layer",
     ),
-    path("assemblies/<int:pk>/add-row/", views.add_row, name="add-row"),
-    path("assemblies/<int:pk>/add-column/", views.add_column, name="add-column"),
+    path(
+        "assemblies/<int:assembly_pk>/update-layer-thickness/<int:layer_pk>/",
+        views.update_layer_thickness,
+        name="update-layer-thickness",
+    ),
 ]
