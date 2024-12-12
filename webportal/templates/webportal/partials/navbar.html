@@ -17,21 +17,21 @@
                 {% if user.is_authenticated %}
                     <li>
                         <a href="{% url 'materials-page' %}" 
-                            class="block py-2 pl-3 pr-4 text-white rounded md:p-0" 
+                            class="block py-2 pl-3 pr-4  rounded md:p-0" 
                             aria-current="page">
                                 Materials
                         </a>
                     </li>
                     <li>
                         <a href="{% url 'assemblies-page' %}" 
-                            class="block py-2 pl-3 pr-4 text-white rounded md:p-0" 
+                            class="block py-2 pl-3 pr-4  rounded md:p-0" 
                             aria-current="page">
                                 Assemblies
                         </a>
                     </li>
                     <li>
                         <a href="{% url 'account_logout' %}" 
-                            class="block py-2 pl-3 pr-4 text-white rounded md:p-0" 
+                            class="block py-2 pl-3 pr-4  rounded md:p-0" 
                             aria-current="page">
                                 Logout
                         </a>
@@ -39,14 +39,14 @@
                 {% else %}
                     <li>
                         <a href="{% url 'account_login' %}" 
-                            class="block py-2 pl-3 pr-4 text-white rounded md:p-0" 
+                            class="block py-2 pl-3 pr-4  rounded md:p-0" 
                             aria-current="page">
                                 Login
                         </a>
                     </li>
                     <li>
                         <a href="{% url 'account_signup' %}" 
-                            class="block py-2 pl-3 pr-4 text-white rounded md:p-0" 
+                            class="block py-2 pl-3 pr-4  rounded md:p-0" 
                             aria-current="page">
                                 Sign Up
                         </a>

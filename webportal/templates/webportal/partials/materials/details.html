@@ -1,13 +1,13 @@
 {% load widget_tweaks %}
 
 <div class="mb-2 form-control text-black">
-    {{ form.category|add_label_class:"label text-white" }}
+    {{ form.category|add_label_class:"label " }}
     {% render_field form.category class="text-black"%}
 </div>
 
 
 <div class="mb-2 form-control text-black">
-    {{ form.name|add_label_class:"label text-white" }}
+    {{ form.name|add_label_class:"label " }}
     {% render_field form.name class="input text-black" %}
 
     {% for error in form.name.errors %}
@@ -16,7 +16,7 @@
 </div>
 
 <div class="mb-2 form-control">
-    {{ form.conductivity|add_label_class:"label text-white" }}
+    {{ form.conductivity|add_label_class:"label " }}
     {% render_field form.conductivity class="input text-black" %}
 
     {% for error in form.conductivity.errors %}
@@ -25,7 +25,7 @@
 </div>
 
 <div class="mb-2 form-control">
-    {{ form.emissivity|add_label_class:"label text-white" }}
+    {{ form.emissivity|add_label_class:"label " }}
     {% render_field form.emissivity class="input text-black" %}
 
     {% for error in form.emissivity.errors %}
@@ -34,17 +34,17 @@
 </div>
 
 <div class="mb-2 form-control">
-    {{ form.source|add_label_class:"label text-white" }}
+    {{ form.source|add_label_class:"label " }}
     {% render_field form.source class="input text-black" %}
 </div>
 
 <div class="mb-2 form-control">
-    {{ form.comments|add_label_class:"label text-white" }}
+    {{ form.comments|add_label_class:"label " }}
     {% render_field form.comments class="input text-black" %}
 </div>
 
 <div class="mb-2 form-control">
-    {{ form.color_argb|add_label_class:"label text-white" }}
+    {{ form.color_argb|add_label_class:"label " }}
     {% render_field form.color_argb class="input text-black" %}
 </div>
 

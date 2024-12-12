@@ -1,7 +1,17 @@
 {% load widget_tweaks %}
 {% load partials %}
 
-<div id="assembly-sidebar" class="col-span-1">
+<div id="assembly-sidebar" class="col-span-1" style="border-right:2px solid gray; padding-right:12px;">
+    
+    <form
+        id="assembly-sidebar-add-new-button"
+        hx-post="{% url 'add-new-assembly' %}"
+        hx-target="#assembly"
+        hx-swap="outerHTML">
+        <button class="btn">Add New Assembly +</button>
+    </form>
+
+    <hr style="margin-top:20px; margin-bottom:20px; border:1px dashed gray" />
 
     {% block assembly-sidebar-list %}
 
@@ -9,10 +19,10 @@
             {% for assembly in assemblies %}
                 <li class="cursor-pointer hover:underline">
                     <div 
-                        class="flex flex-row items-center"
+                        class="flex flex-row items-center mb-1 p-1"
                         id=assembly-{{ assembly.pk }}
                         {% if active_assembly_id == assembly.pk %}
-                            style="color:red"
+                            style="font-weight:800; background: rgb(240, 240, 240);"
                         {% endif %}
                         >
                         <a                                
@@ -21,7 +31,7 @@
                             hx-target="#assembly"
                             hx-swap="outerHTML"
                             hx-confirm="Delete?" 
-                            class="cursor-pointer">
+                            class="cursor-pointer ms-3">
                             <svg 
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 24 24"
@@ -48,13 +58,5 @@
         </ul>
     
     {% endblock %}
-
-    <form
-        id="assembly-sidebar-add-new-button"
-        hx-post="{% url 'add-new-assembly' %}"
-        hx-target="#assembly"
-        hx-swap="outerHTML">
-        <button class="btn btn-success">Add New Assembly +</button>
-    </form>
 
 </div>

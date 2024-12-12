@@ -2,48 +2,58 @@
     {% if assembly %}
         
         {% block assembly-name %}
-            <div id="assembly-name">
-                <form 
-                    hx-post="{% url 'update-assembly-name' assembly.id %}"
-                    hx-target="#assembly-name"
-                    hx-swap="outerHTML"
-                    >
-                    <input 
-                        type="text"
-                        name="name"
-                        class="text-black"
-                        value="{{ assembly.name }}" 
-                        hx-trigger="changed delay:500ms"
-                        style="border: 1px solid #939799; padding: 8px; border-radius: 4px; background: transparent; color: white;"
-                        onfocus="this.style.borderColor='#007bff'; this.style.boxShadow='0 0 5px rgba(0, 123, 255, 0.5)'; this.style.outline='none'; this.style.background='white'; this.style.color='black';"
-                        onblur="this.style.borderColor='#ccc'; this.style.boxShadow='none'; this.style.background='transparent'; this.style.color='white';"
-                    />
-                </form>
+            <div id="assembly-name" class="flex flex-1 mb-4">
+                <div class="flex flex-1 items-center">
+                    <div class="me-4" >Assembly:</div>
+                    <form 
+                        hx-post="{% url 'update-assembly-name' assembly.id %}"
+                        hx-target="#assembly-name"
+                        hx-swap="outerHTML"
+                        class="flex flex-1"
+                        >
+                        <input 
+                            type="text"
+                            name="name"
+                            class="text-black flex-1"
+                            value="{{ assembly.name }}" 
+                            hx-trigger="changed delay:500ms"
+                            style="border: 1px solid #939799; padding: 8px; border-radius: 3px; background: var(--cell-color);"
+                            onfocus="this.style.borderColor='#007bff'; this.style.boxShadow='0 0 5px rgba(0, 123, 255, 0.5)'; this.style.outline='none'; this.style.background='white'; this.style.color='black';"
+                            onblur="this.style.borderColor='#ccc'; this.style.boxShadow='none'; this.style.background='var(--cell-color)';"
+                        />
+                    </form>
+                </div>
             </div>
         {% endblock %}
         
         {% block assembly-detail-view %}
-            <div id="assembly-detail-view">
-
+            <div id="assembly-detail-view" class="flex flex-col">
+                <div id="assembly-headers" class="flex flex-1 flex-row items-center">
+                    <div class="justify-center text-center text-xs me-4" style="min-width:25px;">-</div>
+                    <div class="justify-center text-center text-xs" style="max-width:10ch;">Thickness [M]</div>
+                    <div class="flex flex-1 justify-center text-center text-xs">Layer Material</div>
+                </div>
+                
                 <div id="assembly-cells">
                     {% for layer in layers %}
                         
                         {% block layer %}
                             <div class="layer" id="layer-{{ layer.pk }}">
-                                <div class="flex flex-row items-center cell" id="cell-{{ cell.pk }}">
+                                <div class="flex flex-row items-center cell py-2" id="cell-{{ cell.pk }}">
                                     <a                                
                                         id="delete-layer-{{ assembly.pk }}"
                                         hx-delete="{% url 'delete-layer' assembly_pk=assembly.pk layer_pk=layer.pk %}"
                                         hx-target="#assembly"
                                         hx-swap="outerHTML"
                                         hx-confirm="Delete?" 
-                                        class="cursor-pointer">
+                                        class="cursor-pointer me-2"
+                                        style="min-width:25px;">
                                         <svg 
                                             xmlns="http://www.w3.org/2000/svg"
                                             fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5"
                                             stroke="currentColor"
-                                            class="size-4 me-2">
+                                            class="size-6 me-1">
                                             <path 
                                                 stroke-linecap="round" 
                                                 stroke-linejoin="round"
@@ -54,7 +64,7 @@
                                         hx-post="{% url 'update-layer-thickness' assembly.id layer.pk %}"
                                         hx-target="#layer-thickness-{{ layer.pk }}"
                                         hx-swap="innerHTML"
-                                        >
+                                        class="me-1">
                                         <input 
                                             id="layer-thickness-{{ layer.pk }}"
                                             type="text"
@@ -62,12 +72,26 @@
                                             class="text-black"
                                             value={{ layer.thickness }}
                                             hx-trigger="changed delay:500ms"
-                                            style="border: 1px solid #939799; padding: 8px; border-radius: 4px; background: transparent; color: white;"
+                                            style="border: 1px solid #939799; padding: 8px; border-radius: 3px; background: var(--cell-color); max-width:10ch;"
                                             onfocus="this.style.borderColor='#007bff'; this.style.boxShadow='0 0 5px rgba(0, 123, 255, 0.5)'; this.style.outline='none'; this.style.background='white'; this.style.color='black';"
-                                            onblur="this.style.borderColor='#ccc'; this.style.boxShadow='none'; this.style.background='transparent'; this.style.color='white';"
+                                            onblur="this.style.borderColor='#ccc'; this.style.boxShadow='none'; this.style.background='var(--cell-color)';"
                                         />
                                     </form>
-                                    <input id="layer-name-{{ layer.pk }}" class="text-black" value="Test" />
+                                    <form
+                                        class="flex flex-1"    
+                                    >
+                                        <input
+                                            id="layer-name-{{ layer.pk }}"
+                                            type="text"
+                                            name="value"
+                                            class="text-black flex-1" 
+                                            value={% if layer.cells.value %}{{ layer.cells.value }}{% else %}"select material..."{% endif %}                                       
+                                            hx-trigger="changed delay:500ms"
+                                            style="border: 1px solid #939799; padding: 8px; border-radius: 3px; background: var(--cell-color)"
+                                            onfocus="this.style.borderColor='#007bff'; this.style.boxShadow='0 0 5px rgba(0, 123, 255, 0.5)'; this.style.outline='none'; this.style.background='white'; this.style.color='black';"
+                                            onblur="this.style.borderColor='#ccc'; this.style.boxShadow='none'; this.style.background='var(--cell-color)';"
+                                        />
+                                    </form>
                                 </div>
                             </div>
                         {% endblock %}
@@ -75,8 +99,8 @@
                     {% endfor %}
                 </div>
             
-                <div id="grid-control-buttons">
-                    <button class="btn" hx-post="{% url 'add-layer' assembly.pk %}" hx-target="#assembly-cells" hx-swap="beforeend">Add Layer</button>
+                <div id="grid-control-buttons" class="mt-10">
+                    <button class="btn" hx-post="{% url 'add-layer' assembly.pk %}" hx-target="#assembly-cells" hx-swap="beforeend">Add New Layer +</button>
                 </div>
             
             </div>
