@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "django_htmx",
     "template_partials",
     "import_export",
+    "render_block",
     # ---------------------
     # -- Apps
     "webportal",

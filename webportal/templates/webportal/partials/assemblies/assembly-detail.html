@@ -1,5 +1,26 @@
 <div id="assembly-detail-view">
     
-    <h1>assembly-detail-view {{ assembly.name }}</h1>
+    <div id="assembly-cells">
+        {% for row in row_range %}
+            <div class="row">
+                {% for col in col_range %}    
+                    <div class="cell">
+                        <input class="text-black" value="Test" />
+                        {% comment %} 
+                        {% for cell in cells %}
+                            {% if cell.x == col and cell.y == row %}
+                            {% endif %}
+                        {% endfor %} 
+                        {% endcomment %}
+                    </div>
+                {% endfor %}
+                </div>
+        {% endfor %}
+    </div>
+
+    <div id="grid-control-buttons">
+        <button class="btn" hx-post="{% url 'add-row' assembly.pk %}" hx-target="#assembly-cells" hx-swap="beforeend">Add Row</button>
+        <button class="btn" hx-post="{% url 'add-column' assembly.pk %}" hx-target="#assembly-cells">Add Column</button>
+    </div>
 
 </div>

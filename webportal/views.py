@@ -5,14 +5,16 @@ from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
-from django.db.models import Q
+from django.db.models import Q, Max
 from django.db.models.functions import Lower
 from django.template.loader import render_to_string
+from django.template import Context
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods, require_POST
 from django_htmx.http import retarget
 from tablib import Dataset
+from render_block import render_block_to_string
 
 from webportal.filters import MaterialCategoryFilter
 from webportal.forms import MaterialForm
@@ -241,10 +243,30 @@ def assembly(request: WSGIRequest, pk: int) -> HttpResponse:
     """
     this_assembly = get_object_or_404(Assembly, pk=pk)
 
-    # Render the new assembly item
+    num_rows = this_assembly.cells.aggregate(mx=Max("row_number"))["mx"]
+    num_cols = this_assembly.cells.aggregate(mx=Max("column_number"))["mx"]
+
     assembly_html = render_to_string(
-        "webportal/partials/assemblies/assembly.html", {"assembly": this_assembly}
+        "webportal/partials/assemblies/assembly.html",
+        {
+            "assembly": this_assembly,
+            "cells": this_assembly.cells.all(),
+            "row_range": range(num_rows),
+            "col_range": range(num_cols),
+        },
     )
+
+    # sidebar_html = render_block_to_string(
+    #     "webportal/partials/assemblies/sidebar_list.html",
+    #     block_name="",
+    #     context=Context(
+    #         {
+    #             "assemblies": Assembly.objects.filter(user=request.user),
+    #             "active_assembly_id": pk,
+    #         }
+    #     ),
+    #     request=request,
+    # )
     sidebar_html = render_to_string(
         "webportal/partials/assemblies/sidebar_list.html",
         {
@@ -262,20 +284,19 @@ def assembly(request: WSGIRequest, pk: int) -> HttpResponse:
 @login_required
 @require_POST
 def update_assembly_name(request: WSGIRequest, pk: int) -> HttpResponse:
-    """Update the name of the Assembly.
-
-    Returns:
-        The updated 'Assembly' view.
-    """
-
-    this_assembly = get_object_or_404(Assembly, pk=pk)
-
     if request.method == "POST":
         if name := request.POST.get("name"):
+            this_assembly = get_object_or_404(Assembly, pk=pk)
             this_assembly.name = name
             this_assembly.save()
 
-    return assembly(request, pk)
+    template_name = "webportal/partials/assemblies/assembly.html"
+    context = {"assembly": this_assembly}
+    detail_view_name = render_block_to_string(
+        template_name, block_name="assembly-name", context=context, request=request
+    )
+    sidebar_name = f"<div id='assembly-name-{this_assembly.pk}' hx-swap-oob='true'>{this_assembly.name}</div>"
+    return HttpResponse(content=detail_view_name + sidebar_name)
 
 
 @login_required
@@ -320,31 +341,40 @@ def assembly_detail(request, pk):
 
 def add_row(request, pk):
     container = get_object_or_404(Assembly, id=pk)
-    max_y = container.cells.aggregate(max_y=models.Max("y"))["max_y"] or 0
-    new_y = max_y + 1
-    max_x = container.cells.aggregate(max_x=models.Max("x"))["max_x"] or 0
+    max_row_num = container.cells.aggregate(mx=Max("row_number")).get("mx", 0)
+    new_row_num = max_row_num + 1
+    max_col_num = container.cells.aggregate(mx=Max("column_number")).get("mx", 0)
 
     # Add new row
     new_cells = []
-    for x in range(max_x + 1):
-        cell = Cell(container=container, x=x, y=new_y, value="")
+    for col_num in range(max_col_num):
+        cell = Cell(
+            container=container,
+            column_number=col_num + 1,
+            row_number=new_row_num,
+            value="",
+        )
         new_cells.append(cell)
     Cell.objects.bulk_create(new_cells)
 
     # Render just the new row
-    return JsonResponse({"html": render_to_string("row.html", {"cells": new_cells})})
+    return HttpResponse(
+        render_to_string("webportal/partials/assemblies/row.html", {"cells": new_cells})
+    )
 
 
 def add_column(request, pk):
     container = get_object_or_404(Assembly, id=container_id)
-    max_x = container.cells.aggregate(max_x=models.Max("x"))["max_x"] or 0
-    new_x = max_x + 1
-    max_y = container.cells.aggregate(max_y=models.Max("y"))["max_y"] or 0
+    max_row_num = container.cells.aggregate(mx=Max("row_number")).get("mx", 0)
+    max_col_num = container.cells.aggregate(mx=Max("column_number")).get("mx", 0)
+    new_col_num = max_col_num + 1
 
     # Add new column
     new_cells = []
-    for y in range(max_y + 1):
-        cell = Cell(container=container, x=new_x, y=y, value="")
+    for row_num in range(max_row_num + 1):
+        cell = Cell(
+            container=container, column_number=new_col_num, row_number=row_num, value=""
+        )
         new_cells.append(cell)
     Cell.objects.bulk_create(new_cells)
 

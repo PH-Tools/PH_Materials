@@ -115,6 +115,12 @@ class Assembly(models.Model):
     name = models.CharField(max_length=100, default="assembly")
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        cells = Cell.objects.filter(container=self)
+        if not cells.exists():
+            Cell.objects.create(container=self, column_number=1, row_number=1)
+
 
 class Cell(models.Model):
     container = models.ForeignKey(
@@ -123,3 +129,6 @@ class Cell(models.Model):
     column_number = models.IntegerField()
     row_number = models.IntegerField()
     value = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.container.name} Cell: [{self.row_number}:{self.column_number}]"

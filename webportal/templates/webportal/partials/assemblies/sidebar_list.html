@@ -9,6 +9,7 @@
                 {% endif %}
                 >
                 <a                                
+                    id="delete-assembly-{{ assembly.pk }}"
                     hx-delete="{% url 'delete-assembly' assembly.pk %}"
                     hx-target="#assembly"
                     hx-swap="outerHTML"
@@ -27,6 +28,7 @@
                     </svg>
                 </a>
                 <a 
+                    id="assembly-name-{{ assembly.pk }}"
                     hx-get="{% url 'assembly' assembly.pk %}"
                     hx-target="#assembly"
                     hx-swap="outerHTML"

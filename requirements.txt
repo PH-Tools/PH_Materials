@@ -11,6 +11,7 @@ django-htmx==1.21.0
 django-import-export==4.3.1
 django-template-partials==24.4
 django-widget-tweaks==1.5.0
+django-render-block==0.10
 factory-boy==3.3.1
 faker==33.1.0
 gunicorn==23.0.0
