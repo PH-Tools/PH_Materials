@@ -9,6 +9,7 @@
                         hx-post="{% url 'update-assembly-name' assembly.id %}"
                         hx-target="#assembly-name"
                         hx-swap="outerHTML"
+                        hx-trigger="keyup delay:500ms"
                         class="flex flex-1"
                         >
                         <input 
@@ -16,7 +17,6 @@
                             name="name"
                             class="text-black flex-1"
                             value="{{ assembly.name }}" 
-                            hx-trigger="changed delay:500ms"
                             style="border: 1px solid #939799; padding: 8px; border-radius: 3px; background: var(--cell-color);"
                             onfocus="this.style.borderColor='#007bff'; this.style.boxShadow='0 0 5px rgba(0, 123, 255, 0.5)'; this.style.outline='none'; this.style.background='white'; this.style.color='black';"
                             onblur="this.style.borderColor='#ccc'; this.style.boxShadow='none'; this.style.background='var(--cell-color)';"
@@ -40,6 +40,7 @@
                         {% block layer %}
                             <div class="layer" id="layer-{{ layer.pk }}">
                                 <div class="flex flex-row items-center cell py-2" id="cell-{{ cell.pk }}">
+                                    
                                     <a                                
                                         id="delete-layer-{{ assembly.pk }}"
                                         hx-delete="{% url 'delete-layer' assembly_pk=assembly.pk layer_pk=layer.pk %}"
@@ -60,10 +61,13 @@
                                                 d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                         </svg>
                                     </a>
+
                                     <form
+                                        id="layer-thickness-form"
                                         hx-post="{% url 'update-layer-thickness' assembly.id layer.pk %}"
                                         hx-target="#layer-thickness-{{ layer.pk }}"
                                         hx-swap="innerHTML"
+                                        hx-trigger="keyup delay:500ms"
                                         class="me-1">
                                         <input 
                                             id="layer-thickness-{{ layer.pk }}"
@@ -71,27 +75,17 @@
                                             name="thickness"
                                             class="text-black"
                                             value={{ layer.thickness }}
-                                            hx-trigger="changed delay:500ms"
                                             style="border: 1px solid #939799; padding: 8px; border-radius: 3px; background: var(--cell-color); max-width:10ch;"
                                             onfocus="this.style.borderColor='#007bff'; this.style.boxShadow='0 0 5px rgba(0, 123, 255, 0.5)'; this.style.outline='none'; this.style.background='white'; this.style.color='black';"
                                             onblur="this.style.borderColor='#ccc'; this.style.boxShadow='none'; this.style.background='var(--cell-color)';"
                                         />
                                     </form>
-                                    <form
-                                        class="flex flex-1"    
-                                    >
-                                        <input
-                                            id="layer-name-{{ layer.pk }}"
-                                            type="text"
-                                            name="value"
-                                            class="text-black flex-1" 
-                                            value={% if layer.cells.value %}{{ layer.cells.value }}{% else %}"select material..."{% endif %}                                       
-                                            hx-trigger="changed delay:500ms"
-                                            style="border: 1px solid #939799; padding: 8px; border-radius: 3px; background: var(--cell-color)"
-                                            onfocus="this.style.borderColor='#007bff'; this.style.boxShadow='0 0 5px rgba(0, 123, 255, 0.5)'; this.style.outline='none'; this.style.background='white'; this.style.color='black';"
-                                            onblur="this.style.borderColor='#ccc'; this.style.boxShadow='none'; this.style.background='var(--cell-color)';"
-                                        />
+
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        {{ form }}
                                     </form>
+                                   
                                 </div>
                             </div>
                         {% endblock %}

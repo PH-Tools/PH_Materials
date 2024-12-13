@@ -1,4 +1,5 @@
 from enum import Enum
+import uuid
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -17,8 +18,8 @@ from tablib import Dataset
 from render_block import render_block_to_string
 
 from webportal.filters import MaterialCategoryFilter
-from webportal.forms import MaterialForm
-from webportal.models import Material, Assembly, Layer, Cell
+from webportal.forms import MaterialForm, MaterialSearchForm
+from webportal.models import Material, Assembly, Layer
 from webportal.resources import MaterialResource
 
 
@@ -255,6 +256,8 @@ def assembly(request: WSGIRequest, pk: int | None) -> HttpResponse:
         context={
             "assembly": this_assembly,
             "layers": layers,
+            "materials": Material.objects.filter(user=request.user),
+            "form": MaterialSearchForm(request=request, prefix=str(uuid.uuid4())[6:]),
         },
     )
 
@@ -357,3 +360,17 @@ def update_layer_thickness(
             layer.thickness = float(thickness)
             layer.save()
     return HttpResponse(layer.thickness)
+
+
+@login_required
+def material_dropdown(request):
+    # if request.htmx:
+    #     materials = Material.objects.filter(
+    #         Q(user=request.user) | Q(user__id=1)
+    #     ).values_list("id", "name")
+    #     data = [{"id": material[0], "text": material[1]} for material in materials]
+    #     return JsonResponse({"results": data})
+
+    form1 = MaterialSearchForm(request=request, prefix=str(uuid.uuid4())[6:])
+    form2 = MaterialSearchForm(request=request, prefix=str(uuid.uuid4())[6:])
+    return render(request, "select2_example.html", {"form1": form1, "form2": form2})

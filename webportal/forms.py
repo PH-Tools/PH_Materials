@@ -1,6 +1,7 @@
 from django import forms
+from django_select2.forms import Select2Widget
 
-from webportal.models import Material, MaterialCategory
+from webportal.models import Material
 
 
 class MaterialForm(forms.ModelForm):
@@ -34,3 +35,19 @@ class MaterialForm(forms.ModelForm):
             "comments",
             "color_argb",
         }
+
+
+class MaterialSearchForm(forms.Form):
+    material = forms.ModelChoiceField(
+        queryset=Material.objects.none(),
+        widget=Select2Widget(attrs={"hx-trigger": "change"}),
+        label="",
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop("request", None)
+        super().__init__(*args, **kwargs)
+        if self.request:
+            self.fields["material"].queryset = Material.objects.filter(
+                user=self.request.user
+            )

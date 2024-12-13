@@ -1,8 +1,9 @@
-from django.urls import path
+from django.urls import path, include
 
 from webportal import views
 
 urlpatterns = [
+    path("select2/", include("django_select2.urls")),
     path("", views.index, name="index"),
     # -----------------------------------------------------------------------------------
     # -- Materials
@@ -52,5 +53,11 @@ urlpatterns = [
         "assemblies/<int:assembly_pk>/update-layer-thickness/<int:layer_pk>/",
         views.update_layer_thickness,
         name="update-layer-thickness",
+    ),
+    # Testing Select2 Dropdown
+    path(
+        "materialss/",
+        views.material_dropdown,
+        name="material-dropdown",
     ),
 ]

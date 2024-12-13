@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "template_partials",
     "import_export",
     "render_block",
+    "django_select2",
     # ---------------------
     # -- Apps
     "webportal",
