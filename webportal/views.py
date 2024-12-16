@@ -251,13 +251,15 @@ def assembly(request: WSGIRequest, pk: int | None) -> HttpResponse:
         this_assembly.layer_id_order.append(new_layer.id)
         this_assembly.save()
         layers = this_assembly.get_ordered_layers()
+    forms: list[MaterialSearchForm] = [
+        MaterialSearchForm(request=request, prefix=f"form_{layer.pk}")
+        for layer in layers
+    ]
     assembly_html = render_to_string(
         "webportal/partials/assemblies/assembly.html",
         context={
             "assembly": this_assembly,
-            "layers": layers,
-            "materials": Material.objects.filter(user=request.user),
-            "form": MaterialSearchForm(request=request, prefix=str(uuid.uuid4())[6:]),
+            "layers_and_forms": zip(layers, forms),
         },
     )
 
@@ -332,6 +334,9 @@ def add_layer(request: WSGIRequest, pk: int) -> HttpResponse:
             {
                 "layer": new_layer,
                 "assembly": this_assembly,
+                "form": MaterialSearchForm(
+                    request=request, prefix=f"form_{new_layer.pk}"
+                ),
             }
         ),
         request=request,
@@ -362,7 +367,6 @@ def update_layer_thickness(
     return HttpResponse(layer.thickness)
 
 
-@login_required
 def material_dropdown(request):
     # if request.htmx:
     #     materials = Material.objects.filter(
@@ -371,6 +375,12 @@ def material_dropdown(request):
     #     data = [{"id": material[0], "text": material[1]} for material in materials]
     #     return JsonResponse({"results": data})
 
-    form1 = MaterialSearchForm(request=request, prefix=str(uuid.uuid4())[6:])
-    form2 = MaterialSearchForm(request=request, prefix=str(uuid.uuid4())[6:])
-    return render(request, "select2_example.html", {"form1": form1, "form2": form2})
+    forms = [
+        MaterialSearchForm(request=request, prefix=str(uuid.uuid4())[6:])
+        for i in range(10)
+    ]
+
+    return HttpResponse(
+        render_to_string("select2_example.html", {"forms": forms}),
+        content_type="text/html",
+    )

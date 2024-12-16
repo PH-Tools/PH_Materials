@@ -39,8 +39,8 @@ class MaterialForm(forms.ModelForm):
 
 class MaterialSearchForm(forms.Form):
     material = forms.ModelChoiceField(
-        queryset=Material.objects.none(),
-        widget=Select2Widget(attrs={"hx-trigger": "change"}),
+        queryset=Material.objects.all(),
+        widget=Select2Widget(),
         label="",
     )
 
@@ -51,3 +51,7 @@ class MaterialSearchForm(forms.Form):
             self.fields["material"].queryset = Material.objects.filter(
                 user=self.request.user
             )
+        if prefix := kwargs.get("prefix", None):
+            self.prefix = prefix
+        if auto_id := kwargs.get("auto_id", None):
+            self.auto_id = auto_id

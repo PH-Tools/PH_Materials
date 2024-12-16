@@ -1,6 +1,6 @@
 <div id="assembly" class="col-span-4">
     {% if assembly %}
-        
+            
         {% block assembly-name %}
             <div id="assembly-name" class="flex flex-1 mb-4">
                 <div class="flex flex-1 items-center">
@@ -35,12 +35,11 @@
                 </div>
                 
                 <div id="assembly-cells">
-                    {% for layer in layers %}
+                    {% for layer, form in layers_and_forms %}
                         
                         {% block layer %}
                             <div class="layer" id="layer-{{ layer.pk }}">
                                 <div class="flex flex-row items-center cell py-2" id="cell-{{ cell.pk }}">
-                                    
                                     <a                                
                                         id="delete-layer-{{ assembly.pk }}"
                                         hx-delete="{% url 'delete-layer' assembly_pk=assembly.pk layer_pk=layer.pk %}"

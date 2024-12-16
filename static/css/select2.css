@@ -1,0 +1,7 @@
+.select2-selection {
+    background-color: var(--cell-color) !important;
+    padding: 6px !important;
+    border-radius: 3px !important;
+    border: 1px solid #939799 !important;
+    height: 100% !important;
+}

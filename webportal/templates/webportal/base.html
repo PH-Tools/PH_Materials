@@ -24,6 +24,7 @@
 
         <!-- Custom files -->
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/select2.css' %}" rel="stylesheet" />
 
 
         <!-- Select2 Drop-down lists, include jQuery first -->
@@ -35,26 +36,45 @@
         {% block extra_head %}
 
         {% endblock %}
-    </head>
 
+
+
+    </head>
+    
     <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+
         
         {% include 'webportal/partials/navbar.html' %}
-
+        
         <div class="max-w-screen-xl mx-auto p-4 ml-10">
+ 
 
             {% block content %}
             {% endblock %}
         
         </div>
-
+        
         <script>
-            // Initialize Select2
-            document.addEventListener('DOMContentLoaded', function () {
+            // Function to initialize Select2 (dropdowns with search)
+            function initializeSelect2() {
                 console.log('Select2 initialized');
                 $('.django-select2').select2();
+            }
+    
+            // Initialize Select2 on page load
+            document.addEventListener('DOMContentLoaded', function () {
+                initializeSelect2();
             });
-        </script>        
+    
+            // Re-initialize Select2 after HTMX content swap
+            // This is necessary because HTMX replaces the content of the page
+            // without reloading the page, so the Select2 elements need to be
+            // re-initialized after the content is swapped.
+            document.body.addEventListener('htmx:afterSwap', function (event) {
+                initializeSelect2();
+            });
+        </script>
+
     </body>
 
 </html>
