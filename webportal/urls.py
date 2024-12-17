@@ -54,10 +54,9 @@ urlpatterns = [
         views.update_layer_thickness,
         name="update-layer-thickness",
     ),
-    # Testing Select2 Dropdown
     path(
-        "materialss/",
-        views.material_dropdown,
-        name="material-dropdown",
+        "assemblies/<int:assembly_pk>/update-layer-material/<int:layer_pk>/",
+        views.update_layer_material,
+        name="update-layer-material",
     ),
 ]

@@ -1,9 +1,19 @@
 import uuid
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from typing import Any
+
+
+def generate_short_uid(_model_type, _prefix: str) -> str:
+    """Generates a short (12-character) UID string. ie: 'mat6af2fd74'."""
+    while True:
+        _prefix = (_prefix.lower() + "___")[:3]
+        uid = _prefix + str(int(uuid.uuid4().time_low))[2:]
+        if not _model_type.objects.filter(uid=uid).exists():
+            return uid
 
 
 # ---------------------------------------------------------------------------------------
@@ -59,9 +69,12 @@ class MaterialCategory(models.Model):
 
 
 class Material(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
-    unique_id = models.CharField(
-        max_length=6, unique=True, null=False, blank=False, default=uuid.uuid4().hex[:6]
+    uid = models.CharField(null=True, blank=True, max_length=12)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
     )
     name = models.CharField(max_length=255, null=False, blank=False)
     conductivity = models.FloatField(null=False, blank=False, default=1.0)
@@ -71,15 +84,14 @@ class Material(models.Model):
     color_argb = models.CharField(
         max_length=16, null=False, blank=False, default="255,255,255,255"
     )
-    category = models.ForeignKey(MaterialCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(
+        MaterialCategory, null=True, blank=True, on_delete=models.CASCADE
+    )
 
     def save(self, *args, **kwargs):
-        # -- Make sure that the Material has a hex-id and that it is unique
-        if not self.unique_id:
-            self.unique_id = uuid.uuid4().hex[:6]
-
-        while Material.objects.filter(unique_id=self.unique_id).exists():
-            self.unique_id = uuid.uuid4().hex[:6]
+        # -- Generate the UID if it does not exist
+        if not self.uid:
+            self.uid = generate_short_uid(Material, "mat")
 
         # -- Ensure the Category is one of the allowed ones
         allowed_categories = dict(MaterialCategory.MATERIAL_CATEGORIES)
@@ -113,7 +125,13 @@ class Material(models.Model):
 
 
 class Assembly(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
+    uid = models.CharField(null=True, blank=True, max_length=12)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
     name = models.CharField(max_length=100, default="assembly")
     created_at = models.DateTimeField(auto_now_add=True)
     layer_id_order = models.JSONField(default=list)
@@ -132,12 +150,19 @@ class Assembly(models.Model):
             self.layer_id_order.remove(layer_pk)
             self.save()
 
+    def add_new_layer(self) -> "Layer":
+        """Add a new layer to the assembly."""
+        layer = Layer.new_layer_with_single_segment(assembly=self)
+        # .objects.create(assembly=self, thickness=1.0)
+        self.layer_id_order.append(layer.id)
+        self.save()
+        return layer
+
     def save(self, *args, **kwargs) -> None:
+        # -- Generate the UID if it does not exist
+        if not self.uid:
+            self.uid = generate_short_uid(Assembly, "asm")
         super().save(*args, **kwargs)
-        layers = Layer.objects.filter(assembly=self)
-        if not layers.exists():
-            new_layer = Layer.objects.create(assembly=self, thickness=1.0)
-            self.layer_id_order.append(new_layer.id)
 
     @property
     def layers(self) -> models.QuerySet["Layer"]:
@@ -148,30 +173,67 @@ class Assembly(models.Model):
 
 
 class Layer(models.Model):
+    uid = models.CharField(null=True, blank=True, max_length=12)
     assembly = models.ForeignKey(
         Assembly, on_delete=models.CASCADE, related_name="layers"
     )
     thickness = models.FloatField()
+    segment_id_order = models.JSONField(default=list)
 
     def save(self, *args, **kwargs) -> None:
+        # -- Generate the UID if it does not exist
+        if not self.uid:
+            self.uid = generate_short_uid(Assembly, "lyr")
         super().save(*args, **kwargs)
-        cells = Cell.objects.filter(layer=self)
-        if not cells.exists():
-            Cell.objects.create(layer=self)
 
     @property
     def id(self) -> int:
         return self.id
 
+    @property
+    def segments(self) -> models.QuerySet["LayerSegment"]:
+        return self.segments_set.all()  # type: ignore
+
+    def get_ordered_segments(self):
+        """Return segments ordered according to the segment_id_order field."""
+        # Sort segments by the order in layer_order
+        segments = {segment.id: segment for segment in self.segments.all()}
+        return [
+            segments[layer_id]
+            for layer_id in self.segment_id_order
+            if layer_id in segments
+        ]
+
+    @classmethod
+    def new_layer_with_single_segment(cls, assembly: Assembly) -> "Layer":
+        """Create a new layer with a single segment."""
+        layer = cls.objects.create(assembly=assembly, thickness=1.0)
+        segment = LayerSegment.objects.create(layer=layer)
+        layer.segment_id_order.append(segment.id)
+        layer.save()
+        return layer
+
     def __str__(self) -> str:
         return f"{self.thickness} mm"
 
 
-class Cell(models.Model):
+class LayerSegment(models.Model):
+    uid = models.CharField(null=True, blank=True, max_length=12)
     layer = models.ForeignKey(
-        Layer, on_delete=models.CASCADE, null=True, related_name="cells"
+        Layer, on_delete=models.CASCADE, null=True, related_name="segments"
     )
-    value = models.TextField(blank=True, null=True)
+    material = models.ForeignKey(Material, on_delete=models.CASCADE, null=True)
+
+    @property
+    def id(self) -> int:
+        return self.id
+
+    def save(self, *args, **kwargs) -> None:
+        # -- Generate the UID if it does not exist
+        if not self.uid:
+            self.uid = generate_short_uid(LayerSegment, "seg")
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"[layer-{self.layer}]: {self.value}"
+        return f"[layer-{self.layer}]: {self.material}"

@@ -35,14 +35,15 @@
                 </div>
                 
                 <div id="assembly-cells">
-                    {% for layer, form in layers_and_forms %}
+                    {% for layer_view in layer_views %}
                         
                         {% block layer %}
-                            <div class="layer" id="layer-{{ layer.pk }}">
+                            <div class="layer" id="layer-{{ layer_view.layer.pk }}">
                                 <div class="flex flex-row items-center cell py-2" id="cell-{{ cell.pk }}">
+                                    
                                     <a                                
                                         id="delete-layer-{{ assembly.pk }}"
-                                        hx-delete="{% url 'delete-layer' assembly_pk=assembly.pk layer_pk=layer.pk %}"
+                                        hx-delete="{% url 'delete-layer' assembly_pk=assembly.pk layer_pk=layer_view.layer.pk %}"
                                         hx-target="#assembly"
                                         hx-swap="outerHTML"
                                         hx-confirm="Delete?" 
@@ -63,28 +64,38 @@
 
                                     <form
                                         id="layer-thickness-form"
-                                        hx-post="{% url 'update-layer-thickness' assembly.id layer.pk %}"
-                                        hx-target="#layer-thickness-{{ layer.pk }}"
+                                        hx-post="{% url 'update-layer-thickness' assembly.id layer_view.layer.pk %}"
+                                        hx-target="#layer-thickness-{{ layer_view.layer.pk }}"
                                         hx-swap="innerHTML"
                                         hx-trigger="keyup delay:500ms"
                                         class="me-1">
                                         <input 
-                                            id="layer-thickness-{{ layer.pk }}"
+                                            id="layer-thickness-{{ layer_view.layer.pk }}"
                                             type="text"
                                             name="thickness"
                                             class="text-black"
-                                            value={{ layer.thickness }}
+                                            value={{ layer_view.layer.thickness }}
                                             style="border: 1px solid #939799; padding: 8px; border-radius: 3px; background: var(--cell-color); max-width:10ch;"
                                             onfocus="this.style.borderColor='#007bff'; this.style.boxShadow='0 0 5px rgba(0, 123, 255, 0.5)'; this.style.outline='none'; this.style.background='white'; this.style.color='black';"
                                             onblur="this.style.borderColor='#ccc'; this.style.boxShadow='none'; this.style.background='var(--cell-color)';"
                                         />
                                     </form>
-
-                                    <form method="post">
-                                        {% csrf_token %}
-                                        {{ form }}
-                                    </form>
-                                   
+                                    
+                                    <div class="layer-materials">
+                                        {% for segment, form in layer_view.segments_and_forms %}
+                                            <form 
+                                                id="layer-material-form"
+                                                hx-post="{% url 'update-layer-material' assembly.id layer_view.layer.pk %}"
+                                                hx-target="#select2-id_form_{{ layer_view.layer.pk }}-material-container"
+                                                hx-swap="innerHTML"
+                                                hx-trigger="submit"                                    
+                                                method="post"
+                                                name="material"
+                                            >
+                                                {{ form }}
+                                            </form>
+                                        {% endfor %}
+                                    </div>                                
                                 </div>
                             </div>
                         {% endblock %}
@@ -98,6 +109,14 @@
             
             </div>
         {% endblock %}
-        
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                $('.django-select2').select2().on('change', function () {
+                    this.closest('form').dispatchEvent(new Event('submit', { bubbles: true }));
+                });
+            });
+        </script>
+
     {% endif %}
 </div>

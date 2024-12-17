@@ -19,7 +19,7 @@ from render_block import render_block_to_string
 
 from webportal.filters import MaterialCategoryFilter
 from webportal.forms import MaterialForm, MaterialSearchForm
-from webportal.models import Material, Assembly, Layer
+from webportal.models import Material, Assembly, Layer, LayerSegment
 from webportal.resources import MaterialResource
 
 
@@ -236,30 +236,40 @@ def assemblies_page(request: WSGIRequest) -> HttpResponse:
     return render(request, "webportal/assemblies.html", context)
 
 
+class LayerView:
+    def __init__(self, layer: Layer):
+        self.layer = layer
+        self.segments = layer.get_ordered_segments()
+        self.forms = [
+            MaterialSearchForm(prefix=f"form_{segment.pk}") for segment in self.segments
+        ]
+
+    @property
+    def segments_and_forms(self):
+        return zip(self.segments, self.forms)
+
+
 @login_required
 def assembly(request: WSGIRequest, pk: int | None) -> HttpResponse:
     """The Assembly view with the sidebar.
 
     Sidebar includes the 'active' assembly highlighted.
     """
+
+    print(f">> assembly/{pk}")
     # -------------------------------------------------------------------------
     # -- Detail-View
     this_assembly = get_object_or_404(Assembly, pk=pk)
     layers: list[Layer] = this_assembly.get_ordered_layers()
     if not layers:
-        new_layer = Layer.objects.create(assembly=this_assembly, thickness=1.0)
-        this_assembly.layer_id_order.append(new_layer.id)
-        this_assembly.save()
+        this_assembly.add_new_layer()
         layers = this_assembly.get_ordered_layers()
-    forms: list[MaterialSearchForm] = [
-        MaterialSearchForm(request=request, prefix=f"form_{layer.pk}")
-        for layer in layers
-    ]
+
     assembly_html = render_to_string(
         "webportal/partials/assemblies/assembly.html",
         context={
             "assembly": this_assembly,
-            "layers_and_forms": zip(layers, forms),
+            "layer_views": [LayerView(layer) for layer in layers],
         },
     )
 
@@ -286,6 +296,7 @@ def assembly(request: WSGIRequest, pk: int | None) -> HttpResponse:
 @login_required
 @require_POST
 def update_assembly_name(request: WSGIRequest, pk: int) -> HttpResponse:
+    print(f">> {pk}/update_assembly_name")
     if request.method == "POST":
         if name := request.POST.get("name"):
             this_assembly = get_object_or_404(Assembly, pk=pk)
@@ -303,6 +314,7 @@ def update_assembly_name(request: WSGIRequest, pk: int) -> HttpResponse:
 
 @login_required
 def add_new_assembly(request: WSGIRequest) -> HttpResponse:
+    print(">> add_new_assembly")
     if request.method == "POST":
         new_assembly = Assembly(user=request.user, name="unnamed")
         new_assembly.save()
@@ -312,6 +324,7 @@ def add_new_assembly(request: WSGIRequest) -> HttpResponse:
 
 @login_required
 def delete_assembly(request: WSGIRequest, pk: int) -> HttpResponse:
+    print(f">> {pk}/delete_assembly")
     this_assembly = get_object_or_404(Assembly, pk=pk)
     this_assembly.delete()
     return assembly(
@@ -321,23 +334,18 @@ def delete_assembly(request: WSGIRequest, pk: int) -> HttpResponse:
 
 @login_required
 def add_layer(request: WSGIRequest, pk: int) -> HttpResponse:
+    print(f">> {pk}/add_layer")
     this_assembly = get_object_or_404(Assembly, id=pk)
-    new_layer = Layer(assembly=this_assembly, thickness=1.0)
-    new_layer.save()
-    this_assembly.layer_id_order.append(new_layer.id)
-    this_assembly.save()
+    new_layer = this_assembly.add_new_layer()
 
     layer_html = render_block_to_string(
         "webportal/partials/assemblies/assembly.html",
         block_name="layer",
         context=Context(
             {
-                "layer": new_layer,
                 "assembly": this_assembly,
-                "form": MaterialSearchForm(
-                    request=request, prefix=f"form_{new_layer.pk}"
-                ),
-            }
+                "layer_view": LayerView(new_layer),
+            },
         ),
         request=request,
     )
@@ -346,6 +354,7 @@ def add_layer(request: WSGIRequest, pk: int) -> HttpResponse:
 
 @login_required
 def delete_layer(request: WSGIRequest, assembly_pk: int, layer_pk: int) -> HttpResponse:
+    print(f">> {assembly_pk}/delete_layer/{layer_pk}")
     this_assembly = get_object_or_404(Assembly, id=assembly_pk)
     this_assembly.delete_layer(layer_pk)
     this_layer = get_object_or_404(Layer, id=layer_pk)
@@ -359,6 +368,7 @@ def delete_layer(request: WSGIRequest, assembly_pk: int, layer_pk: int) -> HttpR
 def update_layer_thickness(
     request: WSGIRequest, assembly_pk: int, layer_pk: int
 ) -> HttpResponse:
+    print(f">> {assembly_pk}/update_layer_thickness/{layer_pk}")
     layer = get_object_or_404(Layer, id=layer_pk)
     if request.method == "POST":
         if thickness := request.POST.get("thickness"):
@@ -367,20 +377,19 @@ def update_layer_thickness(
     return HttpResponse(layer.thickness)
 
 
-def material_dropdown(request):
-    # if request.htmx:
-    #     materials = Material.objects.filter(
-    #         Q(user=request.user) | Q(user__id=1)
-    #     ).values_list("id", "name")
-    #     data = [{"id": material[0], "text": material[1]} for material in materials]
-    #     return JsonResponse({"results": data})
-
-    forms = [
-        MaterialSearchForm(request=request, prefix=str(uuid.uuid4())[6:])
-        for i in range(10)
-    ]
-
-    return HttpResponse(
-        render_to_string("select2_example.html", {"forms": forms}),
-        content_type="text/html",
-    )
+@login_required
+@require_POST
+def update_layer_material(
+    request: WSGIRequest, assembly_pk: int, layer_pk: int
+) -> HttpResponse:
+    print(f">> {assembly_pk}/update_layer_material/{layer_pk}")
+    layer = get_object_or_404(Layer, id=layer_pk)
+    if request.method == "POST":
+        # Select2 will return something like 'form_2-material' as the key
+        if mat_id := request.POST.get(f"segment_{layer.pk}-material", None):
+            new_material = Material.objects.get(id=mat_id)
+            for segment in layer.segments.all():
+                segment.material = new_material
+                segment.save()
+            return HttpResponse(new_material.name)
+    return HttpResponse()

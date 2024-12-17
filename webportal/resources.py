@@ -35,7 +35,7 @@ class MaterialResource(resources.ModelResource):
     class Meta:
         model = Material
         fields = (
-            "unique_id",
+            "uid",
             "category",
             "name",
             "conductivity",
