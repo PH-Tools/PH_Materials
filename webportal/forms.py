@@ -43,15 +43,3 @@ class MaterialSearchForm(forms.Form):
         widget=Select2Widget(),
         label="",
     )
-
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop("request", None)
-        super().__init__(*args, **kwargs)
-        if self.request:
-            self.fields["material"].queryset = Material.objects.filter(
-                user=self.request.user
-            )
-        if prefix := kwargs.get("prefix", None):
-            self.prefix = prefix
-        if auto_id := kwargs.get("auto_id", None):
-            self.auto_id = auto_id

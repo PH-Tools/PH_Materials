@@ -28,6 +28,25 @@ class UnitSystem(Enum):
     IP = "IP"
 
 
+class LayerView:
+    """A helper class to manage the Layer and its segments/forms in the Assembly view."""
+
+    def __init__(self, layer: Layer):
+        self.layer = layer
+        self.segments = layer.get_ordered_segments()
+        self.forms = [
+            MaterialSearchForm(
+                prefix=f"form_{segment.pk}",
+                initial={"material": segment.material.pk if segment.material else None},
+            )
+            for segment in self.segments
+        ]
+
+    @property
+    def segments_and_forms(self):
+        return zip(self.segments, self.forms)
+
+
 @require_POST
 def set_unit_system(request: WSGIRequest) -> HttpResponse:
     if request.POST.get("unit-system", None):
@@ -236,19 +255,6 @@ def assemblies_page(request: WSGIRequest) -> HttpResponse:
     return render(request, "webportal/assemblies.html", context)
 
 
-class LayerView:
-    def __init__(self, layer: Layer):
-        self.layer = layer
-        self.segments = layer.get_ordered_segments()
-        self.forms = [
-            MaterialSearchForm(prefix=f"form_{segment.pk}") for segment in self.segments
-        ]
-
-    @property
-    def segments_and_forms(self):
-        return zip(self.segments, self.forms)
-
-
 @login_required
 def assembly(request: WSGIRequest, pk: int | None) -> HttpResponse:
     """The Assembly view with the sidebar.
@@ -257,7 +263,7 @@ def assembly(request: WSGIRequest, pk: int | None) -> HttpResponse:
     """
 
     print(f">> assembly/{pk}")
-    # -------------------------------------------------------------------------
+    # -----------------------------------------------------------------------------------
     # -- Detail-View
     this_assembly = get_object_or_404(Assembly, pk=pk)
     layers: list[Layer] = this_assembly.get_ordered_layers()
@@ -269,11 +275,11 @@ def assembly(request: WSGIRequest, pk: int | None) -> HttpResponse:
         "webportal/partials/assemblies/assembly.html",
         context={
             "assembly": this_assembly,
-            "layer_views": [LayerView(layer) for layer in layers],
+            "layer_views": (LayerView(layer) for layer in layers),
         },
     )
 
-    # -------------------------------------------------------------------------
+    # -----------------------------------------------------------------------------------
     # -- Sidebar
     sidebar_html = render_block_to_string(
         "webportal/partials/assemblies/sidebar.html",
@@ -383,13 +389,16 @@ def update_layer_material(
     request: WSGIRequest, assembly_pk: int, layer_pk: int
 ) -> HttpResponse:
     print(f">> {assembly_pk}/update_layer_material/{layer_pk}")
+
     layer = get_object_or_404(Layer, id=layer_pk)
+    print(">> Layer:", layer)
     if request.method == "POST":
-        # Select2 will return something like 'form_2-material' as the key
-        if mat_id := request.POST.get(f"segment_{layer.pk}-material", None):
-            new_material = Material.objects.get(id=mat_id)
-            for segment in layer.segments.all():
+        for segment in layer.segments.all():
+            print(">> Segment:", segment)
+            # Select2 will return something like 'form_2-material' as the key
+            if mat_id := request.POST.get(f"form_{segment.pk}-material", None):
+                new_material = Material.objects.get(id=mat_id)
                 segment.material = new_material
                 segment.save()
-            return HttpResponse(new_material.name)
+                return HttpResponse(new_material.name)
     return HttpResponse()

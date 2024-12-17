@@ -54,23 +54,26 @@
         
         </div>
         
-        <script>
-            // Function to initialize Select2 (dropdowns with search)
+        <script> 
             function initializeSelect2() {
-                console.log('Select2 initialized');
-                $('.django-select2').select2();
+                $('.django-select2').select2().on('change', function () {
+                    const form = $(this).closest('form')[0];
+                    htmx.trigger(form, 'submit');
+                });
             }
-    
+
             // Initialize Select2 on page load
             document.addEventListener('DOMContentLoaded', function () {
+                console.log('Select2 style applied on page load');
                 initializeSelect2();
             });
-    
+            
             // Re-initialize Select2 after HTMX content swap
             // This is necessary because HTMX replaces the content of the page
             // without reloading the page, so the Select2 elements need to be
             // re-initialized after the content is swapped.
             document.body.addEventListener('htmx:afterSwap', function (event) {
+                console.log('Select2 style applied on HTMX swap');
                 initializeSelect2();
             });
         </script>

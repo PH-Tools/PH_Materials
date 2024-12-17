@@ -5,3 +5,8 @@
     border: 1px solid #939799 !important;
     height: 100% !important;
 }
+
+.django-select2 {
+    /* Hide the default select. This may be a bug in Select2? */
+    display: none;
+}

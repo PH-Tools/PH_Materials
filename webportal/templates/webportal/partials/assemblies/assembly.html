@@ -9,7 +9,7 @@
                         hx-post="{% url 'update-assembly-name' assembly.id %}"
                         hx-target="#assembly-name"
                         hx-swap="outerHTML"
-                        hx-trigger="keyup delay:500ms"
+                        hx-trigger="submit, focusout"
                         class="flex flex-1"
                         >
                         <input 
@@ -28,95 +28,89 @@
         
         {% block assembly-detail-view %}
             <div id="assembly-detail-view" class="flex flex-col">
+
                 <div id="assembly-headers" class="flex flex-1 flex-row items-center">
                     <div class="justify-center text-center text-xs me-4" style="min-width:25px;">-</div>
                     <div class="justify-center text-center text-xs" style="max-width:10ch;">Thickness [M]</div>
                     <div class="flex flex-1 justify-center text-center text-xs">Layer Material</div>
                 </div>
                 
-                <div id="assembly-cells">
+                <div id="assembly-layers">
                     {% for layer_view in layer_views %}
                         
                         {% block layer %}
-                            <div class="layer" id="layer-{{ layer_view.layer.pk }}">
-                                <div class="flex flex-row items-center cell py-2" id="cell-{{ cell.pk }}">
-                                    
-                                    <a                                
-                                        id="delete-layer-{{ assembly.pk }}"
-                                        hx-delete="{% url 'delete-layer' assembly_pk=assembly.pk layer_pk=layer_view.layer.pk %}"
-                                        hx-target="#assembly"
-                                        hx-swap="outerHTML"
-                                        hx-confirm="Delete?" 
-                                        class="cursor-pointer me-2"
-                                        style="min-width:25px;">
-                                        <svg 
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5"
-                                            stroke="currentColor"
-                                            class="size-6 me-1">
-                                            <path 
-                                                stroke-linecap="round" 
-                                                stroke-linejoin="round"
-                                                d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                        </svg>
-                                    </a>
+                            <div class="layer flex flex-row items-center py-2" id="layer-{{ layer_view.layer.pk }}">
+                                <a                                
+                                    id="delete-layer-{{ assembly.pk }}"
+                                    hx-delete="{% url 'delete-layer' assembly_pk=assembly.pk layer_pk=layer_view.layer.pk %}"
+                                    hx-target="#assembly"
+                                    hx-swap="outerHTML"
+                                    hx-confirm="Delete?" 
+                                    class="cursor-pointer me-2"
+                                    style="min-width:25px;">
+                                    <svg 
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="size-6 me-1">
+                                        <path 
+                                            stroke-linecap="round" 
+                                            stroke-linejoin="round"
+                                            d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                </a>
 
-                                    <form
-                                        id="layer-thickness-form"
-                                        hx-post="{% url 'update-layer-thickness' assembly.id layer_view.layer.pk %}"
-                                        hx-target="#layer-thickness-{{ layer_view.layer.pk }}"
-                                        hx-swap="innerHTML"
-                                        hx-trigger="keyup delay:500ms"
-                                        class="me-1">
-                                        <input 
-                                            id="layer-thickness-{{ layer_view.layer.pk }}"
-                                            type="text"
-                                            name="thickness"
-                                            class="text-black"
-                                            value={{ layer_view.layer.thickness }}
-                                            style="border: 1px solid #939799; padding: 8px; border-radius: 3px; background: var(--cell-color); max-width:10ch;"
-                                            onfocus="this.style.borderColor='#007bff'; this.style.boxShadow='0 0 5px rgba(0, 123, 255, 0.5)'; this.style.outline='none'; this.style.background='white'; this.style.color='black';"
-                                            onblur="this.style.borderColor='#ccc'; this.style.boxShadow='none'; this.style.background='var(--cell-color)';"
-                                        />
-                                    </form>
-                                    
-                                    <div class="layer-materials">
-                                        {% for segment, form in layer_view.segments_and_forms %}
-                                            <form 
-                                                id="layer-material-form"
-                                                hx-post="{% url 'update-layer-material' assembly.id layer_view.layer.pk %}"
-                                                hx-target="#select2-id_form_{{ layer_view.layer.pk }}-material-container"
-                                                hx-swap="innerHTML"
-                                                hx-trigger="submit"                                    
-                                                method="post"
-                                                name="material"
-                                            >
-                                                {{ form }}
-                                            </form>
-                                        {% endfor %}
-                                    </div>                                
+                                <form
+                                    id="layer-thickness-form"
+                                    hx-post="{% url 'update-layer-thickness' assembly.id layer_view.layer.pk %}"
+                                    hx-target="#layer-thickness-{{ layer_view.layer.pk }}"
+                                    hx-swap="innerHTML"
+                                    hx-trigger="submit, focusout"
+                                    {% comment %} hx-trigger="keyup delay:500ms" {% endcomment %}
+                                    class="me-1">
+                                    <input 
+                                        id="layer-thickness-{{ layer_view.layer.pk }}"
+                                        type="text"
+                                        name="thickness"
+                                        class="text-black"
+                                        value={{ layer_view.layer.thickness }}
+                                        style="border: 1px solid #939799; padding: 8px; border-radius: 3px; background: var(--cell-color); max-width:10ch;"
+                                        onfocus="this.style.borderColor='#007bff'; this.style.boxShadow='0 0 5px rgba(0, 123, 255, 0.5)'; this.style.outline='none'; this.style.background='white'; this.style.color='black';"
+                                        onblur="this.style.borderColor='#ccc'; this.style.boxShadow='none'; this.style.background='var(--cell-color)';"
+                                    />
+                                </form>
+                                
+                                <div class="layer-segments">
+                                    {% for segment, form in layer_view.segments_and_forms %}
+                                        <form
+                                            hx-post="{% url 'update-layer-material' assembly.id layer_view.layer.pk %}"
+                                            hx-target="find [role='textbox']"
+                                        >
+                                            {{ form }}
+                                        </form>
+                                    {% endfor %}
                                 </div>
+                                
                             </div>
                         {% endblock %}
-
                     {% endfor %}
                 </div>
             
                 <div id="grid-control-buttons" class="mt-10">
-                    <button class="btn" hx-post="{% url 'add-layer' assembly.pk %}" hx-target="#assembly-cells" hx-swap="beforeend">Add New Layer +</button>
+                    <button class="btn" hx-post="{% url 'add-layer' assembly.pk %}" hx-target="#assembly-layers" hx-swap="beforeend">Add New Layer +</button>
                 </div>
             
             </div>
         {% endblock %}
 
-        <script>
+        {% comment %} <script>
             document.addEventListener('DOMContentLoaded', function () {
                 $('.django-select2').select2().on('change', function () {
                     this.closest('form').dispatchEvent(new Event('submit', { bubbles: true }));
                 });
             });
-        </script>
+        </script> {% endcomment %}
 
     {% endif %}
 </div>
