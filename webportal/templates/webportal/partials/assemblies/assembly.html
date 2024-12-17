@@ -81,9 +81,10 @@
                                     />
                                 </form>
                                 
-                                <div class="layer-segments">
+                                <div class="flex flex-1 layer-segments" style="width: 100%;">
                                     {% for segment, form in layer_view.segments_and_forms %}
                                         <form
+                                            style="width: 100%;"
                                             hx-post="{% url 'update-layer-material' assembly.id layer_view.layer.pk %}"
                                             hx-target="find [role='textbox']"
                                         >
