@@ -1,5 +1,4 @@
 from enum import Enum
-import uuid
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -19,7 +18,7 @@ from render_block import render_block_to_string
 
 from webportal.filters import MaterialCategoryFilter
 from webportal.forms import MaterialForm, MaterialSearchForm
-from webportal.models import Material, Assembly, Layer, LayerSegment
+from webportal.models import Material, Assembly, Layer, User, Team
 from webportal.resources import MaterialResource
 
 
@@ -68,6 +67,155 @@ def set_unit_system(request: WSGIRequest) -> HttpResponse:
 
 def index(request: WSGIRequest) -> HttpResponse:
     return render(request, "webportal/index.html")
+
+
+# ---------------------------------------------------------------------------------------
+# -- Management Views
+
+
+@login_required
+def account_settings(request: WSGIRequest) -> HttpResponse:
+    print(">> account_settings")
+
+    context = {
+        "user": request.user,
+        "team": request.user.team,
+        "team_members": request.user.team.members.all(),
+    }
+    return render(request, "webportal/account_settings.html", context)
+
+
+@require_POST
+@login_required
+def update_team_name(request: WSGIRequest) -> HttpResponse:
+    print(">> update_team_name")
+
+    locked_names = ["PUBLIC", "ADMIN"]
+
+    if request.method == "POST":
+        if new_team_name := request.POST.get("team_name"):
+            if request.user.team.name not in locked_names:
+                if new_team_name not in locked_names:
+                    request.user.team.name = new_team_name
+                    request.user.team.save()
+                    return HttpResponse(new_team_name)
+    return HttpResponse(request.user.team.name)
+
+
+@require_POST
+@login_required
+def update_first_name(request: WSGIRequest) -> HttpResponse:
+    print(">> update_first_name")
+
+    if request.method == "POST":
+        if new_first_name := request.POST.get("first_name"):
+            request.user.first_name = new_first_name
+            request.user.save()
+            return HttpResponse(new_first_name)
+    return HttpResponse(request.user.first_name)
+
+
+@require_POST
+@login_required
+def update_last_name(request: WSGIRequest) -> HttpResponse:
+    print(">> update_last_name")
+
+    if request.method == "POST":
+        if new_last_name := request.POST.get("last_name"):
+            request.user.last_name = new_last_name
+            request.user.save()
+            return HttpResponse(new_last_name)
+    return HttpResponse(request.user.last_name)
+
+
+@require_POST
+@login_required
+def update_email(request: WSGIRequest) -> HttpResponse:
+    print(">> update_email")
+
+    if request.method == "POST":
+        if new_email := request.POST.get("email"):
+            request.user.email = new_email
+            request.user.save()
+            return HttpResponse(new_email)
+    return HttpResponse(request.user.email)
+
+
+@require_POST
+@login_required
+def invite_user_to_team(request: WSGIRequest) -> HttpResponse:
+    print(">> invite_user_to_team")
+
+    if request.method == "POST":
+        if email := request.POST.get("user_email"):
+            if invited_user := User.objects.get(email=email):
+                invited_user.invite_to_team(request.user)
+                invited_user.save()
+                return HttpResponse(
+                    f"Invited User '{email}' to Team '{request.user.team.name}'"
+                )
+            return HttpResponse(f"Error: User '{email}' not found?")
+    return HttpResponse("Invite User to Team")
+
+
+@require_POST
+@login_required
+def accept_team_invite(request: WSGIRequest) -> HttpResponse:
+    print(">> accept_team_invite")
+
+    if request.method == "POST":
+        if not request.user.team_invite:
+            return HttpResponse("No Team Invite to accept")
+        if team := Team.objects.get(id=request.user.team_invite.id):
+            request.user.team = team
+            request.user.team_invite = None
+            request.user.save()
+            return HttpResponse(f"Joined Team '{team.name}'")
+        return HttpResponse(f"Error: Team '{team_id}' not found?")
+    return HttpResponse("Accepted Team Invite")
+
+
+@require_POST
+@login_required
+def decline_team_invite(request: WSGIRequest) -> HttpResponse:
+    print(">> decline_team_invite")
+
+    if request.method == "POST":
+        if not request.user.team_invite:
+            return HttpResponse("No Team Invite to accept")
+        if team := Team.objects.get(id=request.user.team_invite.id):
+            request.user.team_invite = None
+            request.user.save()
+            return HttpResponse(f"Declined Team Invite to join '{team.name}'")
+        return HttpResponse(f"Error: Team '{team_id}' not found?")
+    return HttpResponse("Declined Team Invite")
+
+
+@require_POST
+@login_required
+def leave_team(request: WSGIRequest) -> HttpResponse:
+    print(">> leave_team")
+
+    if request.method == "POST":
+        request.user.team, created = Team.objects.get_or_create(
+            name=request.user.username, created_by=request.user
+        )
+        request.user.team_invite = None
+        request.user.save()
+
+    block_html = render_block_to_string(
+        "webportal/partials/account_settings/settings.html",
+        block_name="teams",
+        context=Context(
+            {
+                "user": request.user,
+                "team": request.user.team,
+                "team_members": request.user.team.members.all(),
+            }
+        ),
+        request=request,
+    )
+    return HttpResponse(block_html, content_type="text/html")
 
 
 # ---------------------------------------------------------------------------------------

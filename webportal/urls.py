@@ -5,6 +5,47 @@ from webportal import views
 urlpatterns = [
     path("select2/", include("django_select2.urls")),
     path("", views.index, name="index"),
+    path("account-settings/", views.account_settings, name="account-settings"),
+    path(
+        "account-settings/update-team-name/",
+        views.update_team_name,
+        name="update-team-name",
+    ),
+    path(
+        "account-settings/update-first-name/",
+        views.update_first_name,
+        name="update-first-name",
+    ),
+    path(
+        "account-settings/update-last-name/",
+        views.update_last_name,
+        name="update-last-name",
+    ),
+    path(
+        "account-settings/update-email/",
+        views.update_email,
+        name="update-email",
+    ),
+    path(
+        "account-settings/invite-user-to-team/",
+        views.invite_user_to_team,
+        name="invite-user-to-team",
+    ),
+    path(
+        "account-settings/accept-team-invite/",
+        views.accept_team_invite,
+        name="accept-team-invite",
+    ),
+    path(
+        "account-settings/decline-team-invite/",
+        views.decline_team_invite,
+        name="decline-team-invite",
+    ),
+    path(
+        "account-settings/leave-team/",
+        views.leave_team,
+        name="leave-team",
+    ),
     # -----------------------------------------------------------------------------------
     # -- Materials
     path("materials/", views.materials_page, name="materials-page"),

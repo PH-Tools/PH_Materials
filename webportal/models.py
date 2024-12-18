@@ -1,10 +1,7 @@
 import uuid
 
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group
 from django.db import models
-
-from typing import Any
 
 
 def generate_short_uid(_model_type, _prefix: str) -> str:
@@ -20,8 +17,87 @@ def generate_short_uid(_model_type, _prefix: str) -> str:
 # -- Users
 
 
+class Team(Group):
+    description = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        "User",
+        related_name="created_teams",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+
+    def __str__(self):
+        return f"{self.name} - {self.description}"
+
+
 class User(AbstractUser):
-    pass
+    team = models.ForeignKey(
+        Team,
+        related_name="members",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    is_paid_user = models.BooleanField(default=False)
+    team_invite = models.ForeignKey(
+        Team,
+        related_name="invited_users",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+
+    def is_team_manager(self) -> bool:
+        """Return True if this User is the Manager of their Team."""
+        if not self.team or not self.team.created_by:
+            return False
+        return self.id == self.team.created_by.id
+
+    def change_user_status(self, is_paid_user: bool):
+        """Change the status of User (paid or free). When status is changed, this also changes their team."""
+        if is_paid_user:
+            if self.team is None or self.team.name == "PUBLIC":
+                # -- Paid users get a default Team with their username
+                self.team, created = Team.objects.get_or_create(
+                    name=self.username, created_by=self
+                )
+        else:
+            # -- Assign all free users to the 'PUBLIC' team by default
+            self.team, created = Team.objects.get_or_create(name="PUBLIC")
+        self.is_paid_user = is_paid_user
+        self.save()
+
+    def invite_to_team(self, sender: "User"):
+        """Register an invitation to join Team."""
+        if sender.team:
+            self.team_invite = sender.team
+            self.save()
+
+    def accept_team_invite(self):
+        """Accept the invitation to join Team."""
+        if self.team_invite:
+            self.team = self.team_invite
+            self.team_invite = None
+            self.save()
+
+    def reject_team_invite(self):
+        """Reject the invitation to join Team."""
+        self.team_invite = None
+        self.save()
+
+    def save(self, *args, **kwargs):
+        if self.is_paid_user:
+            if self.team is None:
+                # -- Paid users get a default Team with their username
+                self.team, created = Team.objects.get_or_create(
+                    name=self.username, created_by=self
+                )
+        else:
+            # -- Assign all free users to the 'PUBLIC' team by default
+            self.team, created = Team.objects.get_or_create(name="PUBLIC")
+        super().save(*args, **kwargs)
 
 
 class MaterialCategory(models.Model):
