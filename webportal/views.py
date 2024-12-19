@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
-from django.db.models import Q, Max
+from django.db.models import Q
 from django.db.models.functions import Lower
 from django.template.loader import render_to_string
 from django.template import Context
@@ -18,8 +18,13 @@ from render_block import render_block_to_string
 
 from webportal.filters import MaterialCategoryFilter
 from webportal.forms import MaterialForm, MaterialSearchForm
-from webportal.models import Material, Assembly, Layer, User, Team
+from webportal.models import Material, Assembly, Layer, User, Team, User, Project
 from webportal.resources import MaterialResource
+
+
+def get_user(request: WSGIRequest) -> User:
+    """Wrapper function to mask type-hint warnings."""
+    return request.user  # type: ignore
 
 
 class UnitSystem(Enum):
@@ -70,17 +75,18 @@ def index(request: WSGIRequest) -> HttpResponse:
 
 
 # ---------------------------------------------------------------------------------------
-# -- Management Views
+# -- User / Team Management Views
 
 
 @login_required
 def account_settings(request: WSGIRequest) -> HttpResponse:
     print(">> account_settings")
 
+    user = get_user(request)
     context = {
-        "user": request.user,
-        "team": request.user.team,
-        "team_members": request.user.team.members.all(),
+        "user": user,
+        "team": user.team,
+        "team_members": user.team_members,
     }
     return render(request, "webportal/account_settings.html", context)
 
@@ -90,16 +96,18 @@ def account_settings(request: WSGIRequest) -> HttpResponse:
 def update_team_name(request: WSGIRequest) -> HttpResponse:
     print(">> update_team_name")
 
-    locked_names = ["PUBLIC", "ADMIN"]
+    locked_names = {"PUBLIC", "ADMIN"}
+    user = get_user(request)
 
-    if request.method == "POST":
-        if new_team_name := request.POST.get("team_name"):
-            if request.user.team.name not in locked_names:
-                if new_team_name not in locked_names:
-                    request.user.team.name = new_team_name
-                    request.user.team.save()
-                    return HttpResponse(new_team_name)
-    return HttpResponse(request.user.team.name)
+    if not user.team or user.team.name in locked_names:
+        return HttpResponse(user.team.name if user.team else "PUBLIC")
+
+    new_team_name = request.POST.get("team_name")
+    if new_team_name and new_team_name not in locked_names:
+        user.team.update_name(new_team_name)
+        return HttpResponse(new_team_name)
+
+    return HttpResponse(user.team.name)
 
 
 @require_POST
@@ -107,12 +115,13 @@ def update_team_name(request: WSGIRequest) -> HttpResponse:
 def update_first_name(request: WSGIRequest) -> HttpResponse:
     print(">> update_first_name")
 
+    user = get_user(request)
     if request.method == "POST":
         if new_first_name := request.POST.get("first_name"):
-            request.user.first_name = new_first_name
-            request.user.save()
+            user.first_name = new_first_name
+            user.save()
             return HttpResponse(new_first_name)
-    return HttpResponse(request.user.first_name)
+    return HttpResponse(user.first_name)
 
 
 @require_POST
@@ -120,12 +129,13 @@ def update_first_name(request: WSGIRequest) -> HttpResponse:
 def update_last_name(request: WSGIRequest) -> HttpResponse:
     print(">> update_last_name")
 
+    user = get_user(request)
     if request.method == "POST":
         if new_last_name := request.POST.get("last_name"):
-            request.user.last_name = new_last_name
-            request.user.save()
+            user.last_name = new_last_name
+            user.save()
             return HttpResponse(new_last_name)
-    return HttpResponse(request.user.last_name)
+    return HttpResponse(user.last_name)
 
 
 @require_POST
@@ -133,12 +143,13 @@ def update_last_name(request: WSGIRequest) -> HttpResponse:
 def update_email(request: WSGIRequest) -> HttpResponse:
     print(">> update_email")
 
+    user = get_user(request)
     if request.method == "POST":
         if new_email := request.POST.get("email"):
-            request.user.email = new_email
-            request.user.save()
+            user.email = new_email
+            user.save()
             return HttpResponse(new_email)
-    return HttpResponse(request.user.email)
+    return HttpResponse(user.email)
 
 
 @require_POST
@@ -146,13 +157,17 @@ def update_email(request: WSGIRequest) -> HttpResponse:
 def invite_user_to_team(request: WSGIRequest) -> HttpResponse:
     print(">> invite_user_to_team")
 
+    user = get_user(request)
+    if not user.team:
+        return HttpResponse("No Team to invite to")
+
     if request.method == "POST":
         if email := request.POST.get("user_email"):
             if invited_user := User.objects.get(email=email):
-                invited_user.invite_to_team(request.user)
+                invited_user.invite_to_team(user)
                 invited_user.save()
                 return HttpResponse(
-                    f"Invited User '{email}' to Team '{request.user.team.name}'"
+                    f"Invited User '{email}' to Team '{user.team.name}'"
                 )
             return HttpResponse(f"Error: User '{email}' not found?")
     return HttpResponse("Invite User to Team")
@@ -163,15 +178,15 @@ def invite_user_to_team(request: WSGIRequest) -> HttpResponse:
 def accept_team_invite(request: WSGIRequest) -> HttpResponse:
     print(">> accept_team_invite")
 
+    user = get_user(request)
     if request.method == "POST":
-        if not request.user.team_invite:
+        if not user.team_invite:
             return HttpResponse("No Team Invite to accept")
-        if team := Team.objects.get(id=request.user.team_invite.id):
-            request.user.team = team
-            request.user.team_invite = None
-            request.user.save()
+        if team := Team.objects.get(id=user.team_invite.pk):
+            user.team = team
+            user.team_invite = None
+            user.save()
             return HttpResponse(f"Joined Team '{team.name}'")
-        return HttpResponse(f"Error: Team '{team_id}' not found?")
     return HttpResponse("Accepted Team Invite")
 
 
@@ -180,14 +195,14 @@ def accept_team_invite(request: WSGIRequest) -> HttpResponse:
 def decline_team_invite(request: WSGIRequest) -> HttpResponse:
     print(">> decline_team_invite")
 
+    user = get_user(request)
     if request.method == "POST":
-        if not request.user.team_invite:
+        if not user.team_invite:
             return HttpResponse("No Team Invite to accept")
-        if team := Team.objects.get(id=request.user.team_invite.id):
-            request.user.team_invite = None
-            request.user.save()
+        if team := Team.objects.get(id=user.team_invite.pk):
+            user.team_invite = None
+            user.save()
             return HttpResponse(f"Declined Team Invite to join '{team.name}'")
-        return HttpResponse(f"Error: Team '{team_id}' not found?")
     return HttpResponse("Declined Team Invite")
 
 
@@ -196,21 +211,22 @@ def decline_team_invite(request: WSGIRequest) -> HttpResponse:
 def leave_team(request: WSGIRequest) -> HttpResponse:
     print(">> leave_team")
 
+    user = get_user(request)
     if request.method == "POST":
-        request.user.team, created = Team.objects.get_or_create(
-            name=request.user.username, created_by=request.user
+        user.team, created = Team.objects.get_or_create(
+            name=user.username, created_by=user
         )
-        request.user.team_invite = None
-        request.user.save()
+        user.team_invite = None
+        user.save()
 
     block_html = render_block_to_string(
         "webportal/partials/account_settings/settings.html",
         block_name="teams",
         context=Context(
             {
-                "user": request.user,
-                "team": request.user.team,
-                "team_members": request.user.team.members.all(),
+                "user": user,
+                "team": user.team,
+                "team_members": user.team_members,
             }
         ),
         request=request,
@@ -395,52 +411,113 @@ def import_materials(request: WSGIRequest) -> HttpResponse:
 
 
 @login_required
-def assemblies_page(request: WSGIRequest) -> HttpResponse:
+def assemblies_page(
+    request: WSGIRequest, project_pk: int | None = None
+) -> HttpResponse:
+    print(">> assemblies/")
+
+    user = get_user(request)
+    projects = Project.objects.filter_by_team(team=user.team)
+    assemblies = Assembly.objects.filter(project__in=projects)
+
     context = {
-        "current_user": request.user,
-        "assemblies": Assembly.objects.filter(user=request.user),
+        "current_user": user,
+        "projects": projects,
+        "active_project_pk": projects.first().pk,
+        "assemblies": assemblies,
     }
     return render(request, "webportal/assemblies.html", context)
 
 
+def sidebar_add_assembly_button(request: WSGIRequest, project_pk: int) -> str:
+    active_project = get_object_or_404(Project, pk=project_pk)
+    return render_block_to_string(
+        "webportal/partials/assemblies/sidebar.html",
+        block_name="assembly-sidebar-add-button",
+        context=Context(
+            {
+                "active_project_pk": active_project.pk,
+            }
+        ),
+        request=request,
+    )
+
+
+def sidebar_assembly_list(
+    request: WSGIRequest, project_pk: int, assembly_pk: int | None
+) -> str:
+    """HTML String for the Assembly sidebar-list of all assemblies in the project."""
+    active_project = get_object_or_404(Project, pk=project_pk)
+    project_assemblies = Assembly.objects.filter(project=active_project)
+    return render_block_to_string(
+        "webportal/partials/assemblies/sidebar.html",
+        block_name="assembly-sidebar-list",
+        context=Context(
+            {
+                "assemblies": project_assemblies,
+                "active_assembly_id": assembly_pk,
+                "active_project_pk": active_project.pk,
+            }
+        ),
+        request=request,
+    )
+
+
+def assembly_detail(project_pk: int, assembly_pk: int | None) -> str:
+    """HTML String for the Assembly detail view with all layer and materials."""
+    if assembly_pk:
+        this_assembly = get_object_or_404(Assembly, pk=assembly_pk)
+        layers: list[Layer] = this_assembly.get_ordered_layers()
+        if not layers:
+            this_assembly.add_new_layer()
+            layers = this_assembly.get_ordered_layers()
+
+        return render_to_string(
+            "webportal/partials/assemblies/assembly.html",
+            context={
+                "assembly": this_assembly,
+                "layer_views": (LayerView(layer) for layer in layers),
+                "active_project_pk": project_pk,
+            },
+        )
+    else:
+        return render_to_string(
+            "webportal/partials/assemblies/assembly.html",
+            {
+                "active_project_pk": project_pk,
+            },
+        )
+
+
 @login_required
-def assembly(request: WSGIRequest, pk: int | None) -> HttpResponse:
+def change_project(request: WSGIRequest) -> HttpResponse:
+    print(f">> change_project/")
+
+    if new_project_pk := request.GET.get("project_pk", None):
+        project_pk = int(new_project_pk)
+
+    sidebar_button = sidebar_add_assembly_button(request, project_pk)
+    sidebar_list = sidebar_assembly_list(request, project_pk, None)
+    assembly_html = assembly_detail(project_pk, None)
+    full_html = assembly_html + sidebar_button + sidebar_list
+    return HttpResponse(full_html, content_type="text/html")
+
+
+@login_required
+def assembly(
+    request: WSGIRequest, project_pk: int, assembly_pk: int | None = None
+) -> HttpResponse:
     """The Assembly view with the sidebar.
 
     Sidebar includes the 'active' assembly highlighted.
     """
 
-    print(f">> assembly/{pk}")
-    # -----------------------------------------------------------------------------------
-    # -- Detail-View
-    this_assembly = get_object_or_404(Assembly, pk=pk)
-    layers: list[Layer] = this_assembly.get_ordered_layers()
-    if not layers:
-        this_assembly.add_new_layer()
-        layers = this_assembly.get_ordered_layers()
+    print(f">> assembly/{project_pk}/{assembly_pk}")
 
-    assembly_html = render_to_string(
-        "webportal/partials/assemblies/assembly.html",
-        context={
-            "assembly": this_assembly,
-            "layer_views": (LayerView(layer) for layer in layers),
-        },
-    )
-
-    # -----------------------------------------------------------------------------------
-    # -- Sidebar
-    sidebar_html = render_block_to_string(
-        "webportal/partials/assemblies/sidebar.html",
-        block_name="assembly-sidebar-list",
-        context=Context(
-            {
-                "assemblies": Assembly.objects.filter(user=request.user),
-                "active_assembly_id": pk,
-            }
-        ),
-        request=request,
-    )
-    return HttpResponse(assembly_html + sidebar_html, content_type="text/html")
+    assembly_html = assembly_detail(project_pk, assembly_pk)
+    sidebar_project_list_html = sidebar_assembly_list(request, project_pk, assembly_pk)
+    full_html = assembly_html + sidebar_project_list_html
+    return HttpResponse(full_html, content_type="text/html")
 
 
 # ---------------------------------------------------------------------------------------
@@ -449,16 +526,18 @@ def assembly(request: WSGIRequest, pk: int | None) -> HttpResponse:
 
 @login_required
 @require_POST
-def update_assembly_name(request: WSGIRequest, pk: int) -> HttpResponse:
-    print(f">> {pk}/update_assembly_name")
+def update_assembly_name(
+    request: WSGIRequest, project_pk: int, assembly_pk: int
+) -> HttpResponse:
+    print(f">> {project_pk}/{assembly_pk}/update_assembly_name")
     if request.method == "POST":
         if name := request.POST.get("name"):
-            this_assembly = get_object_or_404(Assembly, pk=pk)
+            this_assembly = get_object_or_404(Assembly, pk=assembly_pk)
             this_assembly.name = name
             this_assembly.save()
 
     template_name = "webportal/partials/assemblies/assembly.html"
-    context = Context({"assembly": this_assembly})
+    context = Context({"assembly": this_assembly, "active_project_pk": project_pk})
     detail_view_name = render_block_to_string(
         template_name, block_name="assembly-name", context=context, request=request
     )
@@ -467,29 +546,41 @@ def update_assembly_name(request: WSGIRequest, pk: int) -> HttpResponse:
 
 
 @login_required
-def add_new_assembly(request: WSGIRequest) -> HttpResponse:
-    print(">> add_new_assembly")
-    if request.method == "POST":
-        new_assembly = Assembly(user=request.user, name="unnamed")
-        new_assembly.save()
+@require_POST
+def add_new_assembly(request: WSGIRequest, project_pk: int) -> HttpResponse:
+    print(f">> add_new_assembly/{project_pk}")
 
-    return assembly(request, new_assembly.pk)
+    if request.method == "POST":
+        new_assembly = Assembly.create_new_assembly(
+            user=get_user(request),
+            name="unnamed",
+            project=Project.objects.get(pk=project_pk),
+        )
+
+    return assembly(request, project_pk, new_assembly.pk)
 
 
 @login_required
-def delete_assembly(request: WSGIRequest, pk: int) -> HttpResponse:
-    print(f">> {pk}/delete_assembly")
-    this_assembly = get_object_or_404(Assembly, pk=pk)
+def delete_assembly(
+    request: WSGIRequest, project_pk: int, assembly_pk: int
+) -> HttpResponse:
+    print(f">> {project_pk}/{assembly_pk}/delete_assembly")
+
+    this_assembly = get_object_or_404(Assembly, pk=assembly_pk)
     this_assembly.delete()
+    active_project = get_object_or_404(Project, pk=project_pk)
+    project_assemblies = Assembly.objects.filter(project=active_project)
     return assembly(
-        request, getattr(Assembly.objects.filter(user=request.user).first(), "pk", None)
+        request,
+        project_pk,
+        getattr(project_assemblies.first(), "pk", None),
     )
 
 
 @login_required
-def add_layer(request: WSGIRequest, pk: int) -> HttpResponse:
-    print(f">> {pk}/add_layer")
-    this_assembly = get_object_or_404(Assembly, id=pk)
+def add_layer(request: WSGIRequest, project_pk: int, assembly_pk: int) -> HttpResponse:
+    print(f">> {project_pk}/{assembly_pk}/add_layer")
+    this_assembly = get_object_or_404(Assembly, id=assembly_pk)
     new_layer = this_assembly.add_new_layer()
 
     layer_html = render_block_to_string(
@@ -499,6 +590,7 @@ def add_layer(request: WSGIRequest, pk: int) -> HttpResponse:
             {
                 "assembly": this_assembly,
                 "layer_view": LayerView(new_layer),
+                "active_project_pk": project_pk,
             },
         ),
         request=request,
@@ -507,22 +599,24 @@ def add_layer(request: WSGIRequest, pk: int) -> HttpResponse:
 
 
 @login_required
-def delete_layer(request: WSGIRequest, assembly_pk: int, layer_pk: int) -> HttpResponse:
-    print(f">> {assembly_pk}/delete_layer/{layer_pk}")
+def delete_layer(
+    request: WSGIRequest, project_pk: int, assembly_pk: int, layer_pk: int
+) -> HttpResponse:
+    print(f">> {project_pk}/{assembly_pk}/delete_layer/{layer_pk}")
     this_assembly = get_object_or_404(Assembly, id=assembly_pk)
     this_assembly.delete_layer(layer_pk)
     this_layer = get_object_or_404(Layer, id=layer_pk)
     this_layer.delete()
 
-    return assembly(request, assembly_pk)
+    return assembly(request, project_pk, assembly_pk)
 
 
 @login_required
 @require_POST
 def update_layer_thickness(
-    request: WSGIRequest, assembly_pk: int, layer_pk: int
+    request: WSGIRequest, project_pk: int, assembly_pk: int, layer_pk: int
 ) -> HttpResponse:
-    print(f">> {assembly_pk}/update_layer_thickness/{layer_pk}")
+    print(f">> {project_pk}/{assembly_pk}/update_layer_thickness/{layer_pk}")
     layer = get_object_or_404(Layer, id=layer_pk)
     if request.method == "POST":
         if thickness := request.POST.get("thickness"):
@@ -534,15 +628,13 @@ def update_layer_thickness(
 @login_required
 @require_POST
 def update_layer_material(
-    request: WSGIRequest, assembly_pk: int, layer_pk: int
+    request: WSGIRequest, project_pk: int, assembly_pk: int, layer_pk: int
 ) -> HttpResponse:
-    print(f">> {assembly_pk}/update_layer_material/{layer_pk}")
+    print(f">> {project_pk}/{assembly_pk}/update_layer_material/{layer_pk}")
 
     layer = get_object_or_404(Layer, id=layer_pk)
-    print(">> Layer:", layer)
     if request.method == "POST":
         for segment in layer.segments.all():
-            print(">> Segment:", segment)
             # Select2 will return something like 'form_2-material' as the key
             if mat_id := request.POST.get(f"form_{segment.pk}-material", None):
                 new_material = Material.objects.get(id=mat_id)

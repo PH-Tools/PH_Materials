@@ -9,6 +9,7 @@ from webportal.models import (
     Layer,
     LayerSegment,
     Team,
+    Project,
 )
 
 admin.site.register(MaterialCategory)
@@ -16,6 +17,7 @@ admin.site.register(Material)
 admin.site.register(Assembly)
 admin.site.register(Layer)
 admin.site.register(LayerSegment)
+admin.site.register(Project)
 
 
 class UserAdmin(BaseUserAdmin):

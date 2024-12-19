@@ -67,36 +67,48 @@ urlpatterns = [
     path("materials/set-unit-system", views.set_unit_system, name="set-unit-system"),
     # -----------------------------------------------------------------------------------
     # -- Assemblies
-    path("assemblies/", views.assemblies_page, name="assemblies-page"),
-    path("assemblies/<int:pk>", views.assembly, name="assembly"),
+    path("assemblies/", views.assemblies_page, name="assemblies-page-landing"),
+    path("assemblies/<int:project_pk>/", views.assembly, name="assembly-landing"),
+    path("assemblies/change-project/", views.change_project, name="change-project"),
     path(
-        "assemblies/add-new-assembly", views.add_new_assembly, name="add-new-assembly"
+        "assemblies/<int:project_pk>/<int:assembly_pk>/",
+        views.assembly,
+        name="assembly",
     ),
     path(
-        "assemblies/<int:pk>/update-assembly-name",
+        "assemblies/<int:project_pk>/add-new-assembly",
+        views.add_new_assembly,
+        name="add-new-assembly",
+    ),
+    path(
+        "assemblies/<int:project_pk>/<int:assembly_pk>/update-assembly-name",
         views.update_assembly_name,
         name="update-assembly-name",
     ),
     path(
-        "assemblies/<int:pk>/delete-assembly",
+        "assemblies/<int:project_pk>/<int:assembly_pk>/delete-assembly",
         views.delete_assembly,
         name="delete-assembly",
     ),
     # -----------------------------------------------------------------------------------
     # -- Assembly Details
-    path("assemblies/<int:pk>/add-layer/", views.add_layer, name="add-layer"),
     path(
-        "assemblies/<int:assembly_pk>/delete-layer/<int:layer_pk>/",
+        "assemblies/<int:project_pk>/<int:assembly_pk>/add-layer/",
+        views.add_layer,
+        name="add-layer",
+    ),
+    path(
+        "assemblies/<int:project_pk>/<int:assembly_pk>/delete-layer/<int:layer_pk>/",
         views.delete_layer,
         name="delete-layer",
     ),
     path(
-        "assemblies/<int:assembly_pk>/update-layer-thickness/<int:layer_pk>/",
+        "assemblies/<int:project_pk>/<int:assembly_pk>/update-layer-thickness/<int:layer_pk>/",
         views.update_layer_thickness,
         name="update-layer-thickness",
     ),
     path(
-        "assemblies/<int:assembly_pk>/update-layer-material/<int:layer_pk>/",
+        "assemblies/<int:project_pk>/<int:assembly_pk>/update-layer-material/<int:layer_pk>/",
         views.update_layer_material,
         name="update-layer-material",
     ),
