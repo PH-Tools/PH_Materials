@@ -24,24 +24,33 @@
             Assemblies
         </h1>
 
-        <form 
-            id="project-select-form"
-            hx-get=""
-        >
-            <select 
-                name="project_pk"
-                hx-get="{% url 'change-project' %}"
-                hx-trigger="change"
-                hx-target="#assembly"
-                hx-swap="outerHTML"
-                class="select select-xs select-bordered w-full max-w-xs"
+        <div class="flex flex-row items-center">
+            <form 
+                id="project-select-form"
+                hx-get=""
+                class="me-2"
             >
-                {% for project in projects %}
-                    <option value={{ project.pk }}>{{ project.name }}</option>
-                {% endfor %}
-                    <option>New Project +</option>
-            </select>
-        </form>
+                <select 
+                    name="project_pk"
+                    hx-get="{% url 'change-project' %}"
+                    hx-trigger="change"
+                    hx-target="#assembly"
+                    hx-swap="outerHTML"
+                    class="select select-xs select-bordered w-full max-w-xs"
+                >
+                    {% for project in projects %}
+                        <option value={{ project.pk }}>{{ project.name }}</option>
+                    {% endfor %}
+                        <option value="">New Project +</option>
+                </select>
+            </form>
+            <p 
+                class="text-xs"
+                style="color:gray"
+            >
+                Project #: <span id="active-project-uid" hx-swap-oob="true">{{ active_project.uid }}</span>
+            </p>
+        </div>
 
         <div id="assemblies-container" class="mt-4 relative">
             <div id="assemblies-grid-container" class="flex flex-col md:grid md:grid-cols-5 md:gap-6">

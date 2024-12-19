@@ -418,12 +418,14 @@ def assemblies_page(
 
     user = get_user(request)
     projects = Project.objects.filter_by_team(team=user.team)
+    active_project = projects.first()
     assemblies = Assembly.objects.filter(project__in=projects)
 
     context = {
         "current_user": user,
         "projects": projects,
         "active_project_pk": projects.first().pk,
+        "active_project": active_project,
         "assemblies": assemblies,
     }
     return render(request, "webportal/assemblies.html", context)
@@ -431,12 +433,14 @@ def assemblies_page(
 
 def sidebar_add_assembly_button(request: WSGIRequest, project_pk: int) -> str:
     active_project = get_object_or_404(Project, pk=project_pk)
+    print(f"rendering with: {active_project} | {active_project.pk}")
     return render_block_to_string(
         "webportal/partials/assemblies/sidebar.html",
         block_name="assembly-sidebar-add-button",
         context=Context(
             {
                 "active_project_pk": active_project.pk,
+                "active_project": active_project,
             }
         ),
         request=request,
@@ -457,6 +461,7 @@ def sidebar_assembly_list(
                 "assemblies": project_assemblies,
                 "active_assembly_id": assembly_pk,
                 "active_project_pk": active_project.pk,
+                "active_project": active_project,
             }
         ),
         request=request,
@@ -465,6 +470,7 @@ def sidebar_assembly_list(
 
 def assembly_detail(project_pk: int, assembly_pk: int | None) -> str:
     """HTML String for the Assembly detail view with all layer and materials."""
+    active_project = get_object_or_404(Project, pk=project_pk)
     if assembly_pk:
         this_assembly = get_object_or_404(Assembly, pk=assembly_pk)
         layers: list[Layer] = this_assembly.get_ordered_layers()
@@ -478,6 +484,7 @@ def assembly_detail(project_pk: int, assembly_pk: int | None) -> str:
                 "assembly": this_assembly,
                 "layer_views": (LayerView(layer) for layer in layers),
                 "active_project_pk": project_pk,
+                "active_project": active_project,
             },
         )
     else:
@@ -485,6 +492,7 @@ def assembly_detail(project_pk: int, assembly_pk: int | None) -> str:
             "webportal/partials/assemblies/assembly.html",
             {
                 "active_project_pk": project_pk,
+                "active_project": active_project,
             },
         )
 
@@ -494,12 +502,20 @@ def change_project(request: WSGIRequest) -> HttpResponse:
     print(f">> change_project/")
 
     if new_project_pk := request.GET.get("project_pk", None):
+        print("new_proj_pk:", new_project_pk)
         project_pk = int(new_project_pk)
+    else:
+        project_pk = Project.objects.filter_by_team(get_user(request).team).first().pk
 
     sidebar_button = sidebar_add_assembly_button(request, project_pk)
     sidebar_list = sidebar_assembly_list(request, project_pk, None)
     assembly_html = assembly_detail(project_pk, None)
-    full_html = assembly_html + sidebar_button + sidebar_list
+
+    active_project = get_object_or_404(Project, pk=project_pk)
+    active_uid = (
+        f'<span id="active-project-uid" hx-swap-oob="true">{active_project.uid}</span>'
+    )
+    full_html = assembly_html + sidebar_button + sidebar_list + active_uid
     return HttpResponse(full_html, content_type="text/html")
 
 
@@ -537,7 +553,14 @@ def update_assembly_name(
             this_assembly.save()
 
     template_name = "webportal/partials/assemblies/assembly.html"
-    context = Context({"assembly": this_assembly, "active_project_pk": project_pk})
+    active_project = get_object_or_404(Project, pk=project_pk)
+    context = Context(
+        {
+            "assembly": this_assembly,
+            "active_project_pk": project_pk,
+            "active_project": active_project,
+        }
+    )
     detail_view_name = render_block_to_string(
         template_name, block_name="assembly-name", context=context, request=request
     )
@@ -550,11 +573,12 @@ def update_assembly_name(
 def add_new_assembly(request: WSGIRequest, project_pk: int) -> HttpResponse:
     print(f">> add_new_assembly/{project_pk}")
 
+    active_project = get_object_or_404(Project, pk=project_pk)
     if request.method == "POST":
         new_assembly = Assembly.create_new_assembly(
             user=get_user(request),
             name="unnamed",
-            project=Project.objects.get(pk=project_pk),
+            project=active_project,
         )
 
     return assembly(request, project_pk, new_assembly.pk)
@@ -580,8 +604,10 @@ def delete_assembly(
 @login_required
 def add_layer(request: WSGIRequest, project_pk: int, assembly_pk: int) -> HttpResponse:
     print(f">> {project_pk}/{assembly_pk}/add_layer")
+
     this_assembly = get_object_or_404(Assembly, id=assembly_pk)
     new_layer = this_assembly.add_new_layer()
+    active_project = get_object_or_404(Project, pk=project_pk)
 
     layer_html = render_block_to_string(
         "webportal/partials/assemblies/assembly.html",
@@ -591,6 +617,7 @@ def add_layer(request: WSGIRequest, project_pk: int, assembly_pk: int) -> HttpRe
                 "assembly": this_assembly,
                 "layer_view": LayerView(new_layer),
                 "active_project_pk": project_pk,
+                "active_project": active_project,
             },
         ),
         request=request,
@@ -603,6 +630,7 @@ def delete_layer(
     request: WSGIRequest, project_pk: int, assembly_pk: int, layer_pk: int
 ) -> HttpResponse:
     print(f">> {project_pk}/{assembly_pk}/delete_layer/{layer_pk}")
+
     this_assembly = get_object_or_404(Assembly, id=assembly_pk)
     this_assembly.delete_layer(layer_pk)
     this_layer = get_object_or_404(Layer, id=layer_pk)
