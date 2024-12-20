@@ -21,8 +21,11 @@ def assemblies_page(
     print(">> assemblies/")
 
     user = get_user(request)
+    active_project = Project.get_team_projects(team=user.team).first()
+    if not active_project:
+        active_project = Project.create_new_project(user, name="Default Project")
+
     projects = Project.get_team_projects(team=user.team)
-    active_project = projects.first()
     assemblies = Assembly.objects.filter(project__in=projects)
 
     context = {

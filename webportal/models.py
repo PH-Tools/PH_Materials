@@ -265,6 +265,17 @@ class Project(models.Model):
     objects = ProjectQuerySet.as_manager()
 
     @classmethod
+    def create_new_project(cls, user: User, name: str) -> "Project":
+        """Create a new Project object."""
+        new_assembly = Assembly.objects.create(created_by=user, name="assembly")
+        new_assembly.save()
+        new_project = Project.objects.create(
+            create_by=user, name=name, assembly_id_order=[new_assembly.pk]
+        )
+        new_project.save()
+        return new_project
+
+    @classmethod
     def get_team_projects(cls, team: Team | None) -> models.QuerySet["Project"]:
         """Return all projects created by the given Team."""
         return Project.objects.filter(create_by__team=team)
