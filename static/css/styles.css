@@ -1,9 +1,26 @@
-body {
-    background-image: linear-gradient(to right top, #111130, #8789f8);
-    min-height: 100vh;
+:root {
+    --cell-color: rgb(255, 255, 204);
+    --cell-important: rgb(204, 255, 204);
 }
 
 nav {
-    color: white;
-    background-color: #2c2c72;
+    border-bottom: 0.5px solid rgb(167, 167, 167);
+}
+
+body {
+    background: radial-gradient(circle at 170% -10%, rgb(99, 102, 241) -10%, rgba(255, 255, 255, 0) 60%),
+        radial-gradient(circle at 190% 170%, rgb(165, 254, 120) 30%, rgba(255, 255, 255, 0) 55%);
+    min-height: 100vh;
+}
+
+.screen {
+    background-blend-mode: screen;
+}
+
+.overlay {
+    background-blend-mode: overlay;
+}
+
+.difference {
+    background-blend-mode: difference;
 }

@@ -1,0 +1,229 @@
+<div id="account-settings" class="col-span-4">
+    {% block user-info %}
+        <div id="user" class="flex flex-col gap-4">
+            <hr style="margin-top:60px; border:1px dashed gray" />
+            <h1 class="text-2xl">User '{{user.username}}':</h1>
+            
+            <form id="user-first-name-form"                         
+                hx-post="{% url 'update-first-name' %}"
+                hx-target="#first-name-input"
+                hx-swap="innerHTML"
+                hx-trigger="submit, focusout"
+            >
+                {% csrf_token %}
+                <label class="input input-bordered flex flex-1 items-center gap-2">
+                    First Name:
+                    <input
+                        id="first-name-input"
+                        name="first_name"
+                        type="text"
+                        class="flex flex-1"
+                        value={{ user.first_name }} 
+                    />
+                </label>
+            </form>
+
+            <form id="user-last-name-form"                         
+                hx-post="{% url 'update-last-name' %}"
+                hx-target="#last-name-input"
+                hx-swap="innerHTML"
+                hx-trigger="submit, focusout"
+            >
+                {% csrf_token %}
+                <label class="input input-bordered flex flex-1 items-center gap-2">
+                    Last Name:
+                    <input
+                        id="last-name-input"
+                        name="last_name"
+                        type="text"
+                        class="flex flex-1"
+                        value={{ user.last_name }} 
+                    />
+                </label>
+            </form>
+
+            <form id="user-email-form"                         
+                hx-post="{% url 'update-email' %}"
+                hx-target="#email-input"
+                hx-swap="innerHTML"
+                hx-trigger="submit, focusout"
+            >
+                {% csrf_token %}
+                <label class="input input-bordered flex flex-1 items-center gap-2">
+                    Email:
+                    <input
+                        id="email-input"
+                        name="email"
+                        type="text"
+                        class="flex flex-1"
+                        value={{ user.email }} 
+                    />
+                </label>
+            </form>
+        </div>
+    {% endblock %}
+
+    {% block teams %}
+        <div id="team" class="flex flex-col gap-4">
+            <hr style="margin-top:60px; border:1px dashed gray" />
+            <h1 class="text-2xl">Team:</h1>
+
+            {% if not user.is_paid_user %}
+                <div class="badge badge-warning gap-2">{{ team.name }}</div>
+                <div>
+                    You are currently have a free 'view-only' account. You have access to view all of 
+                    the public materials, but cannot add or edit any new materials, or view materials 
+                    which are created by other users. Upgrade to a Pro account to create or join a team.
+                </div>
+            {% else %}
+                {% if user.team_invite %}                    
+                    <div class="card bg-base-100 shadow-xl flex flex-1">
+                        <div id="invite-card-body" class="card-body items-center text-center flex flex-1">
+                            <h2 class="card-title">You have been invited to join a team!</h2>
+                            <p class="text-xl">User '{{user.team_invite.created_by.username}}' has invited you to join the team '{{user.team_invite.team.name}}'.</p>
+                            <p class="text">If you would like to join this team, click the 'Accept Invite' button below</p>
+                            <div>
+                                <a
+                                    hx-post="{% url 'accept-team-invite' %}"
+                                    hx-trigger="click"
+                                    hx-target="#invite-card-body"
+                                    hx-swap="innerHTML"
+                                >
+                                <button class="btn btn-success">Accept Invite</button></a>
+                                <a
+                                    hx-post="{% url 'decline-team-invite' %}"
+                                    hx-trigger="click"
+                                    hx-target="#invite-card-body"
+                                    hx-swap="innerHTML"
+                                    name="team_id"
+                                >
+                                <button class="btn btn-error">Decline Invite</button></a>
+                            </div>
+                            <p class="text-xs">
+                                What does it mean to accept this invite? When you join this new team,
+                                all of your materials and assemblies will now be accessible by all team-members.
+                                You will also be able to have access to all of the materials 
+                                and assemblies from all other the team-members as well.
+                            </p>
+                        </div>
+                    </div>
+                {% else %}
+
+                    {% if user.is_team_manager %}
+
+                        <form 
+                            id="team-name-form"
+                            hx-post="{% url 'update-team-name' %}"
+                            hx-target="#team-name-input"
+                            hx-swap="innerHTML"
+                            hx-trigger="submit"
+                        >
+                            {% csrf_token %}
+                            <div class="join flex">
+                                <input
+                                    id="team-name-input"
+                                    type="text"
+                                    name="team_name"
+                                    class="flex flex-1 input input-bordered join-item"
+                                    placeholder="{{ team.name }}" 
+                                />
+                                <button 
+                                    class="btn join-item rounded-r-full"
+                                    style="min-width:25ch;"
+                                >
+                                    Change Team Name
+                                </button>
+                            </div>
+                        </form>
+
+                        <form 
+                            id="invite-user-form"                    
+                            hx-post="{% url 'invite-user-to-team' %}"
+                            hx-target="#invite-user-input"
+                            hx-swap="outerHTML"
+                            hx-trigger="submit"
+                        >
+                            {% csrf_token %}
+                            <div class="join flex">
+                                <input 
+                                    id="invite-user-input"
+                                    type="text"
+                                    name="user_email"
+                                    class="flex-1 input input-bordered join-item"
+                                    placeholder="User Email..."
+                                    value=""
+                                />
+                                <button class="btn join-item rounded-r-full" style="min-width:25ch;">
+                                    Add New Team Member
+                                </button>
+                            </div>
+                        </form>
+                        
+                        {% if user.team.created_by.id == user.id %}
+                            <div id="team-member-table" class="overflow-x-auto">
+                                {% if team.name != "PUBLIC"  %}
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Remove From Team</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for team_member in team_members %}
+                                            <tr>
+                                                <td>
+                                                    {{ team_member.username }}
+                                                </td>
+                                                <td>
+                                                    {{ team_member.first_name }}
+                                                </td>
+                                                <td>
+                                                    {{ team_member.last_name }}
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-ghost btn-xs" {% if team_member.username == user.username %}disabled{% endif %}>remove</button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                    {% else %}
+                            <h1>Member of Team: {{ team.name }}</h1>
+                            <a
+                                hx-post="{% url 'leave-team' %}"
+                                hx-trigger="click"
+                                hx-target="#team"
+                                hx-swap="outerHTML"
+                            ><button class="btn">Leave Team '{{ team.name }}'</button></a>
+                    {% endif %}
+                {% endif %}  
+            {% endif %}
+        </div>
+    {% endblock %}
+
+    {% block api-tokens %}
+        <div id="delete-account" class="flex flex-col gap-4">
+            <hr style="margin-top:60px;  border:1px dashed gray" />
+            <h1 class="text-2xl">API Tokens:</h1>
+        </div>
+    {% endblock %}
+
+    {% block delete-account %}
+        <div id="delete-account" class="flex flex-col gap-4">
+            <hr style="margin-top:60px; border:1px dashed gray" />
+            <h1 class="text-2xl">Delete Account:</h1>
+            <form>
+                <p>Warning: This action is irreversible. All data associated with your account will be permanently deleted.</p>
+                <button class="btn btn-error">Delete Account</button>
+            </form>
+        </div>
+    {% endblock %}
+
+</div>

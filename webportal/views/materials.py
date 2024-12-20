@@ -1,13 +1,10 @@
-from enum import Enum
-import uuid
-
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator
-from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
 from django.db.models.functions import Lower
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods, require_POST
@@ -18,11 +15,7 @@ from webportal.filters import MaterialCategoryFilter
 from webportal.forms import MaterialForm
 from webportal.models import Material
 from webportal.resources import MaterialResource
-
-
-class UnitSystem(Enum):
-    SI = "SI"
-    IP = "IP"
+from webportal.views._types import UnitSystem
 
 
 @require_POST
@@ -44,12 +37,8 @@ def set_unit_system(request: WSGIRequest) -> HttpResponse:
     return redirect(f"{reverse('get-materials')}?{query_string}")
 
 
-def index(request: WSGIRequest) -> HttpResponse:
-    return render(request, "webportal/index.html")
-
-
 # ---------------------------------------------------------------------------------------
-# -- Materials List View
+# -- Materials-List Views
 
 
 def _get_materials(request: WSGIRequest) -> dict:

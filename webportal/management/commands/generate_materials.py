@@ -24,7 +24,6 @@ class Command(BaseCommand):
         categories = MaterialCategory.objects.all()
         for _ in range(20):
             Material.objects.create(
-                unique_id=uuid.uuid4().hex[:6],
                 name=fake.word(),
                 conductivity=random.uniform(0.1, 10.0),
                 emissivity=random.uniform(0.1, 1.0),

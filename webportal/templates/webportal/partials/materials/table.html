@@ -7,7 +7,7 @@
     <div class="flex flex-col">
         {% if materials %}
             <table class="table-xs overflow-x-auto overflow-y-auto" style="display:inline-block">
-                <thead class="text-xs text-white uppercase" style="border-bottom-width:2px;">
+                <thead class="text-xs  uppercase" style="border-bottom:2px solid gray;">
                     <tr>
                         <th></th>
                         <th class="px-6 pt-3 pb-0">Category</th>
@@ -35,7 +35,7 @@
                 <tbody>
                     {% partialdef material_list inline=True %}
                         {% for material in materials %}
-                                <tr class="hover:bg-gray-700">
+                                <tr class="hover:bg-gray-300">
                                     {% comment %} TODO: This causes an N+1 lookup issue that I can't fix.... {% endcomment %}
                                     {% if material.user == current_user %}
                                         <td class="flex items-center">
@@ -117,7 +117,7 @@
             {% endif %}
                     
         {% else %}
-            <p class="text-2xl text-white">No materials found.</p>
+            <p class="text-2xl ">No materials found.</p>
         {% endif %}
 
         <span id="spinner" class="loading loading-spinner loading-lg htmx-indicator"></span>

@@ -1,0 +1,20 @@
+.select2-container {
+    width: 100% !important;
+    display: flex;
+}
+
+.select2-selection {
+    display: flex !important;
+    flex-basis: 1 !important;
+    background-color: var(--cell-color) !important;
+    padding: 6px !important;
+    border-radius: 3px !important;
+    border: 1px solid #939799 !important;
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.django-select2 {
+    /* Hide the default select. This may be a bug in Select2? */
+    display: none;
+}

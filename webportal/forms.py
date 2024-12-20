@@ -1,6 +1,7 @@
 from django import forms
+from django_select2.forms import Select2Widget
 
-from webportal.models import Material, MaterialCategory
+from webportal.models import Material
 
 
 class MaterialForm(forms.ModelForm):
@@ -34,3 +35,11 @@ class MaterialForm(forms.ModelForm):
             "comments",
             "color_argb",
         }
+
+
+class MaterialSearchForm(forms.Form):
+    material = forms.ModelChoiceField(
+        queryset=Material.objects.all(),
+        widget=Select2Widget(),
+        label="",
+    )

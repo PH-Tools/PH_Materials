@@ -10,8 +10,8 @@
     >
         
         <div class="mb-4 form-control">
-            {{ filter.form.category|add_label_class:"label text-white" }}
-            {% render_field filter.form.category class="text-s text-white-300 border-gray-300 rounded focus:ring-green-500" %}
+            {{ filter.form.category|add_label_class:"label " }}
+            {% render_field filter.form.category class="text-s -300 border-gray-300 rounded focus:ring-green-500" %}
         </div>
         
         <button class="btn btn-white">
@@ -19,11 +19,11 @@
         </button>
     </form>
 
-    <hr style="margin-top:20px; margin-bottom:20px; border-style:dashed" />
+    <hr style="margin-top:20px; margin-bottom:20px; border:1px dashed gray" />
 
     <form id="unit-system-form">
         <label class="flex cursor-pointer gap-2">
-            <span class="label-text text-white">SI</span>
+            <span class="label-text ">SI</span>
             <input 
                 type="checkbox"
                 name="unit-system"
@@ -34,11 +34,11 @@
                 hx-target="#material-table"
                 hx-swap="outerHTML"
             />
-            <span class="label-text text-white">IP</span>
+            <span class="label-text ">IP</span>
         </label>
     </form>
 
-    <hr style="margin-top:20px; margin-bottom:20px; border-style:dashed" />
+    <hr style="margin-top:20px; margin-bottom:20px; border:1px dashed gray" />
     
     <div class="flex items-center" id="import-export-tools">
         <a 

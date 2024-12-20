@@ -13,7 +13,7 @@ class MaterialResource(resources.ModelResource):
 
     def dehydrate_category(self, obj: Material) -> str | None:
         # Get the display-name for the 'category' from its code
-        return MaterialCategory.get_category_display_name(obj.category.category)
+        return MaterialCategory.get_category_display_name(obj.category.category)  # type: ignore
 
     def before_import_row(self, row, **kwargs) -> None:
         # Convert the category display-name back to the category-code
@@ -27,7 +27,7 @@ class MaterialResource(resources.ModelResource):
         # Set the user field for each Material instance
         user = kwargs.get("user")
         if user:
-            row["user"] = user.id
+            row["user"] = user.pk
 
     def after_init_instance(self, instance, new, row, **kwargs):
         instance.user = kwargs.get("user")
@@ -35,7 +35,7 @@ class MaterialResource(resources.ModelResource):
     class Meta:
         model = Material
         fields = (
-            "unique_id",
+            "uid",
             "category",
             "name",
             "conductivity",
