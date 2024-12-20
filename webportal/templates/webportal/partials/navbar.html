@@ -22,13 +22,15 @@
                                 Materials
                         </a>
                     </li>
-                    <li>
-                        <a href="{% url 'assemblies-page-landing' %}" 
-                            class="block py-2 pl-3 pr-4  rounded md:p-0" 
-                            aria-current="page">
-                                Assemblies
-                        </a>
-                    </li>
+                    {% if user.is_paid_user %}
+                        <li>
+                            <a href="{% url 'assemblies-page-landing' %}" 
+                                class="block py-2 pl-3 pr-4  rounded md:p-0" 
+                                aria-current="page">
+                                    Assemblies
+                            </a>
+                        </li>
+                    {% endif %}
                     <li>
                         <a href="{% url 'account-settings' %}">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

@@ -1,16 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from webportal.models import (
-    Assembly,
-    Layer,
-    LayerSegment,
-    Material,
-    MaterialCategory,
-    Project,
-    Team,
-    User,
-)
+from webportal.models import (Assembly, Layer, LayerSegment, Material,
+                              MaterialCategory, Project, Team, User)
 
 admin.site.register(MaterialCategory)
 admin.site.register(Material)
