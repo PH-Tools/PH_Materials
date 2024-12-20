@@ -241,6 +241,16 @@ class Project(models.Model):
     assembly_id_order = models.JSONField(default=list)
     objects = ProjectQuerySet.as_manager()
 
+    @classmethod
+    def get_team_projects(cls, team: Team | None) -> models.QuerySet["Project"]:
+        """Return all projects created by the given Team."""
+        return Project.objects.filter(create_by__team=team)
+
+    @classmethod
+    def get_team_default_project(cls, team: Team | None) -> "Project | None":
+        """Return the default project for the given Team."""
+        return Project.get_team_projects(team).first()
+
     @property
     def team(self) -> Team | None:
         """Return the Team of the User who created the Project."""
@@ -343,6 +353,11 @@ class Assembly(models.Model):
         self.save()
         return layer
 
+    def set_name(self, name: str) -> None:
+        """Set the name of the assembly."""
+        self.name = name
+        self.save()
+
     def save(self, *args, **kwargs) -> None:
         # -- Generate the UID if it does not exist
         if not self.uid:
@@ -394,6 +409,11 @@ class Layer(models.Model):
         layer.save()
         return layer
 
+    def set_layer_thickness(self, thickness: float) -> None:
+        """Set the thickness of the layer."""
+        self.thickness = thickness
+        self.save()
+
     def __str__(self) -> str:
         return f"{self.thickness} mm"
 
@@ -411,6 +431,11 @@ class LayerSegment(models.Model):
             self.uid = generate_short_uid(LayerSegment, "seg")
 
         super().save(*args, **kwargs)
+
+    def set_segment_material(self, material: Material) -> None:
+        """Set the material of the segment."""
+        self.material = material
+        self.save()
 
     def __str__(self):
         return f"[layer-{self.layer}]: {self.material}"

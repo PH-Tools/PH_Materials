@@ -1,4 +1,5 @@
 from typing import Iterable
+
 from django import template
 from django.core.paginator import Paginator
 

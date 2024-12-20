@@ -6,7 +6,7 @@
                 <div class="flex flex-1 items-center">
                     <div class="me-4" >Assembly:</div>
                     <form 
-                        hx-post="{% url 'update-assembly-name' active_project_pk assembly.id %}"
+                        hx-post="{% url 'update-assembly-name' active_project.pk assembly.id %}"
                         hx-target="#assembly-name"
                         hx-swap="outerHTML"
                         hx-trigger="submit, focusout"
@@ -43,7 +43,7 @@
                             <div class="layer flex flex-row items-center py-2" id="layer-{{ layer_view.layer.pk }}">
                                 <a                                
                                     id="delete-layer-{{ assembly.pk }}"
-                                    hx-delete="{% url 'delete-layer' active_project_pk assembly.pk layer_view.layer.pk %}"
+                                    hx-delete="{% url 'delete-layer' active_project.pk assembly.pk layer_view.layer.pk %}"
                                     hx-target="#assembly"
                                     hx-swap="outerHTML"
                                     hx-confirm="Delete?"
@@ -68,7 +68,7 @@
 
                                 <form
                                     id="layer-thickness-form"
-                                    hx-post="{% url 'update-layer-thickness' active_project_pk assembly.id layer_view.layer.pk %}"
+                                    hx-post="{% url 'update-layer-thickness' active_project.pk assembly.id layer_view.layer.pk %}"
                                     hx-target="#layer-thickness-{{ layer_view.layer.pk }}"
                                     hx-swap="innerHTML"
                                     hx-trigger="submit, focusout"
@@ -91,7 +91,7 @@
                                     {% for segment, form in layer_view.segments_and_forms %}
                                         <form
                                             style="width: 100%;"
-                                            hx-post="{% url 'update-layer-material' active_project_pk assembly.id layer_view.layer.pk %}"
+                                            hx-post="{% url 'update-layer-material' active_project.pk assembly.id layer_view.layer.pk %}"
                                             hx-target="find [role='textbox']"
                                         >
                                             {{ form }}
@@ -107,7 +107,7 @@
                 <div id="grid-control-buttons" class="mt-10">
                     <button 
                         class="btn"
-                        hx-post="{% url 'add-layer' active_project_pk assembly.pk %}"
+                        hx-post="{% url 'add-layer' active_project.pk assembly.pk %}"
                         hx-target="#assembly-layers"
                         hx-swap="beforeend"
                     >

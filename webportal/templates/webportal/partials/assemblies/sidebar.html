@@ -6,7 +6,7 @@
     {% block assembly-sidebar-add-button %}
         <form
             id="assembly-sidebar-add-new-button"
-            hx-post="{% url 'add-new-assembly' active_project_pk %}"
+            hx-post="{% url 'add-new-assembly' active_project.pk %}"
             hx-target="#assembly"
             hx-swap="outerHTML"
             hx-swap-oob="true"
@@ -30,7 +30,7 @@
                         >
                         <a                                
                             id="delete-assembly-{{ assembly.pk }}"
-                            hx-delete="{% url 'delete-assembly' active_project_pk assembly.pk %}"
+                            hx-delete="{% url 'delete-assembly' active_project.pk assembly.pk %}"
                             hx-target="#assembly"
                             hx-swap="outerHTML"
                             hx-confirm="Delete?" 
@@ -48,7 +48,7 @@
                         </a>
                         <a 
                             id="assembly-name-{{ assembly.pk }}"
-                            hx-get="{% url 'assembly' active_project_pk assembly.pk %}"
+                            hx-get="{% url 'assembly' active_project.pk assembly.pk %}"
                             hx-target="#assembly"
                             hx-swap="outerHTML"
                         >
