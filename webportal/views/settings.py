@@ -6,7 +6,7 @@ from django.template import Context
 from django.views.decorators.http import require_POST
 from render_block import render_block_to_string
 
-from webportal.models import Team, User
+from webportal.models import User
 from webportal.views._types import get_user
 
 # ---------------------------------------------------------------------------------------
@@ -52,8 +52,7 @@ def update_first_name(request: WSGIRequest) -> HttpResponse:
 
     user = get_user(request)
     if new_first_name := request.POST.get("first_name"):
-        user.first_name = new_first_name
-        user.save()
+        user.set_first_name(new_first_name)
         return HttpResponse(new_first_name)
     return HttpResponse(user.first_name)
 
@@ -65,8 +64,7 @@ def update_last_name(request: WSGIRequest) -> HttpResponse:
 
     user = get_user(request)
     if new_last_name := request.POST.get("last_name"):
-        user.last_name = new_last_name
-        user.save()
+        user.set_last_name(new_last_name)
         return HttpResponse(new_last_name)
     return HttpResponse(user.last_name)
 
@@ -78,8 +76,7 @@ def update_email(request: WSGIRequest) -> HttpResponse:
 
     user = get_user(request)
     if new_email := request.POST.get("email"):
-        user.email = new_email
-        user.save()
+        user.set_email(new_email)
         return HttpResponse(new_email)
     return HttpResponse(user.email)
 
@@ -95,8 +92,7 @@ def invite_user_to_team(request: WSGIRequest) -> HttpResponse:
 
     if email := request.POST.get("user_email"):
         if invited_user := User.objects.get(email=email):
-            invited_user.invite_to_team(user)
-            invited_user.save()
+            invited_user.invite_user_to_team(user)
             return HttpResponse(f"Invited User '{email}' to Team '{user.team.name}'")
         return HttpResponse(f"Error: User '{email}' not found?")
     return HttpResponse("Invite User to Team")
@@ -108,14 +104,11 @@ def accept_team_invite(request: WSGIRequest) -> HttpResponse:
     print(">> accept_team_invite")
 
     user = get_user(request)
-    if not user.team_invite:
+    team_invited_to = user.team_invite
+    if not team_invited_to:
         return HttpResponse("No Team Invite to accept")
-    if team := Team.objects.get(id=user.team_invite.pk):
-        user.team = team
-        user.team_invite = None
-        user.save()
-        return HttpResponse(f"Joined Team '{team.name}'")
-    return HttpResponse("Accepted Team Invite")
+    user.accept_team_invite()
+    return HttpResponse(f"Joined Team '{team_invited_to.name}'")
 
 
 @require_POST
@@ -124,13 +117,11 @@ def decline_team_invite(request: WSGIRequest) -> HttpResponse:
     print(">> decline_team_invite")
 
     user = get_user(request)
-    if not user.team_invite:
+    team_invited_to = user.team_invite
+    if not team_invited_to:
         return HttpResponse("No Team Invite to accept")
-    if team := Team.objects.get(id=user.team_invite.pk):
-        user.team_invite = None
-        user.save()
-        return HttpResponse(f"Declined Team Invite to join '{team.name}'")
-    return HttpResponse("Declined Team Invite")
+    user.reject_team_invite()
+    return HttpResponse(f"Declined Team '{team_invited_to.name}'")
 
 
 @require_POST
@@ -139,9 +130,7 @@ def leave_team(request: WSGIRequest) -> HttpResponse:
     print(">> leave_team")
 
     user = get_user(request)
-    user.team, created = Team.objects.get_or_create(name=user.username, created_by=user)
-    user.team_invite = None
-    user.save()
+    user.leave_team()
 
     block_html = render_block_to_string(
         "webportal/partials/account_settings/settings.html",

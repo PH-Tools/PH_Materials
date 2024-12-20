@@ -35,8 +35,9 @@ def assemblies_page(
 
 
 def sidebar_add_assembly_button(request: WSGIRequest, project_pk: int) -> str:
+    """HTML String for the Assembly sidebar-add-button."""
+
     active_project = get_object_or_404(Project, pk=project_pk)
-    print(f"rendering with: {active_project} | {active_project.pk}")
     return render_block_to_string(
         "webportal/partials/assemblies/sidebar.html",
         block_name="assembly-sidebar-add-button",

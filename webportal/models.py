@@ -65,6 +65,21 @@ class User(AbstractUser):
         else:
             return User.objects.none()
 
+    def set_first_name(self, first_name: str) -> None:
+        """Set the first name of the User."""
+        self.first_name = first_name
+        self.save()
+
+    def set_last_name(self, last_name: str) -> None:
+        """Set the last name of the User."""
+        self.last_name = last_name
+        self.save()
+
+    def set_email(self, email: str) -> None:
+        """Set the email of the User."""
+        self.email = email
+        self.save()
+
     def is_team_manager(self) -> bool:
         """Return True if this User is the Manager of their Team."""
         if not self.team or not self.team.created_by:
@@ -91,7 +106,7 @@ class User(AbstractUser):
         self.is_paid_user = is_paid_user
         self.save()
 
-    def invite_to_team(self, sender: "User"):
+    def invite_user_to_team(self, sender: "User"):
         """Register an invitation to join Team."""
         if sender.team:
             self.team_invite = sender.team
@@ -106,6 +121,14 @@ class User(AbstractUser):
 
     def reject_team_invite(self):
         """Reject the invitation to join Team."""
+        self.team_invite = None
+        self.save()
+
+    def leave_team(self):
+        """Leave the current Team."""
+        self.team, created = Team.objects.get_or_create(
+            name=self.username, created_by=self
+        )
         self.team_invite = None
         self.save()
 
